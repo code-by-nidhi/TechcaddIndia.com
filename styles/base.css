@@ -1,0 +1,331 @@
+/* ==========================================================================
+   techcadd — Design tokens, reset & primitives
+
+   Same palette, type and geometry as techcaddjalandhar.com / Phagwara so the
+   national site reads as the same brand: navy ground, blue mid-tones, one
+   gold accent (primary CTA, one highlighted phrase per headline, stars).
+   ========================================================================== */
+
+:root {
+  --c-mist: #e9eff9;
+  --c-sky: #3b82f6;
+  --c-azure: #2563ff;
+  --c-navy: #04124a;
+  --c-gold: #ffc81c;
+
+  --gold: var(--c-gold);
+  --gold-deep: #f2ad00;
+  --gold-ink: #c98700; /* gold for marks on a light ground (3:1 on white) */
+  --gold-soft: rgba(255, 200, 28, 0.14);
+  --on-gold: #04124a; /* never white on gold */
+  --grad-gold: linear-gradient(120deg, #f2ad00 0%, var(--c-gold) 46%, #ffd968 100%);
+
+  --bg: #f3f6fb;
+  --bg-2: var(--c-mist);
+  --bg-3: #dfe7f4;
+  --card: rgba(255, 255, 255, 0.62);
+  --card-solid: #ffffff;
+
+  --ink: #04124a;
+  --ink-2: #2a5183;
+  --ink-3: #587ca8;
+  --ink-4: #90aecd;
+
+  --border: rgba(37, 99, 255, 0.16);
+  --border-strong: rgba(37, 99, 255, 0.28);
+  --border-soft: rgba(37, 99, 255, 0.09);
+
+  --sh-xs: 0 1px 2px rgba(8, 43, 98, 0.04);
+  --sh-sm: 0 4px 14px rgba(37, 99, 255, 0.07);
+  --sh-md: 0 12px 34px rgba(37, 99, 255, 0.1);
+  --sh-lg: 0 24px 60px rgba(37, 99, 255, 0.14);
+  --sh-xl: 0 40px 90px rgba(37, 99, 255, 0.18);
+
+  --grad: linear-gradient(120deg, var(--c-navy) 0%, var(--c-azure) 58%, var(--c-sky) 100%);
+  --grad-soft: linear-gradient(120deg, var(--c-azure) 0%, var(--c-sky) 100%);
+  --grad-deep: linear-gradient(135deg, var(--c-navy) 0%, #1565c0 45%, var(--c-azure) 100%);
+  --grad-text: linear-gradient(100deg, var(--c-navy) 0%, var(--c-azure) 25%, var(--c-sky) 45%, var(--c-azure) 70%, var(--c-navy) 100%);
+  --grad-mesh:
+    radial-gradient(58% 48% at 12% 8%, rgba(37, 99, 255, 0.22), transparent 62%),
+    radial-gradient(52% 44% at 88% 4%, rgba(59, 130, 246, 0.2), transparent 60%),
+    radial-gradient(46% 40% at 74% 92%, rgba(59, 130, 246, 0.18), transparent 62%);
+  /* the brand navy, flat, with a faint dot texture */
+  --navy-band:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px) 0 0 / 26px 26px,
+    #04124a;
+
+  /* text accents, re-pointed on navy bands (see .section--navy) */
+  --accent: var(--gold-ink); /* gold that passes contrast on white */
+  --link: var(--c-azure);
+
+  --font-display: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: var(--font-manrope), 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+  --r-pill: 999px;
+
+  --shell: 1320px;
+  --gutter: clamp(1rem, 4vw, 2.75rem);
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --nav-h: 78px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 0.22s var(--ease);
+  --t-mid: 0.42s var(--ease);
+}
+
+/* --------------------------------------------------------------- reset -- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: clamp(0.98rem, 0.4vw + 0.9rem, 1.06rem);
+  line-height: 1.72;
+  color: var(--ink-2);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  /* `clip`, not `hidden`: hidden makes body a scroll container and breaks
+     position: sticky / ScrollTrigger pinning. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(4, 18, 74, 0.18);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-azure);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------------------------------------------------------- primitives -- */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+}
+
+/* ==========================================================================
+   Alternating bands — navy / white, automatically
+
+   Top-level sections inside <main> alternate by position: odd = navy
+   (#04124A), even = white. Every page starts with a navy hero/page-hero, so
+   the rhythm holds on every route without components choosing a colour.
+
+   The navy band doesn't restate colours per component — it redefines the
+   tokens components already read (--ink, borders, cards, --accent, --link),
+   so any section renders correctly on either band. `.section--navy` stays as
+   an opt-in for navy surfaces outside that flow (CTA card, footer).
+   ========================================================================== */
+
+main > section:nth-of-type(even) {
+  background: #ffffff;
+}
+
+.section--navy,
+main > section:nth-of-type(odd) {
+  --accent: var(--gold);
+  --link: #93c5fd;
+  --ink: #ffffff;
+  --ink-2: rgba(255, 255, 255, 0.86);
+  --ink-3: rgba(255, 255, 255, 0.66);
+  --ink-4: rgba(255, 255, 255, 0.5);
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.26);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --card: rgba(255, 255, 255, 0.06);
+  --card-solid: rgba(255, 255, 255, 0.07);
+  --bg-2: rgba(255, 255, 255, 0.05);
+  --bg-3: rgba(255, 255, 255, 0.08);
+
+  isolation: isolate;
+  color: var(--ink);
+  background: var(--navy-band);
+}
+
+.gradient-text {
+  background: var(--grad-text);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite;
+}
+
+.section--navy .gradient-text,
+main > section:nth-of-type(odd) .gradient-text {
+  background-image: linear-gradient(120deg, #bfdbfe 0%, #93c5fd 55%, #e0f2fe 100%);
+}
+
+.gold-text {
+  color: var(--accent);
+}
+
+.brand-name {
+  text-transform: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 999;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--r-sm);
+  background: var(--grad);
+  color: #fff;
+  font-weight: 700;
+  transition: top var(--t-fast);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ------------------------------------------------------------ keyframes -- */
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.09);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

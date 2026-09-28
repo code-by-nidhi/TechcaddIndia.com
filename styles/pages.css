@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Inner pages — shared layout for the skeleton routes
+   ========================================================================== */
+
+/* the page-hero slides up under the transparent nav, like the home hero */
+.page-hero {
+  margin-top: calc(var(--nav-h) * -1);
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.25rem;
+}
+
+.page-stack {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.placeholder-block strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  color: var(--ink);
+}
+.placeholder-block ul {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.branch-card {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.6rem;
+  background: var(--card-solid);
+}
+.branch-card h3 {
+  font-size: 1.3rem;
+}
+.branch-card span {
+  color: var(--ink-3);
+  font-size: 0.9rem;
+}
+.branch-card em {
+  justify-self: start;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  background: var(--gold);
+  color: var(--on-gold);
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.filter-row a {
+  padding: 0.5rem 1rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--card-solid);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+.filter-row a.is-active {
+  background: var(--grad);
+  color: #fff;
+  border-color: transparent;
+}

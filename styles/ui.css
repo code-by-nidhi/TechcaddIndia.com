@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Shared UI — buttons, section headings, eyebrow chip, glass card
+   ========================================================================== */
+
+.btn {
+  --btn-bg: var(--grad);
+  --btn-ink: #fff;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.96rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--sh-md);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+/* sheen that sweeps across on hover */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease);
+}
+.btn:hover::after {
+  transform: translateX(120%);
+}
+.btn:hover {
+  box-shadow: var(--sh-lg);
+}
+
+.btn--gold {
+  --btn-bg: var(--grad-gold);
+  --btn-ink: var(--on-gold);
+  box-shadow: 0 14px 34px rgba(242, 173, 0, 0.32);
+}
+
+.btn--ghost {
+  --btn-bg: var(--card);
+  --btn-ink: var(--ink);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: none;
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.88rem;
+}
+
+.btn svg {
+  transition: transform var(--t-fast);
+}
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* ---------------------------------------------------------- eyebrow -- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 1rem 0.4rem 0.5rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--sh-sm);
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.eyebrow__dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+.section--navy .eyebrow__dot,
+main > section:nth-of-type(odd) .eyebrow__dot {
+  background: var(--grad-gold);
+  color: var(--on-gold);
+}
+
+/* --------------------------------------------------- section heading -- */
+
+.sh {
+  display: grid;
+  gap: 1rem;
+  max-width: 760px;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.sh--center {
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.sh__title {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+}
+
+.sh__lead {
+  font-size: clamp(1rem, 1.1vw, 1.14rem);
+  color: var(--ink-3);
+  max-width: 620px;
+}
+
+/* ------------------------------------------------------------- glass -- */
+
+.glass {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow: var(--sh-sm);
+  transition: transform var(--t-mid), box-shadow var(--t-mid), border-color var(--t-mid);
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-soft);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--t-mid);
+  pointer-events: none;
+}
+
+.glass:hover::before {
+  opacity: 1;
+}
+.glass:hover {
+  box-shadow: var(--sh-lg);
+  border-color: transparent;
+  transform: translateY(-4px);
+}
+
+/* word-split headline: each word is masked so it can rise into view */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.split-word > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------ page hero (inner pages) -- */
+
+.page-hero {
+  padding-top: calc(var(--nav-h) + clamp(3rem, 7vw, 6rem));
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  background: var(--navy-band);
+  color: #fff;
+  --ink: #fff;
+  --ink-3: rgba(255, 255, 255, 0.72);
+  --border: rgba(255, 255, 255, 0.16);
+  --card: rgba(255, 255, 255, 0.07);
+}
+
+.page-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  margin-block: 1rem;
+}
+
+.page-hero p {
+  max-width: 640px;
+  color: var(--ink-3);
+}
+
+.crumbs {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.crumbs a:hover {
+  color: #fff;
+}
+
+.placeholder-block {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  padding: 2rem;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--r-lg);
+  color: var(--ink-3);
+  text-align: center;
+}

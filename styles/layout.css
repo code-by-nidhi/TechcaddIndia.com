@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Navbar, mobile drawer, footer
+   ========================================================================== */
+
+/* ------------------------------------------------------------- navbar -- */
+
+/* The bar keeps one look — white links on navy — at every scroll position:
+   transparent over the navy hero, then frosted navy glass once the page
+   scrolls, so it stays legible over both the navy and the white bands. */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--t-mid),
+    box-shadow var(--t-mid),
+    border-color var(--t-mid),
+    height var(--t-mid);
+}
+
+.nav--scrolled {
+  --nav-h: 66px;
+  background: rgba(4, 18, 74, 0.62);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(4, 18, 74, 0.25);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.nav__logo img {
+  width: auto;
+  height: 38px;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.nav__link:hover,
+.nav__link.is-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.nav__dd {
+  position: relative;
+}
+
+.nav__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(210px, 1fr));
+  gap: 0.25rem;
+  padding: 0.6rem;
+  background: rgba(255, 255, 255, 0.94);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 8px);
+  transition: opacity var(--t-fast), transform var(--t-fast), visibility var(--t-fast);
+}
+.nav__menu:hover {
+  transform: translate(-50%, 0);
+}
+
+.nav__dd:hover .nav__menu,
+.nav__dd:focus-within .nav__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.nav__menu-item {
+  display: grid;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--r-sm);
+  transition: background var(--t-fast);
+}
+.nav__menu-item:hover {
+  background: var(--bg-2);
+}
+.nav__menu-item strong {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.nav__menu-item span {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nav__burger {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+@media (max-width: 1180px) {
+  .nav__links {
+    display: none;
+  }
+  .nav__burger {
+    display: grid;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav__cta {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------- drawer -- */
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: calc(var(--nav-h) + 1rem) var(--gutter) 2rem;
+  background: var(--navy-band);
+  clip-path: circle(0% at calc(100% - 40px) 60px);
+  visibility: hidden;
+  transition: clip-path 0.7s var(--ease), visibility 0.7s;
+  overflow-y: auto;
+}
+
+.drawer--open {
+  clip-path: circle(150% at calc(100% - 40px) 60px);
+  visibility: visible;
+}
+
+.drawer__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.drawer--open .drawer__link {
+  opacity: 1;
+  transform: none;
+}
+
+.drawer__foot {
+  display: grid;
+  gap: 0.75rem;
+  --ink: #fff;
+  --card: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.25);
+}
+
+/* ------------------------------------------------------------- footer -- */
+
+.footer {
+  padding-top: clamp(4rem, 7vw, 6rem);
+  font-size: 0.94rem;
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(4, 1fr);
+  gap: 2.5rem;
+}
+
+.footer__brand img {
+  height: 42px;
+  width: auto;
+  margin-bottom: 1.2rem;
+}
+
+.footer__brand > p {
+  max-width: 340px;
+  color: var(--ink-3);
+}
+
+.footer__contact {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.4rem;
+}
+.footer__contact li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink-2);
+}
+
+.footer__social {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+}
+.footer__social a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast);
+}
+.footer__social a:hover {
+  background: var(--gold);
+  color: var(--on-gold);
+  transform: translateY(-3px);
+}
+
+.footer h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.footer__col ul {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.footer__col a,
+.footer__branches a {
+  color: var(--ink-3);
+  transition: color var(--t-fast);
+}
+.footer__col a:hover,
+.footer__branches a:hover {
+  color: var(--gold);
+}
+
+.footer__branches {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer__branches ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-block: 1.6rem;
+  border-top: 1px solid var(--border);
+  color: var(--ink-4);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 1024px) {
+  .footer__top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__top {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.25rem;
+  }
+}
