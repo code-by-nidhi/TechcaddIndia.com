@@ -146,6 +146,8 @@ export const FEATURED_COURSES: Course[] = [
   { slug: 'cybersecurity-ethical-hacking', title: 'Cybersecurity & Ethical Hacking', category: 'cyber', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cyber-security-category.png', topics: ['Kali Linux', 'OWASP', 'Networking', 'SOC'] },
   { slug: 'digital-marketing', title: 'Digital Marketing', category: 'marketing', duration: '3 months', mode: 'Classroom + Online', image: '/images/course/digital-marketing-category.png', topics: ['SEO', 'Google Ads', 'Meta Ads', 'AI tools'] },
   { slug: 'cloud-devops', title: 'Cloud & DevOps', category: 'cloud', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cloud-computing-category.png', topics: ['AWS', 'Docker', 'Kubernetes', 'CI/CD'] },
+  { slug: 'python-programming', title: 'Python Programming', category: 'full-stack', duration: '2 months', mode: 'Classroom + Online', image: '/images/categories/full-stack.webp', topics: ['Python', 'OOP', 'Django', 'Projects'] },
+  { slug: 'generative-agentic-ai', title: 'Generative & Agentic AI', category: 'ai', duration: '4 months', mode: 'Classroom + Online', highlight: 'New batch', image: '/images/categories/ai.webp', topics: ['LLMs', 'RAG', 'LangChain', 'AI agents'] },
 ]
 
 export const AI_TRACKS = [
@@ -197,13 +199,7 @@ export const TESTIMONIALS = [
   { name: 'Ananya Das', role: 'Digital Marketer', city: 'Kolkata (Online)', quote: 'The AI-powered marketing module gave me a portfolio of real campaigns before I graduated.' },
 ]
 
-/* ------------------------------------------------------ technologies -- */
-
-export const TECH_ROWS = [
-  ['Python', 'JavaScript', 'TypeScript', 'Java', 'C++', 'Go', 'SQL', 'React', 'Next.js', 'Node.js', 'Django', 'Spring Boot'],
-  ['TensorFlow', 'PyTorch', 'LangChain', 'Hugging Face', 'Pandas', 'NumPy', 'scikit-learn', 'OpenCV', 'Streamlit', 'Power BI'],
-  ['AWS', 'Azure', 'Docker', 'Kubernetes', 'Terraform', 'Jenkins', 'GitHub Actions', 'Linux', 'MongoDB', 'PostgreSQL', 'AutoCAD'],
-]
+/* technologies by domain live in data/tech-domains.ts */
 
 /* ---------------------------------------------------------------- faq -- */
 

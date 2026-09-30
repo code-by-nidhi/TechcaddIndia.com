@@ -77,13 +77,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.4rem 1rem 0.4rem 0.5rem;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--border);
-  background: var(--card);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: var(--sh-sm);
   font-family: var(--font-display);
   font-size: 0.74rem;
   font-weight: 700;
@@ -122,6 +115,14 @@ main > section:nth-of-type(odd) .eyebrow__dot {
   margin-inline: auto;
   text-align: center;
   justify-items: center;
+}
+
+/* grid items stretch by default; keep the eyebrow hugging its text */
+.sh > .eyebrow {
+  justify-self: start;
+}
+.sh--center > .eyebrow {
+  justify-self: center;
 }
 
 .sh__title {
@@ -183,6 +184,11 @@ main > section:nth-of-type(odd) .eyebrow__dot {
 .split-word > span {
   display: inline-block;
   will-change: transform;
+}
+/* SplitHeading `lines`: one part per line, never wrapped */
+.split-line {
+  display: block;
+  white-space: nowrap;
 }
 
 /* ------------------------------------------------------ page hero (inner pages) -- */

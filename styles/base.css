@@ -111,6 +111,12 @@ body {
   overflow-x: hidden;
   overflow-x: clip;
 }
+/* …and on html too: body's overflow otherwise propagates to the viewport,
+   where elements waiting to slide in from the side (AOS fade-left) could
+   still be scrolled to sideways on tablets. */
+html {
+  overflow-x: clip;
+}
 
 img,
 svg,
@@ -243,6 +249,13 @@ main > section:nth-of-type(odd) .gradient-text {
 
 .brand-name {
   text-transform: none;
+}
+
+/* set by usePauseOffscreen: freeze looping animations while out of view */
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
 }
 
 .sr-only {

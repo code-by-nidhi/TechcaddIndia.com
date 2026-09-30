@@ -10,7 +10,7 @@ export default function SectionHeading({
   center = false,
   icon = '✦',
 }: {
-  eyebrow: string
+  eyebrow?: string
   title: Part[]
   lead?: ReactNode
   center?: boolean
@@ -18,10 +18,12 @@ export default function SectionHeading({
 }) {
   return (
     <div className={`sh${center ? ' sh--center' : ''}`}>
-      <span className="eyebrow" data-aos="fade-up">
-        <span className="eyebrow__dot">{icon}</span>
-        {eyebrow}
-      </span>
+      {eyebrow && (
+        <span className="eyebrow" data-aos="fade-up">
+          <span className="eyebrow__dot">{icon}</span>
+          {eyebrow}
+        </span>
+      )}
       <SplitHeading parts={title} className="sh__title" />
       {lead && (
         <p className="sh__lead" data-aos="fade-up" data-aos-delay="150">
