@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Manrope } from 'next/font/google'
 
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import DemoModal from '@/components/layout/DemoModal'
 import MotionProvider from '@/components/fx/MotionProvider'
 import { SITE } from '@/data/site'
 
@@ -13,6 +14,7 @@ import '@/styles/ui.css'
 import '@/styles/layout.css'
 import '@/styles/home.css'
 import '@/styles/pages.css'
+import '@/styles/demo-modal.css'
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['500', '600', '700', '800'], variable: '--font-jakarta', display: 'swap' })
 const manrope = Manrope({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-manrope', display: 'swap' })
@@ -55,6 +57,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Navbar />
           <main id="main">{children}</main>
           <Footer />
+          <DemoModal />
         </MotionProvider>
       </body>
     </html>

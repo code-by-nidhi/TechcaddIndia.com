@@ -25,6 +25,7 @@ import {
   FiTool,
 } from 'react-icons/fi'
 
+import DemoLink from '@/components/ui/DemoLink'
 import { NAV, SITE, type NavItem, type NavLink } from '@/data/site'
 
 /** `icon` keys used by the Internship & Training tiles in data/site.ts. */
@@ -279,9 +280,9 @@ export default function Navbar() {
           })}
 
           <div className="nav__actions">
-            <Link href="/contact#demo" className="btn btn--gold btn--sm nav__cta">
+            <DemoLink className="btn btn--gold btn--sm nav__cta" onClick={close}>
               Book Demo
-            </Link>
+            </DemoLink>
             <button
               className="nav__burger"
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -338,9 +339,9 @@ export default function Navbar() {
           })}
         </nav>
         <div className="drawer__foot">
-          <Link href="/contact#demo" className="btn btn--gold" tabIndex={open ? 0 : -1}>
+          <DemoLink className="btn btn--gold" tabIndex={open ? 0 : -1} onClick={close}>
             Book a free demo
-          </Link>
+          </DemoLink>
           <a href={SITE.phoneHref} className="btn btn--ghost" tabIndex={open ? 0 : -1}>
             <FiPhone /> {SITE.phone}
           </a>

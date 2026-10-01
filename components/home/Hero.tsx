@@ -25,6 +25,7 @@ import {
   SiFlutter,
 } from 'react-icons/si'
 
+import DemoLink from '@/components/ui/DemoLink'
 import SplitHeading from '@/components/fx/SplitHeading'
 import Magnetic from '@/components/fx/Magnetic'
 import usePauseOffscreen from '@/components/fx/usePauseOffscreen'
@@ -164,9 +165,9 @@ export default function Hero() {
           {/* wrapped too, so GSAP animates the wrapper rather than the .btn,
               whose own transform transition would fight the entrance tween */}
           <Magnetic strength={0.2}>
-            <Link href="/contact#demo" className="btn btn--ghost">
+            <DemoLink className="btn btn--ghost">
               <FiPlayCircle aria-hidden /> Book a free demo
-            </Link>
+            </DemoLink>
           </Magnetic>
         </div>
       </div>

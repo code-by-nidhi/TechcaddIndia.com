@@ -1,24 +1,27 @@
-import Hero from '@/components/home/Hero'
-import AICourses from '@/components/home/AICourses'
-import About from '@/components/home/About'
-import HowItWorks from '@/components/home/HowItWorks'
-import Branches from '@/components/home/Branches'
-import Categories from '@/components/home/Categories'
-import FeaturedCourses from '@/components/home/FeaturedCourses'
-import WhyTechcadd from '@/components/home/WhyTechcadd'
-import Testimonials from '@/components/home/Testimonials'
-import Technologies from '@/components/home/Technologies'
-import FAQ from '@/components/home/FAQ'
-import Blog from '@/components/home/Blog'
-import CTA from '@/components/home/CTA'
+import Hero from '@/components/landing/Hero'
+import About from '@/components/landing/About'
+import Categories from '@/components/landing/Categories'
+import FeaturedCourses from '@/components/landing/FeaturedCourses'
+import AICourses from '@/components/landing/AICourses'
+import WhyTechcadd from '@/components/landing/WhyTechcadd'
+import HowItWorks from '@/components/landing/HowItWorks'
+import Technologies from '@/components/landing/Technologies'
+import Testimonials from '@/components/landing/Testimonials'
+import Branches from '@/components/landing/Branches'
+import FAQ from '@/components/landing/FAQ'
+import Blog from '@/components/landing/Blog'
+import CTA from '@/components/landing/CTA'
+
+import '@/styles/landing.css'
 
 /* Who we are → what we teach → why us → how it works → proof → where to find
-   us → questions → next step. Backgrounds alternate navy / white down the
-   page; Categories and Branches sit on their own light bands outside that
-   rhythm. */
+   us → questions → next step. The homepage has its own section components
+   (components/landing) and stylesheet; the ones in components/home are still
+   what the inner pages use. Each section picks its own band: navy, white or
+   the tinted page ground. */
 export default function HomePage() {
   return (
-    <>
+    <div className="sq">
       <Hero />
       <About />
       <Categories />
@@ -32,6 +35,6 @@ export default function HomePage() {
       <FAQ />
       <Blog />
       <CTA />
-    </>
+    </div>
   )
 }

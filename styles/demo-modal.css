@@ -1,0 +1,335 @@
+/* ==========================================================================
+   Book Demo modal — navy pitch on the left, blue-to-violet form on the right
+   ========================================================================== */
+
+.demo {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow-y: auto;
+  animation: demo-fade 0.25s var(--ease);
+}
+
+.demo__dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(1120px, 100%);
+  border-radius: 32px;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+  animation: demo-rise 0.4s var(--ease);
+}
+
+.demo__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  font-size: 1.1rem;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.demo__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------------------- pitch -- */
+
+.demo__info {
+  padding: clamp(1.75rem, 4vw, 2.8rem);
+  background:
+    radial-gradient(70% 50% at 20% 0%, rgba(37, 99, 255, 0.35), transparent 70%),
+    #070b2a;
+}
+
+.demo__info h2 {
+  color: #fff;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.2;
+}
+
+.demo__lead {
+  margin-top: 0.9rem;
+  max-width: 440px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.demo__quote {
+  margin-top: 1.9rem;
+  padding: 1.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+.demo__quote blockquote {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.demo__quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.6);
+}
+.demo__quote strong {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+}
+.demo__quote-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 1.2rem;
+}
+
+.demo__google {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  padding: 1rem 1.4rem;
+  border-radius: 18px;
+  background: #e5e7eb;
+  color: #1e2a5a;
+  font-size: 1.05rem;
+}
+.demo__google > svg:first-child {
+  font-size: 1.5rem;
+}
+.demo__tick {
+  color: #1a73e8;
+}
+.demo__stars {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+  color: #f59e0b;
+}
+.demo__stars svg {
+  fill: currentColor;
+}
+
+.demo__support {
+  margin-top: 1.9rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.demo__support a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------- form -- */
+
+.demo__form {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 2.8rem);
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #6d28d9 100%);
+}
+
+.demo__form h3 {
+  max-width: 400px;
+  margin-bottom: 0.6rem;
+  padding-right: 3rem; /* clears the close button */
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.demo__field {
+  position: relative;
+}
+
+.demo__field input,
+.demo__field select {
+  width: 100%;
+  min-height: 64px;
+  padding: 0 1.5rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.02rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.demo__field select {
+  appearance: none;
+  padding-right: 3.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.demo__field option {
+  color: #04124a;
+  background: #fff;
+}
+.demo__field--select > svg {
+  position: absolute;
+  top: 32px;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.demo__field input::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+}
+.demo__field input:focus-visible,
+.demo__field select:focus-visible {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+}
+.demo__field [aria-invalid='true'] {
+  border-color: #fecaca;
+}
+
+.demo__err {
+  margin-top: 0.35rem;
+  padding-left: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fee2e2;
+}
+
+.demo__verify {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0.5rem 0 0.7rem;
+  font-weight: 700;
+}
+.demo__sum,
+.demo__refresh {
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.14);
+}
+.demo__sum {
+  display: grid;
+  place-items: center;
+  padding: 0 1rem;
+  letter-spacing: 0.04em;
+}
+.demo__refresh {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  color: #fff;
+  transition: background var(--t-fast);
+}
+.demo__refresh:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.demo__promise {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+  padding: 0.95rem 1.4rem;
+  border-radius: 14px;
+  background: #a3e635;
+  color: #1e1b4b;
+  font-weight: 700;
+}
+.demo__promise svg {
+  flex: none;
+  font-size: 1.2rem;
+}
+
+.demo__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  justify-self: start;
+  min-height: 64px;
+  margin-top: 0.9rem;
+  padding: 0 2.5rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.72);
+  color: #1e2a8a;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.demo__submit:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.demo__form--done {
+  align-content: center;
+  justify-items: start;
+}
+.demo__form--done > svg {
+  font-size: 3rem;
+  color: #a3e635;
+}
+.demo__form--done h3 {
+  margin: 0;
+}
+
+@keyframes demo-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes demo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+}
+
+@media (max-width: 860px) {
+  .demo {
+    place-items: start center;
+  }
+  .demo__dialog {
+    grid-template-columns: 1fr;
+    border-radius: 24px;
+  }
+  /* the form is why the visitor is here: it leads, the pitch follows */
+  .demo__form {
+    order: -1;
+  }
+  .demo__field input,
+  .demo__field select {
+    min-height: 56px;
+  }
+  .demo__field--select > svg {
+    top: 28px;
+  }
+}

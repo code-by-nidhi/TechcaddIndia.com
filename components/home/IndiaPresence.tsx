@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { IconType } from 'react-icons'
 import { FiMapPin, FiWifi, FiMap, FiUsers, FiChevronDown, FiArrowRight } from 'react-icons/fi'
 
+import DemoLink from '@/components/ui/DemoLink'
 import SectionHeading from '@/components/ui/SectionHeading'
 import CountUp from '@/components/fx/CountUp'
 import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap'
@@ -129,7 +130,7 @@ export default function IndiaPresence() {
   const cta =
     city.kind === 'centre'
       ? { href: `/branches/${city.slug}`, label: 'Visit centre' }
-      : { href: '/contact#demo', label: 'Book an online demo' }
+      : { href: null, label: 'Book an online demo' }
 
   return (
     <section ref={root} className="section india" id="across-india">
@@ -164,9 +165,15 @@ export default function IndiaPresence() {
             </select>
             <FiChevronDown aria-hidden className="imap__chev" />
           </label>
-          <Link href={cta.href} className="btn btn--gold">
-            {cta.label} <FiArrowRight aria-hidden />
-          </Link>
+          {cta.href ? (
+            <Link href={cta.href} className="btn btn--gold">
+              {cta.label} <FiArrowRight aria-hidden />
+            </Link>
+          ) : (
+            <DemoLink className="btn btn--gold">
+              {cta.label} <FiArrowRight aria-hidden />
+            </DemoLink>
+          )}
         </div>
 
         {/* decorative: the picker above carries the same choices */}
