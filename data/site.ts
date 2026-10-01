@@ -26,32 +26,184 @@ export const SITE = {
 
 /* ---------------------------------------------------------------- nav -- */
 
+export type NavBadge = 'Hot' | 'Trending' | 'New'
+export type NavLink = { label: string; href: string; badge?: NavBadge }
+
+/** One numbered column of the Courses mega menu. */
+export type NavColumn = { title: string; blurb: string; href: string; items: NavLink[] }
+
+/** One icon tile of the Internship & Training panel. `icon` is a key into the map in Navbar.tsx. */
+export type NavCard = NavLink & { icon: string }
+
+/** One picture card of the About / Resources panels. */
+export type NavFeatured = { title: string; href: string; image: string; tag: string; meta: string }
+
 export type NavItem = {
   label: string
   href: string
+  /** Small dropdown anchored under the item. */
   children?: { label: string; href: string; note?: string }[]
+  /** Wide panel of numbered link columns (Courses). */
+  columns?: NavColumn[]
+  /** Wide panel of icon tiles (Internship & Training). */
+  cards?: NavCard[]
+  /** Wide panel: a link column beside three picture cards (About, Resources). */
+  links?: NavLink[]
+  linksTitle?: string
+  featured?: NavFeatured[]
+  cta?: { label: string; href: string }
 }
+
+/* Menu structure mirrors techcaddamritsar.com. Only eight courses have their
+   own page so far (FEATURED_COURSES), so every other entry points at its
+   category listing until its page exists.
+   TODO: give each course and each training track its own page. */
+const cat = (slug: string) => `/courses?category=${slug}`
+const INTERNSHIP = '/certificate-programs'
 
 export const NAV: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'AI', href: '/ai' },
+  {
+    label: 'About',
+    href: '/about',
+    linksTitle: 'About',
+    links: [
+      { label: 'About techcadd', href: '/about' },
+      { label: 'How We Train', href: '/about#how-it-works' },
+      { label: 'Why techcadd', href: '/about#why-techcadd' },
+    ],
+    featured: [
+      { title: 'About techcadd', href: '/about', image: '/images/course/campus1.webp', tag: 'Story', meta: '20 years of training' },
+      { title: 'How We Train', href: '/about#how-it-works', image: '/images/course/classroom.webp', tag: 'Method', meta: 'Classroom to placement' },
+      { title: 'Why techcadd', href: '/about#why-techcadd', image: '/images/course/lab.webp', tag: 'Purpose', meta: 'What sets us apart' },
+    ],
+    cta: { label: 'Talk to a counsellor', href: '/contact' },
+  },
   {
     label: 'Courses',
     href: '/courses',
+    columns: [
+      {
+        title: 'Programming',
+        blurb: 'Core languages and full-stack engineering',
+        href: cat('full-stack'),
+        items: [
+          { label: 'Python', href: '/courses/python-programming', badge: 'Hot' },
+          { label: 'Java', href: cat('full-stack') },
+          { label: 'C & C++', href: cat('full-stack') },
+          { label: 'Kotlin', href: cat('full-stack'), badge: 'Trending' },
+          { label: 'Web Designing', href: cat('full-stack') },
+          { label: 'Web Development', href: cat('full-stack') },
+          { label: 'MERN Stack', href: '/courses/full-stack-development', badge: 'Hot' },
+          { label: 'MEAN Stack', href: cat('full-stack') },
+          { label: 'PHP Full Stack', href: cat('full-stack') },
+        ],
+      },
+      {
+        title: 'AI & Data',
+        blurb: 'Models, analytics and decision intelligence',
+        href: cat('ai'),
+        items: [
+          { label: 'Artificial Intelligence', href: '/courses/ai-machine-learning', badge: 'Hot' },
+          { label: 'Machine Learning', href: '/courses/ai-machine-learning', badge: 'Hot' },
+          { label: 'Generative AI', href: '/courses/generative-agentic-ai' },
+          { label: 'Agentic AI', href: '/courses/generative-agentic-ai', badge: 'New' },
+          { label: 'Data Science', href: '/courses/data-science-analytics', badge: 'Trending' },
+          { label: 'Data Analytics', href: '/courses/data-science-analytics', badge: 'Trending' },
+          { label: 'Power BI', href: cat('data-science') },
+          { label: 'Tableau', href: cat('data-science') },
+        ],
+      },
+      {
+        title: 'Digital Marketing',
+        blurb: 'Growth, performance and commerce',
+        href: cat('marketing'),
+        items: [
+          { label: 'Digital Marketing', href: '/courses/digital-marketing' },
+          { label: 'Social Media Marketing', href: cat('marketing'), badge: 'Trending' },
+          { label: 'Google Ads', href: cat('marketing') },
+          { label: 'SEO', href: cat('marketing') },
+          { label: 'WordPress', href: cat('marketing') },
+          { label: 'Shopify', href: cat('marketing') },
+          { label: 'Meta Ads', href: cat('marketing'), badge: 'New' },
+        ],
+      },
+      {
+        title: 'Cyber & Cloud',
+        blurb: 'Secure, resilient infrastructure',
+        href: cat('cyber'),
+        items: [
+          { label: 'Cybersecurity', href: '/courses/cybersecurity-ethical-hacking' },
+          { label: 'Ethical Hacking', href: '/courses/cybersecurity-ethical-hacking', badge: 'Trending' },
+          { label: 'Network Security', href: cat('cyber') },
+          { label: 'SOC Analyst', href: cat('cyber'), badge: 'New' },
+          { label: 'Cloud Computing', href: '/courses/cloud-devops' },
+          { label: 'Linux', href: cat('cloud') },
+          { label: 'AWS', href: cat('cloud'), badge: 'Hot' },
+          { label: 'Microsoft Azure', href: cat('cloud') },
+          { label: 'DevOps', href: '/courses/cloud-devops', badge: 'Trending' },
+        ],
+      },
+      {
+        title: 'More Courses',
+        blurb: 'CADD, office, accounting and design',
+        href: '/courses',
+        items: [
+          { label: 'Civil & Architecture CAD', href: '/courses', badge: 'New' },
+          { label: 'Mechanical CAD & CAM', href: '/courses' },
+          { label: 'Basic Computer', href: '/courses' },
+          { label: 'Accounting & Tally', href: '/courses', badge: 'Hot' },
+          { label: 'Graphics & Video', href: '/courses' },
+        ],
+      },
+    ],
+    cta: { label: 'Browse all courses', href: '/courses' },
+  },
+  {
+    label: 'Internship & Training',
+    href: INTERNSHIP,
+    cards: [
+      { label: 'Cloud Computing', href: INTERNSHIP, icon: 'cloud' },
+      { label: 'Flutter App Development', href: INTERNSHIP, icon: 'mobile' },
+      { label: 'MERN Stack', href: INTERNSHIP, icon: 'code' },
+      { label: 'Agentic AI', href: INTERNSHIP, icon: 'zap', badge: 'New' },
+      { label: 'Digital Marketing', href: INTERNSHIP, icon: 'trending' },
+      { label: 'Data Analytics', href: INTERNSHIP, icon: 'chart' },
+      { label: 'Data Science', href: INTERNSHIP, icon: 'database' },
+      { label: 'Cyber Security', href: INTERNSHIP, icon: 'shield' },
+      { label: 'Artificial Intelligence', href: INTERNSHIP, icon: 'cpu' },
+      { label: 'Full Stack Development', href: INTERNSHIP, icon: 'layers' },
+      { label: 'Basic Skill and Programs', href: INTERNSHIP, icon: 'book' },
+      { label: 'Civil/Mechanical', href: INTERNSHIP, icon: 'tool' },
+    ],
+    cta: { label: 'See all training formats', href: INTERNSHIP },
+  },
+  { label: 'Services', href: '/services' },
+  {
+    label: 'Franchises',
+    href: '/franchises',
     children: [
-      { label: 'Artificial Intelligence', href: '/courses?category=ai', note: 'GenAI, Agentic AI, RAG' },
-      { label: 'Full-Stack Development', href: '/courses?category=full-stack', note: 'MERN, Java, Python' },
-      { label: 'Data Science', href: '/courses?category=data-science', note: 'Analytics, ML' },
-      { label: 'Cybersecurity', href: '/courses?category=cyber', note: 'Ethical hacking' },
-      { label: 'Cloud & DevOps', href: '/courses?category=cloud', note: 'AWS, Docker, CI/CD' },
-      { label: 'Digital Marketing', href: '/courses?category=marketing', note: 'SEO, Ads, AI marketing' },
+      { label: 'Open a Franchise', href: '/franchises', note: 'Partner with techcadd' },
+      { label: 'Branches', href: '/branches', note: 'Centres across India' },
     ],
   },
-  { label: 'Certificate Programs', href: '/certificate-programs' },
-  { label: 'After 12th', href: '/after-12th' },
-  { label: 'Branches', href: '/branches' },
-  { label: 'Blog', href: '/blog' },
+  {
+    label: 'Resources',
+    href: '/blog',
+    linksTitle: 'Categories',
+    links: [
+      { label: 'Blog', href: '/blog' },
+      { label: 'AI at techcadd', href: '/ai' },
+      { label: 'After 12th', href: '/after-12th' },
+      { label: 'FAQ', href: '/#faq' },
+      { label: 'Reviews', href: '/#testimonials' },
+    ],
+    featured: [
+      { title: 'Blog', href: '/blog', image: '/images/course/classroom.webp', tag: 'Articles', meta: 'Latest' },
+      { title: 'FAQ', href: '/#faq', image: '/images/course/lab.webp', tag: 'Answers', meta: 'Admissions' },
+      { title: 'AI at techcadd', href: '/ai', image: '/images/categories/ai.webp', tag: 'Guide', meta: 'GenAI, agents, RAG' },
+    ],
+  },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -173,10 +325,10 @@ export const STEPS = [
 /* -------------------------------------------------------- why techcadd -- */
 
 export const WHY = [
-  { title: 'Industry-Built Curriculum', text: 'Syllabi reviewed with hiring partners every quarter, so you learn what teams actually use.' },
-  { title: 'Certified Trainers', text: 'Mentors with years of shipping software — not just teaching it.' },
-  { title: 'Placement Support', text: '500+ hiring partners across India, with dedicated placement coordinators.' },
-  { title: 'Flexible Batches', text: 'Morning, evening and weekend batches — classroom or live online.' },
+  { title: 'Industry-Built Curriculum', text: 'Revised every intake against what hiring partners are screening for now — not a syllabus written three years ago.' },
+  { title: 'Certified Trainers', text: 'Taught by certified professionals who still build and ship in the field they teach, so the examples come from this year.' },
+  { title: 'Placement Support', text: 'CV clinics, mock interviews and introductions to our hiring partners — support that does not stop on the last day of class.' },
+  { title: 'Flexible Batches', text: 'Morning, evening and weekend batches plus a live online option, so a job or a college timetable is not a reason to drop out.' },
 ]
 
 export const MODULES = [

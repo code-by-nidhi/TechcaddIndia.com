@@ -1509,95 +1509,63 @@ main > section:nth-of-type(odd) .imap__dot {
 
 /* ---------------------------------------------------------------- why -- */
 
-.why__head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.why__ratings {
-  display: flex;
-  gap: 2.2rem;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-.why__ratings div {
+/* Heading, copy and the two actions on the left; the four reasons as a 2×2
+   of cards on the right. */
+.why__layout {
   display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
 }
-.why__ratings strong {
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  line-height: 1.1;
-  color: var(--accent);
+.why__intro .sh {
+  margin-bottom: 2rem;
 }
-.why__ratings span {
+.why__actions {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.86rem;
-  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 0.9rem;
 }
 
 .why__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 .why__card {
-  padding: 1.8rem;
+  padding: 1.9rem;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--card-solid);
+  transition: transform var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.why__card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--sh-md);
 }
 .why__card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
 }
 .why__card p {
-  font-size: 0.94rem;
+  font-size: 0.96rem;
   color: var(--ink-3);
 }
 .why__icon {
-  background: var(--grad-gold);
-  color: var(--on-gold);
-}
-
-.why__modules {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem 2rem;
-  margin-top: 2.5rem;
-  padding: 1.4rem 1.8rem;
-  border-radius: var(--r-lg);
-  border: 1px dashed var(--border-strong);
-}
-.why__modules h3 {
-  font-size: 1rem;
-}
-.why__modules ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 1.4rem;
-}
-.why__modules li {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.92rem;
-}
-.why__modules svg {
-  color: var(--accent);
+  margin-bottom: 1.6rem;
+  background: var(--bg-2);
+  color: var(--link);
+  box-shadow: none;
 }
 
 @media (max-width: 1024px) {
-  .why__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .why__layout {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 560px) {
   .why__grid {
     grid-template-columns: 1fr;
-  }
-  .why__ratings {
-    gap: 1.4rem;
   }
 }
 
