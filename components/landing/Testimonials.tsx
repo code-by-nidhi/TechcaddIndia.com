@@ -1,33 +1,136 @@
-import { FiStar } from 'react-icons/fi'
+'use client'
 
-import SectionHeading from '@/components/ui/SectionHeading'
+import { useRef } from 'react'
+import { FiArrowDown, FiStar } from 'react-icons/fi'
+
+import { gsap, useGSAP } from '@/lib/gsap'
 import { TESTIMONIALS } from '@/data/site'
 
-export default function Testimonials() {
-  return (
-    <section className="section sq-testi" id="testimonials">
-      <div className="shell">
-        <SectionHeading
-          eyebrow="Student stories"
-          title={['Heard from', { text: 'across the country', className: 'sq-hl' }]}
-          lead="From classrooms in Punjab to live batches in Bengaluru — what our learners say."
-        />
+/* ==========================================================================
+   Testimonials — a scroll-driven scatter on a white stage.
 
-        <div className="sq-quotes">
-          {TESTIMONIALS.map((t, i) => (
-            <figure className="sq-quote" key={t.name} data-aos="fade-up" data-aos-delay={(i % 3) * 100}>
-              <div className="sq-quote__stars" aria-label="5 out of 5 stars">
-                {Array.from({ length: 5 }, (_, s) => (
-                  <FiStar key={s} className="star" aria-hidden />
-                ))}
-              </div>
-              <blockquote>“{t.quote}”</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                {t.role} · {t.city}
-              </figcaption>
-            </figure>
-          ))}
+   The stage pins (CSS `position: sticky`) with every review card piled in
+   the centre, a short intro above the pile and a scroll hint below it. As
+   the page scrolls the intro fades and the pile breaks up: each card slides
+   out to its own spot round the edge, leaving the big headline in the
+   middle.
+
+   Below 900px wide, on short viewports, with reduced motion or without JS
+   the cards are a plain grid under the heading (see `.sq-testi.is-scatter`).
+   ========================================================================== */
+
+/* where each card ends up, as a share of the stage (centre of the card), and its tilt */
+const SPOTS = [
+  { x: 0.2, y: 0.2, r: -4 },
+  { x: 0.8, y: 0.19, r: 3 },
+  { x: 0.115, y: 0.6, r: 2 },
+  { x: 0.885, y: 0.57, r: -3 },
+  { x: 0.33, y: 0.83, r: 3 },
+  { x: 0.67, y: 0.84, r: -2 },
+]
+
+export default function Testimonials() {
+  const root = useRef<HTMLElement>(null)
+
+  useGSAP(
+    () => {
+      const el = root.current
+      if (!el) return
+      const stage = el.querySelector<HTMLElement>('.sq-quotes')!
+      const cards = gsap.utils.toArray<HTMLElement>('.sq-quote', el)
+
+      const mm = gsap.matchMedia()
+      mm.add('(min-width: 900px) and (min-height: 620px) and (prefers-reduced-motion: no-preference)', () => {
+        el.classList.add('is-scatter')
+
+        gsap.set(cards, { xPercent: -50, yPercent: -50 })
+        const tl = gsap.timeline({
+          defaults: { ease: 'power2.inOut', duration: 1 },
+          scrollTrigger: {
+            trigger: '.sq-scatter',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        // the intro makes way, and the headline comes up as the pile clears it
+        tl.to('.sq-testi__intro', { autoAlpha: 0, y: -24, duration: 0.35, ease: 'power1.in' }, 0)
+        tl.fromTo('.sq-testi__head', { autoAlpha: 0, scale: 0.86 }, { autoAlpha: 1, scale: 1, duration: 0.9 }, 0.15)
+        cards.forEach((card, i) => {
+          const spot = SPOTS[i % SPOTS.length]
+          // piled: fanned a little, the first card on top
+          const from = { x: 0, y: (i - (cards.length - 1) / 2) * 6, rotation: (i % 2 ? 1 : -1) * (3 + i * 2), scale: 0.92 }
+          const to = {
+            x: () => (spot.x - 0.5) * stage.clientWidth,
+            y: () => (spot.y - 0.5) * stage.clientHeight,
+            rotation: spot.r,
+            scale: 1,
+          }
+          tl.fromTo(card, from, to, i * 0.07)
+        })
+        // hold the finished layout for the rest of the pin
+        tl.to({}, { duration: 0.5 })
+
+        return () => el.classList.remove('is-scatter')
+      })
+    },
+    { scope: root },
+  )
+
+  return (
+    <section className="section sq-testi" id="testimonials" ref={root}>
+      <div className="sq-scatter">
+        <div className="sq-scatter__stage">
+          <div className="sq-testi__head">
+            <p className="sq-testi__tag">
+              <span>Student stories</span>
+              <b>{String(TESTIMONIALS.length).padStart(2, '0')}</b>
+            </p>
+            <h2>
+              Heard from students
+              <br />
+              across the country.
+            </h2>
+            <p className="sq-testi__lead">
+              From classrooms in Punjab to live batches in Bengaluru — what our learners say.
+            </p>
+          </div>
+
+          {/* shown only while pinned, before the pile opens */}
+          <div className="sq-testi__intro" aria-hidden>
+            <p>
+              <span>Student stories</span>
+              <strong>From our classrooms to their careers.</strong>
+            </p>
+            <p className="sq-testi__hint">
+              Scroll to open the stack <FiArrowDown />
+            </p>
+          </div>
+
+          <div className="sq-quotes">
+            {TESTIMONIALS.map((t, i) => (
+              <figure className="sq-quote" key={t.name} style={{ zIndex: TESTIMONIALS.length - i }}>
+                <div className="sq-quote__stars" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }, (_, s) => (
+                    <FiStar key={s} className="star" aria-hidden />
+                  ))}
+                </div>
+                <blockquote>“{t.quote}”</blockquote>
+                <figcaption>
+                  <span className="sq-quote__avatar" aria-hidden>
+                    {t.name.charAt(0)}
+                  </span>
+                  <span>
+                    <strong>{t.name}</strong>
+                    <span>{t.role}</span>
+                    <span>{t.city}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>

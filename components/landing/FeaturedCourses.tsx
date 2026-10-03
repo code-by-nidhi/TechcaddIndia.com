@@ -1,109 +1,130 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import dynamic from 'next/dynamic'
+import { useRef, type CSSProperties } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { FiArrowRight } from 'react-icons/fi'
 
 import SectionHeading from '@/components/ui/SectionHeading'
+import { gsap, useGSAP } from '@/lib/gsap'
 import { FEATURED_COURSES } from '@/data/site'
 
-/* Featured courses — a WebGL row of course images that bends as it passes an
-   invisible lens (React Bits' FlexCarousel). Drag, swipe or use the arrow
-   keys to move it; a side card comes to the centre when clicked, and the
-   centre card opens its course. The details of the centred course sit below
-   with a real link, and every course is also linked in a visually hidden
-   list so nothing depends on the canvas.
+/* ==========================================================================
+   Featured courses — a scroll-driven stack.
 
-   The carousel is the heaviest thing on the page, so it is kept cheap: its
-   code (and ogl) is a separate chunk, it only mounts once the section is
-   near the viewport, and the rainbow dispersion pass is off. */
+   The stage is one screen: a compact heading, the cards over a giant
+   "Courses" watermark, and the browse button. It pins (CSS `position:
+   sticky`, as in HowItWorks) and the scroll deals the course cards in one at a time from below: the first lands on the
+   left, the second on the right, the third on the left again… so two piles
+   build up, each card a little higher and tilted against the one under it.
+   The last card lands in the centre, on top and slightly larger.
 
-const FlexCarousel = dynamic(() => import('@/components/fx/FlexCarousel'), { ssr: false })
+   Without JS, with reduced motion, or on very short viewports the cards are
+   the plain grid (see `.sq-fc.is-stack` in landing.css).
+   ========================================================================== */
 
-const ITEMS = FEATURED_COURSES.map((c) => ({ src: c.image, alt: c.title, title: c.title, subtitle: c.duration }))
+const N = FEATURED_COURSES.length
 
 export default function FeaturedCourses() {
-  const router = useRouter()
-  const stage = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(0)
-  const [near, setNear] = useState(false)
-  const course = FEATURED_COURSES[active]
+  const root = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    const el = stage.current
-    if (!el) return
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        setNear(true)
-        io.disconnect()
-      },
-      { rootMargin: '400px' },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
+  useGSAP(
+    () => {
+      const el = root.current
+      if (!el) return
+      const stage = el.querySelector<HTMLElement>('.sq-courses')!
+      const cards = gsap.utils.toArray<HTMLElement>('.sq-course', el)
+
+      const mm = gsap.matchMedia()
+      mm.add('(min-height: 560px) and (prefers-reduced-motion: no-preference)', () => {
+        el.classList.add('is-stack')
+
+        // how far a pile sits from the centre: a share of the stage, but never off its edge
+        const reach = () => Math.min(stage.clientWidth * 0.31, stage.clientWidth / 2 - cards[0].offsetWidth / 2 - 8)
+
+        gsap.set(cards, { xPercent: -50, yPercent: -50 })
+        const tl = gsap.timeline({
+          defaults: { ease: 'power3.out', duration: 1 },
+          scrollTrigger: {
+            trigger: '.sq-stack',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        cards.forEach((card, i) => {
+          const last = i === cards.length - 1
+          const side = i % 2 ? 1 : -1 // left first, then right
+          const layer = Math.floor(i / 2) // height in its pile
+          const from = { x: 0, y: () => stage.clientHeight, rotation: side * 10, scale: 0.9 }
+          const to = last
+            ? { x: 0, y: 0, rotation: 0, scale: 1.08 }
+            : {
+                x: () => side * (reach() - layer * 6),
+                y: 18 - layer * 16,
+                rotation: side * (layer % 2 ? 2.5 : -3.5),
+                scale: 1,
+              }
+          tl.fromTo(card, from, to, i * 0.8)
+        })
+        // hold the finished stack for the rest of the pin
+        tl.to({}, { duration: 0.6 })
+        // the word behind slides across for the whole pin
+        tl.fromTo('.sq-stack__word', { xPercent: -56, yPercent: -50 }, { xPercent: -44, yPercent: -50, ease: 'none', duration: tl.duration() }, 0)
+
+        return () => el.classList.remove('is-stack')
+      })
+    },
+    { scope: root },
+  )
 
   return (
-    <section className="section sq-fc" id="featured-courses">
-      <div className="shell">
-        <SectionHeading
-          eyebrow="Featured courses"
-          title={['What most students', { text: 'are enrolling in', className: 'sq-hl' }]}
-          lead="Every one of these runs in classroom and live-online formats, with lab hours, a live project and placement support."
-        />
-      </div>
-
-      <div className="sq-fc__stage" ref={stage}>
-        {near && (
-          <FlexCarousel
-            items={ITEMS}
-            preset="liquid"
-            intro="rise"
-            fit="landscape"
-            cardHeight={0.5}
-            gap={14}
-            radius={14}
-            squeeze={0.2}
-            dispersion={0}
-            focusOnClick={false}
-            captureWheel={false}
-            autoplay
-            interval={6}
-            captions
-            onChange={(i) => setActive(i)}
-            onSelect={(i) => router.push(`/courses/${FEATURED_COURSES[i].slug}`)}
-          />
-        )}
-      </div>
-
-      <div className="shell sq-fc__foot">
-        <p className="sq-fc__meta" aria-live="off">
-          {course.highlight && <span className="sq-course__badge">{course.highlight}</span>}
-          <span>
-            {course.mode} · {course.topics.join(', ')}
+    <section className="section sq-fc" id="featured-courses" ref={root}>
+      <div className="sq-stack" style={{ '--n': N } as CSSProperties}>
+        <div className="sq-stack__stage">
+          {/* decorative: a giant word behind the piles, drifting as the cards land */}
+          <span className="sq-stack__word" aria-hidden>
+            Courses
           </span>
-        </p>
-        <div className="sq-fc__actions">
-          <Link href={`/courses/${course.slug}`} className="btn">
-            View {course.title} <FiArrowRight aria-hidden />
-          </Link>
-          <Link href="/courses" className="btn btn--ghost">
-            Browse all courses
-          </Link>
-        </div>
 
-        <ul className="sr-only">
-          {FEATURED_COURSES.map((c) => (
-            <li key={c.slug}>
-              <Link href={`/courses/${c.slug}`}>
-                {c.title} — {c.duration}, {c.mode}
+          <div className="shell sq-stack__inner">
+            <SectionHeading
+              eyebrow="Featured courses"
+              title={['What most students', { text: 'are enrolling in', className: 'sq-hl' }]}
+              lead="Every one of these runs in classroom and live-online formats, with lab hours, a live project and placement support."
+            />
+
+            <div className="sq-courses">
+              {FEATURED_COURSES.map((c) => (
+                <Link href={`/courses/${c.slug}`} className="sq-course" key={c.slug}>
+                  <div className="sq-course__img">
+                    {/* eager: a card waits below the stage, where lazy loading would leave it blank as it flies in */}
+                    <Image src={c.image} alt="" fill sizes="(max-width: 760px) 50vw, 25vw" loading="eager" />
+                    {c.highlight && <span className="sq-course__badge">{c.highlight}</span>}
+                  </div>
+                  <h3>
+                    {c.title}
+                    <span className="sq-course__go" aria-hidden>
+                      <FiArrowRight />
+                    </span>
+                  </h3>
+                  <span className="sq-course__meta">
+                    {c.duration} · {c.mode}
+                  </span>
+                  <span className="sq-course__topics">{c.topics.join(', ')}</span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="sq-courses__foot">
+              <Link href="/courses" className="btn">
+                Browse all courses <FiArrowRight aria-hidden />
               </Link>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

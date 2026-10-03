@@ -605,52 +605,93 @@
 
 /* ---------------------------------------------------------------- how -- */
 
-/* Heading pinned on the left, step cards stacking on the right. */
-.how__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  align-items: start;
-  gap: clamp(2rem, 5vw, 5rem);
+/* Full-screen stage: the heading sits above in the shell, then the step
+   cards stack edge to edge, each as tall as the viewport below the nav.
+   `--how-h` leaves room for the three 22px offsets, so the whole stack fits
+   on screen. */
+.how {
+  --how-gap: 1.25rem;
+  --how-step: 22px;
+  --how-inset: clamp(0.75rem, 1.6vw, 1.5rem);
+  --how-h: max(440px, calc(100svh - var(--nav-h) - var(--how-gap) * 2 - var(--how-step) * 3));
 }
 
+/* heading on the left, CTA on the right, both sitting on the same baseline */
 .how__intro {
-  position: sticky;
-  top: calc(var(--nav-h) + 3rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
 }
 .how__intro .sh {
-  margin-bottom: 1.8rem;
+  margin-bottom: 0;
 }
 
 .how__cards {
   display: grid;
   gap: 2rem;
+  padding-inline: var(--how-inset);
   /* room after the last card so the full stack is seen before it scrolls away */
   padding-bottom: 3rem;
 }
 
 /* Every card pins a little lower than the one before, so the top edges of
-   the covered cards stay visible above the newest one. Cards are opaque
-   white (the stack must hide what's under it) and set their own ink, so
-   they read the same on the white and navy bands. */
+   the covered cards stay visible above the newest one. Each is a photo under
+   a navy wash and sets its own (white) ink, so it reads the same on the
+   white and navy bands. */
 .how__card {
-  --card-ink: #04124a;
-  --card-muted: #2a5183;
-  --card-accent: #2563ff;
+  --card-ink: #ffffff;
+  --card-muted: rgba(255, 255, 255, 0.86);
+  --card-accent: var(--c-gold);
   position: sticky;
-  top: calc(var(--nav-h) + 2rem + var(--i) * 22px);
-  display: grid;
-  align-content: start;
+  top: calc(var(--nav-h) + var(--how-gap) + var(--i) * var(--how-step));
+  display: flex;
+  flex-direction: column;
   gap: 0.9rem;
-  min-height: 340px;
-  padding: clamp(1.6rem, 3vw, 2.4rem);
+  height: var(--how-h);
+  /* copy lines up with the shell's edges, however wide the card gets */
+  padding: clamp(1.6rem, 3vw, 3rem)
+    max(clamp(1.4rem, 3vw, 3rem), calc((100vw - var(--shell)) / 2 + var(--gutter) - var(--how-inset)));
   overflow: hidden;
+  isolation: isolate;
   border-radius: var(--r-xl);
-  border: 1px solid rgba(4, 18, 74, 0.1);
-  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--c-navy);
   color: var(--card-ink);
-  box-shadow: 0 -10px 40px rgba(4, 18, 74, 0.12);
+  box-shadow: 0 -10px 40px rgba(4, 18, 74, 0.28);
   transform-origin: center top;
-  will-change: transform;
+  will-change: transform, clip-path;
+}
+/* dims a card as the next one covers it (HowItWorks.tsx scrubs --how-dim) */
+.how__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--c-navy);
+  opacity: var(--how-dim, 0);
+  pointer-events: none;
+}
+
+/* the photo, and the navy wash that keeps the copy readable over it */
+.how__bg {
+  z-index: -2;
+  object-fit: cover;
+}
+.how__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(4, 18, 74, 0.72) 0%,
+    rgba(4, 18, 74, 0.38) 34%,
+    rgba(4, 18, 74, 0.78) 68%,
+    rgba(4, 18, 74, 0.96) 100%
+  );
 }
 
 .how__card-top {
@@ -675,50 +716,46 @@
   height: 54px;
   border-radius: 50%;
   border: 1px solid currentColor;
+  background: rgba(4, 18, 74, 0.45);
+  backdrop-filter: blur(6px);
   color: var(--card-accent);
   font-size: 1.35rem;
-  opacity: 0.9;
 }
 .how__card h3 {
   position: relative;
   z-index: 1;
-  max-width: 16ch;
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-  line-height: 1.15;
+  max-width: 18ch;
+  font-size: clamp(2rem, 5vw, 4.25rem);
+  line-height: 1.05;
   color: var(--card-ink);
 }
 .how__card p {
   position: relative;
   z-index: 1;
-  max-width: 42ch;
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
   color: var(--card-muted);
 }
 /* big faded step number in the bottom-right corner */
 .how__big {
   position: absolute;
-  right: 1.2rem;
-  bottom: -1.6rem;
+  right: clamp(1.2rem, 4vw, 4rem);
+  bottom: -0.12em;
   font-family: var(--font-display);
-  font-size: clamp(7rem, 13vw, 11rem);
+  font-size: clamp(8rem, 24vw, 22rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.05em;
   color: var(--card-ink);
-  opacity: 0.07;
+  opacity: 0.12;
   pointer-events: none;
   user-select: none;
 }
 
 @media (max-width: 900px) {
-  .how__inner {
-    grid-template-columns: 1fr;
-  }
-  .how__intro {
-    position: static;
-  }
-  .how__card {
-    top: calc(var(--nav-h) + 1rem + var(--i) * 14px);
-    min-height: 300px;
+  .how {
+    --how-gap: 1rem;
+    --how-step: 14px;
   }
 }
 
