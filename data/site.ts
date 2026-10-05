@@ -71,6 +71,7 @@ export const NAV: NavItem[] = [
       { label: 'About techcadd', href: '/about' },
       { label: 'How We Train', href: '/about#how-it-works' },
       { label: 'Why techcadd', href: '/about#why-techcadd' },
+      { label: 'Companies', href: '/companies' },
     ],
     featured: [
       { title: 'About techcadd', href: '/about', image: '/images/course/campus1.webp', tag: 'Story', meta: '20 years of training' },
@@ -80,7 +81,7 @@ export const NAV: NavItem[] = [
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
   {
-    label: 'Courses',
+    label: 'Trainings',
     href: '/courses',
     columns: [
       {
@@ -178,7 +179,14 @@ export const NAV: NavItem[] = [
     ],
     cta: { label: 'See all training formats', href: INTERNSHIP },
   },
-  { label: 'Services', href: '/services' },
+  {
+    label: 'Services & Projects',
+    href: '/services',
+    children: [
+      { label: 'Services', href: '/services', note: 'Software, training and consulting' },
+      { label: 'Projects', href: '/projects', note: 'Work we have delivered' },
+    ],
+  },
   {
     label: 'Franchises',
     href: '/franchises',
@@ -251,6 +259,11 @@ export const CITIES: City[] = [
 ]
 
 export const CENTRES = CITIES.filter((c) => c.kind === 'centre')
+
+/* ---------------------------------------------------------- companies -- */
+
+/** The cards on /companies. TODO: add each company's blurb, logo and link. */
+export const COMPANIES = ['Virtual Academy', 'IAM', 'Syntax Developer', 'Edutech Infosys']
 
 /* -------------------------------------------------------------- stats -- */
 
@@ -398,7 +411,9 @@ export const FOOTER_LINKS: { title: string; links: { label: string; href: string
     title: 'Company',
     links: [
       { label: 'About', href: '/about' },
+      { label: 'Companies', href: '/companies' },
       { label: 'Branches', href: '/branches' },
+      { label: 'Career', href: '/careers' },
       { label: 'Blog', href: '/blog' },
       { label: 'Contact', href: '/contact' },
     ],

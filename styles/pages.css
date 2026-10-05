@@ -54,6 +54,29 @@
   color: var(--on-gold);
 }
 
+.company-card {
+  display: grid;
+  justify-items: start;
+  gap: 1.1rem;
+  padding: 1.8rem;
+  background: var(--card-solid);
+}
+.company-card span {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  background: var(--grad);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+.company-card h2 {
+  font-size: 1.4rem;
+}
+
 .filter-row {
   display: flex;
   flex-wrap: wrap;
