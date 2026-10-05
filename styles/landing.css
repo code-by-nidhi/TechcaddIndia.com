@@ -156,128 +156,630 @@
 
 /* --------------------------------------------------------------- hero -- */
 
-/* Full-bleed photo under a navy veil, centred copy, then a slow rail of
-   course cards. Slides up under the transparent nav. */
-.sq-hero {
+/* An editorial opener on the navy band: serif headline, pill CTAs, glass chips
+   over orbiting technology logos, tilted cards floating at the sides and a
+   ticker along the bottom edge. Slides up under the transparent nav. */
+.sq > .sq-hero {
+  --hero-ink: var(--c-navy); /* text on the white cards and chips */
+  --hero-line: rgba(255, 255, 255, 0.22);
   position: relative;
   isolation: isolate;
   overflow: hidden;
   margin-top: calc(var(--nav-h) * -1);
-  padding-top: calc(var(--nav-h) + clamp(2rem, 5vw, 4rem));
+  padding-top: calc(var(--nav-h) + clamp(1.25rem, 3vw, 2.5rem));
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(37, 99, 255, 0.28), transparent 70%),
+    var(--c-navy);
   text-align: center;
 }
-.sq-hero__img {
-  z-index: -2;
-  object-fit: cover;
+/* a dot grid that fades out toward the edges, and a slow-drifting glow */
+.sq-hero::before,
+.sq-hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
 }
-.sq-hero__veil {
+.sq-hero::before {
+  inset: 0;
+  background: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.4px) 0 0 / 28px 28px;
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent);
+  mask-image: radial-gradient(70% 70% at 50% 40%, #000, transparent);
+}
+.sq-hero::after {
+  top: -20%;
+  left: 8%;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(37, 99, 255, 0.34), transparent);
+  filter: blur(30px);
+  animation: drift 16s ease-in-out infinite;
+}
+.sq-hero__stars {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(4, 18, 74, 0.86) 0%, rgba(4, 18, 74, 0.8) 55%, var(--c-navy) 100%);
+  color: var(--gold);
+  pointer-events: none;
+}
+.sq-hero__stars svg {
+  position: absolute;
+  opacity: 0.15;
+  animation: sq-hero-twinkle 4.2s ease-in-out infinite;
+}
+.sq-hero__stars svg:nth-child(even) {
+  color: #ffffff;
 }
 
-.sq-hero__copy {
+.sq-hero__inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.sq-hero__title {
-  font-size: clamp(2.2rem, 6vw, 4.75rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
+
+.sq-hero__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sq-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: clamp(0.9rem, 1.6vw, 1.3rem);
+  padding: 0.35rem 0.9rem 0.35rem 0.7rem;
+  border: 1px solid var(--hero-line);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink-2);
+  animation: sq-hero-in 0.9s var(--ease) backwards;
+}
+.sq-hero__eyebrow svg {
+  fill: var(--gold);
+  color: var(--gold);
+}
+.sq-hero__eyebrow strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+.sq .sq-hero__title {
+  font-family: var(--font-serif), 'Times New Roman', serif;
+  font-size: clamp(2.3rem, min(5.2vw, 9svh), 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+/* the italic line: gold with a highlight that sweeps across it */
+.sq-hero__em {
+  background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 40%, #fff3c4 50%, var(--gold) 60%, var(--gold) 100%) 0 center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-style: italic;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite reverse;
+}
+/* room for the italic overhang and descenders inside each word's mask */
+.sq-hero__title .split-word {
+  padding: 0.06em 0.08em 0.2em;
+  margin: -0.06em -0.08em -0.2em;
 }
 .sq-hero__lead {
-  max-width: 560px;
-  margin-top: 1.2rem;
-  font-size: clamp(1rem, 1.25vw, 1.12rem);
-  line-height: 1.55;
-  color: var(--ink-2);
+  max-width: 540px;
+  margin-top: clamp(0.8rem, 1.4vw, 1.1rem);
+  text-wrap: balance;
+  font-size: clamp(0.95rem, 1.1vw, 1.04rem);
+  line-height: 1.5;
+  color: var(--ink-3);
 }
 .sq-hero__ctas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
-  margin-top: 1.75rem;
+  margin-top: clamp(1.1rem, 1.8vw, 1.5rem);
 }
-.sq-hero__note {
-  margin-top: 0.85rem;
-  font-size: 0.9rem;
-  color: var(--ink-3);
+.sq .sq-hero__btn {
+  min-height: 46px;
+  padding: 0.7rem 1.35rem;
+  border-radius: var(--r-pill);
+  font-size: 0.92rem;
+}
+.sq .sq-hero__btn.btn--gold {
+  box-shadow: 0 12px 32px -10px rgba(255, 200, 28, 0.6);
+}
+.sq .sq-hero__btn.btn--ghost {
+  padding-left: 0.8rem;
+  border-color: var(--hero-line);
+}
+.sq-hero__play {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  font-size: 0.65rem;
+  color: var(--on-gold);
+}
+.sq-hero__play svg {
+  margin-left: 2px;
+  fill: currentColor;
+}
+.sq .sq-hero__btn:hover .sq-hero__play svg {
+  transform: none;
 }
 
-.sq-hero__rail {
-  position: relative;
-  margin-top: clamp(2rem, 4vw, 3.25rem);
-  overflow: hidden;
-}
-/* frosted glass over both ends of the rail: cards blur as they enter and
-   leave. The mask fades the frost out toward the middle, so it has no edge. */
-.sq-hero__rail::before,
-.sq-hero__rail::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  width: clamp(36px, 9vw, 140px);
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02) 70%, transparent);
-  -webkit-backdrop-filter: blur(6px) saturate(120%);
-  backdrop-filter: blur(6px) saturate(120%);
-  -webkit-mask-image: linear-gradient(90deg, #000 25%, transparent);
-  mask-image: linear-gradient(90deg, #000 25%, transparent);
-  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.12);
-  pointer-events: none;
-}
-.sq-hero__rail::before {
-  left: 0;
-  border-top-right-radius: var(--sq-r);
-}
-.sq-hero__rail::after {
-  right: 0;
-  border-top-left-radius: var(--sq-r);
-  transform: scaleX(-1);
-}
-.sq-hero__track {
-  display: flex;
-  gap: 1.25rem;
-  width: max-content;
-  padding-right: 1.25rem;
-  animation: marquee 70s linear infinite;
-}
-.sq-hero__rail:hover .sq-hero__track {
-  animation-play-state: paused;
-}
-/* cards run off the bottom of the hero, like screens on a desk */
-.sq-shot {
+/* ---- the chips, and the logo orbits they sit over ---- */
+
+.sq-hero__stage {
   position: relative;
   flex: none;
-  width: clamp(190px, 19vw, 280px);
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: var(--sq-r) var(--sq-r) 0 0;
-  background: #0b1f63;
+  container-type: inline-size;
+  width: min(100%, 640px);
+  height: clamp(210px, min(22vw, 32svh), 290px);
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  /* the orbits are centred on the bottom edge: cut them off there only */
+  clip-path: inset(-100vh -100vw 0 -100vw);
 }
-.sq-shot img {
-  object-fit: cover;
-}
-.sq-shot span {
+.sq-hero__orbit {
   position: absolute;
-  inset: auto 0 0;
-  padding: 2.5rem 1rem 0.9rem;
-  background: linear-gradient(0deg, rgba(4, 18, 74, 0.92), transparent);
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
+  bottom: 0;
+  left: 50%;
+  width: calc(var(--r) * 2cqw);
+  aspect-ratio: 1;
+  border: 1px solid var(--hero-line);
+  border-radius: 50%;
+  translate: -50% 50%;
+  animation: sq-hero-turn var(--dur) linear infinite;
+}
+.sq-hero__orbit--rev {
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.14);
+  animation-direction: reverse;
+}
+.sq-hero__slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--deg)) translateY(calc(var(--r) * -1cqw)) rotate(calc(var(--deg) * -1));
+}
+.sq-hero__logo {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 11px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
+  font-size: 1.05rem;
+  animation: sq-hero-turn var(--dur) linear infinite reverse;
+}
+.sq-hero__orbit--rev .sq-hero__logo {
+  animation-direction: normal;
+}
+/* the glowing core, with a ring that pulses out of it */
+.sq-hero__core,
+.sq-hero__core::before {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+.sq-hero__core {
+  bottom: 0;
+  left: 50%;
+  width: 30cqw;
+  border: 1px solid var(--hero-line);
+  background: radial-gradient(closest-side, rgba(59, 130, 246, 0.55), rgba(37, 99, 255, 0.12) 70%, transparent);
+  translate: -50% 50%;
+}
+.sq-hero__core::before {
+  content: '';
+  inset: 0;
+  border: 1px solid rgba(147, 197, 253, 0.55);
+  animation: pulse-ring 4.5s ease-out infinite;
+}
+
+.sq-hero__chip {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.45);
   text-align: left;
+  white-space: nowrap;
+  animation:
+    sq-hero-in 1s var(--ease) calc(0.55s + var(--i) * 0.12s) backwards,
+    sq-hero-bob 7s ease-in-out calc(1.6s + var(--i) * 0.9s) infinite;
+}
+.sq-hero__chip strong,
+.sq-hero__chip small {
+  display: block;
+}
+.sq-hero__chip strong {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--hero-ink);
+}
+.sq-hero__chip small {
+  font-size: 0.68rem;
+  line-height: 1.3;
+  color: #587ca8;
+}
+.sq-hero__chip-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--gold);
+  font-size: 0.95rem;
+  color: var(--on-gold);
+}
+.sq-hero__chip--ai {
+  top: 50%;
+  left: 0;
+  rotate: -7deg;
+}
+.sq-hero__chip--stack {
+  top: 16%;
+  left: 50%;
+  margin-left: -98px;
+  rotate: -4deg;
+}
+.sq-hero__chip--stack .sq-hero__chip-icon {
+  background: var(--c-azure);
   color: #fff;
+}
+.sq-hero__chip--cloud {
+  top: 56%;
+  right: 0;
+  rotate: 9deg;
+}
+.sq-hero__chip--cloud .sq-hero__chip-icon {
+  background: var(--c-navy);
+  color: #fff;
+}
+
+/* ---- the floating cards, arcs, badge and sign-off (wide screens only) ---- */
+
+.sq-hero__decor {
+  position: absolute;
+  inset: 0 var(--gutter);
+  pointer-events: none;
+}
+.sq-hero__arcs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.sq-hero__arcs path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.34);
+  stroke-width: 1;
+  stroke-dasharray: 3 7;
+  vector-effect: non-scaling-stroke;
+  animation: sq-hero-flow 1.6s linear infinite;
+}
+.sq-hero__float {
+  position: absolute;
+  display: grid;
+  justify-items: start;
+  width: 176px;
+  padding: 1.1rem 1.15rem 1.2rem;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.55);
+  text-align: left;
+  animation:
+    sq-hero-in 1s var(--ease) 0.6s backwards,
+    sq-hero-bob 8s ease-in-out 1.8s infinite;
+}
+.sq-hero__float strong {
+  margin-top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--hero-ink);
+}
+.sq-hero__float small {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #587ca8;
+}
+.sq-hero__float-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--c-mist);
+  font-size: 0.95rem;
+  color: var(--hero-ink);
+}
+.sq-hero__float--l {
+  top: 20%;
+  left: 0;
+  rotate: -5deg;
+}
+.sq-hero__float--r {
+  top: 36%;
+  right: 0;
+  rotate: 6deg;
+  animation-delay: 0.75s, 2.6s;
+}
+
+.sq-hero__badge {
+  position: absolute;
+  top: 17%;
+  right: 1%;
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  color: var(--ink);
+}
+.sq-hero__badge > svg:first-child {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  animation: sq-hero-turn 26s linear infinite;
+}
+.sq-hero__badge text {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  fill: currentColor;
+}
+.sq-hero__badge > svg:last-child {
+  width: 18px;
+  color: var(--gold);
+}
+
+.sq-hero__tag {
+  position: absolute;
+  right: 0;
+  bottom: clamp(1.5rem, 3vw, 2.5rem);
+  display: grid;
+  justify-items: start;
+  gap: 0.9rem;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--ink-3);
+}
+.sq-hero__tag svg {
+  width: 16px;
+  margin-left: 0.6rem;
+  color: var(--gold);
+}
+.sq-hero__tag span {
+  position: relative;
+}
+.sq-hero__tag span::before,
+.sq-hero__trust::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 1px;
+  background: var(--hero-line);
+}
+.sq-hero__tag span::before {
+  top: 0.6em;
+  right: calc(100% + 0.75rem);
+}
+
+.sq-hero__trust {
+  position: absolute;
+  bottom: clamp(1.5rem, 3vw, 2.5rem);
+  left: var(--gutter);
+  z-index: 2;
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+  max-width: 190px;
+  padding-top: 0.9rem;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--ink-3);
+}
+.sq-hero__trust::before {
+  top: 0;
+  left: 0;
+}
+
+/* overlapping initials, closed by a "+" */
+.sq-hero__faces {
+  display: flex;
+}
+.sq-hero__faces > span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--c-azure);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.sq-hero__faces > span + span {
+  margin-left: -8px;
+}
+.sq-hero__faces > span:nth-child(2) {
+  background: #2a5183;
+}
+.sq-hero__faces > span:nth-child(3) {
+  background: #587ca8;
+}
+.sq-hero__faces > span:nth-child(4) {
+  background: #1a3a8a;
+}
+.sq-hero__faces > .sq-hero__faces-more {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(4, 18, 74, 0.12);
+  font-size: 0.8rem;
+  color: var(--hero-ink);
+}
+
+/* technologies running along the bottom edge */
+.sq-hero__ticker {
+  position: relative;
+  overflow: hidden;
+  padding-block: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 18, 74, 0.55);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.sq-hero__ticker-track {
+  display: flex;
+  gap: 2.75rem;
+  width: max-content;
+  padding-right: 2.75rem;
+  animation: marquee 45s linear infinite;
+}
+.sq-hero__ticker span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-3);
+}
+.sq-hero__ticker svg {
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+@keyframes sq-hero-twinkle {
+  50% {
+    opacity: 0.9;
+    scale: 1.25;
+  }
+}
+@keyframes sq-hero-flow {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+@keyframes sq-hero-in {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+  }
+}
+@keyframes sq-hero-bob {
+  50% {
+    translate: 0 -9px;
+  }
+}
+@keyframes sq-hero-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* narrower than the cards need: drop the side decor, keep the trust line in flow */
+@media (max-width: 1100px) {
+  .sq-hero__decor {
+    display: none;
+  }
+  /* the outer orbit rises above the stage: keep it clear of the trust line */
+  .sq-hero__stage {
+    order: 3;
+    margin-top: clamp(5rem, 13vw, 7rem);
+  }
+  .sq-hero__trust {
+    position: static;
+    order: 2;
+    grid-auto-flow: column;
+    align-items: center;
+    max-width: none;
+    margin-top: 1.5rem;
+    padding-top: 0;
+  }
+  .sq-hero__trust::before {
+    content: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .sq-hero__stage {
+    height: 200px;
+    margin-top: 2rem;
+  }
+  .sq-hero__logo {
+    scale: 0.8;
+  }
+  .sq-hero__chip {
+    gap: 0.5rem;
+    padding: 0.45rem 0.8rem 0.45rem 0.45rem;
+    border-radius: 14px;
+  }
+  .sq-hero__chip strong {
+    font-size: 0.85rem;
+  }
+  .sq-hero__chip small {
+    display: none;
+  }
+  .sq-hero__chip-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    font-size: 0.9rem;
+  }
+  .sq-hero__chip--ai {
+    left: 3%;
+  }
+  .sq-hero__chip--stack {
+    margin-left: -58px;
+  }
+  .sq-hero__chip--cloud {
+    right: 2%;
+  }
 }
 
 @media (max-width: 560px) {
   .sq-hero__ctas {
     align-self: stretch;
     flex-direction: column;
+  }
+  .sq-hero__trust {
+    grid-auto-flow: row;
+    justify-items: center;
+    text-align: center;
   }
 }
 
