@@ -297,6 +297,10 @@
   padding-left: 0.8rem;
   border-color: var(--hero-line);
 }
+/* filled like the band, so the orbiting logos pass behind it, not through it */
+.sq .sq-hero__btn.btn--ghost:not(:hover) {
+  --btn-bg: var(--c-navy);
+}
 .sq-hero__play {
   display: grid;
   place-items: center;
