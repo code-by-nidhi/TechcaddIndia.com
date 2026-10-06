@@ -48,13 +48,13 @@ export default function StatsStrip() {
             <svg viewBox="0 0 200 236" className="stats__shield-svg">
               <defs>
                 <linearGradient id="shield-fill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="#93c5fd" />
-                  <stop offset="0.45" stopColor="#3b82f6" />
-                  <stop offset="1" stopColor="#1f4fd1" />
+                  <stop offset="0" stopColor="#7cb0fb" />
+                  <stop offset="0.45" stopColor="#3262fa" />
+                  <stop offset="1" stopColor="#2e53e1" />
                 </linearGradient>
                 <linearGradient id="shield-rim" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" stopColor="#ffffff" />
-                  <stop offset="1" stopColor="#c9d8f5" />
+                  <stop offset="1" stopColor="#d1dceb" />
                 </linearGradient>
               </defs>
               {/* white rim, then the blue face inset inside it */}

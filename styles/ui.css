@@ -1,29 +1,31 @@
 /* ==========================================================================
-   Shared UI — buttons, section headings, eyebrow chip, glass card
+   Shared UI — buttons, section headings, label chip, card
    ========================================================================== */
 
+/* The Infosys `cta-btn`: a near-black gradient block with 8px corners and a
+   soft violet glow under it. `--gold` is the primary action and looks the
+   same; `--ghost` is the white variant. */
 .btn {
-  --btn-bg: var(--grad);
+  --btn-bg: var(--grad-dark);
   --btn-ink: #fff;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  min-height: 48px;
-  padding: 0.8rem 1.5rem;
-  border-radius: var(--r-pill);
+  gap: 0.6rem;
+  min-height: 46px;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--r-sm);
   background: var(--btn-bg);
   color: var(--btn-ink);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.96rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
   isolation: isolate;
-  box-shadow: var(--sh-md);
-  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  box-shadow: 0 15px 22px var(--glow);
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast), color var(--t-fast);
 }
 
 /* sheen that sweeps across on hover */
@@ -32,7 +34,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.18) 50%, transparent 70%);
   transform: translateX(-120%);
   transition: transform 0.7s var(--ease);
 }
@@ -40,28 +42,29 @@
   transform: translateX(120%);
 }
 .btn:hover {
-  box-shadow: var(--sh-lg);
+  box-shadow: 0 15px 22px rgba(119, 95, 184, 0.63);
 }
 
 .btn--gold {
   --btn-bg: var(--grad-gold);
   --btn-ink: var(--on-gold);
-  box-shadow: 0 14px 34px rgba(242, 173, 0, 0.32);
 }
 
 .btn--ghost {
-  --btn-bg: var(--card);
+  --btn-bg: #ffffff;
   --btn-ink: var(--ink);
   border: 1px solid var(--border-strong);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: none;
+}
+.btn--ghost:hover {
+  border-color: var(--ink);
+  box-shadow: 0 15px 22px var(--glow);
 }
 
 .btn--sm {
   min-height: 40px;
-  padding: 0.55rem 1.1rem;
-  font-size: 0.88rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
 }
 
 .btn svg {
@@ -73,33 +76,26 @@
 
 /* ---------------------------------------------------------- eyebrow -- */
 
+/* the Infosys `label-head`: a small indigo chip */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-display);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
+  gap: 0.45rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 5px;
+  background: var(--c-indigo);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
 }
 
 .eyebrow__dot {
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--grad);
-  color: #fff;
-  font-size: 0.7rem;
-}
-
-.section--navy .eyebrow__dot,
-main > section:nth-of-type(odd) .eyebrow__dot {
-  background: var(--grad-gold);
-  color: var(--on-gold);
+  font-size: 0.75rem;
+  color: #7cb0fb;
 }
 
 /* --------------------------------------------------- section heading -- */
@@ -108,7 +104,7 @@ main > section:nth-of-type(odd) .eyebrow__dot {
   display: grid;
   gap: 1rem;
   max-width: 760px;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(2.25rem, 4vw, 3.25rem);
 }
 
 .sh--center {
@@ -126,12 +122,14 @@ main > section:nth-of-type(odd) .eyebrow__dot {
 }
 
 .sh__title {
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
 }
 
 .sh__lead {
-  font-size: clamp(1rem, 1.1vw, 1.14rem);
-  color: var(--ink-3);
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  color: var(--ink-2);
   max-width: 620px;
 }
 
@@ -139,12 +137,10 @@ main > section:nth-of-type(odd) .eyebrow__dot {
 
 .glass {
   position: relative;
-  background: var(--card);
+  background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  backdrop-filter: blur(20px) saturate(1.6);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  box-shadow: var(--sh-sm);
+  border-radius: var(--r-md);
+  box-shadow: none;
   transition: transform var(--t-mid), box-shadow var(--t-mid), border-color var(--t-mid);
 }
 
@@ -154,7 +150,7 @@ main > section:nth-of-type(odd) .eyebrow__dot {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: var(--grad-soft);
+  background: var(--c-blue);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -196,16 +192,15 @@ main > section:nth-of-type(odd) .eyebrow__dot {
 .page-hero {
   padding-top: calc(var(--nav-h) + clamp(3rem, 7vw, 6rem));
   padding-bottom: clamp(3rem, 6vw, 5rem);
-  background: var(--navy-band);
-  color: #fff;
-  --ink: #fff;
-  --ink-3: rgba(255, 255, 255, 0.72);
-  --border: rgba(255, 255, 255, 0.16);
-  --card: rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid var(--border-soft);
+  background:
+    linear-gradient(180deg, #ffffff 0%, var(--c-grey-300) 100%);
 }
 
 .page-hero h1 {
-  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.05;
   margin-block: 1rem;
 }
 
@@ -218,10 +213,10 @@ main > section:nth-of-type(odd) .eyebrow__dot {
   display: flex;
   gap: 0.4rem;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--ink-3);
 }
 .crumbs a:hover {
-  color: #fff;
+  color: var(--ink);
 }
 
 .placeholder-block {

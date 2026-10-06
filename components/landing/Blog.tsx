@@ -1,38 +1,57 @@
 import Link from 'next/link'
-import { FiArrowRight } from 'react-icons/fi'
+import Image from 'next/image'
 
-import SectionHeading from '@/components/ui/SectionHeading'
 import { POSTS } from '@/data/site'
 
-const fmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+/* A mosaic of white cards on the grey band: one tall lead story with a
+   picture, two short ones beside it and a wide one under those. Each carries
+   an indigo label, a title, its date in violet and an underlined link. */
+
+const fmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
+
+/** Posts carry no artwork of their own yet, so each tag borrows a photo. */
+const ART: Record<string, string> = {
+  Careers: '/images/course/campus1.webp',
+  Stories: '/images/course/classroom.webp',
+  Data: '/images/categories/data-science.webp',
+  AI: '/images/categories/ai.webp',
+}
 
 export default function Blog() {
   return (
-    <section className="section sq-tint sq-blog" id="blog">
+    <section className="ix-news" id="blog">
       <div className="shell">
-        <div className="sq-head">
-          <SectionHeading
-            eyebrow="From the blog"
-            title={['Guides for', { text: 'your next move', className: 'sq-hl' }]}
-          />
-          <Link href="/blog" className="sq-link">
-            All articles <FiArrowRight aria-hidden />
+        <div className="ix-news__head">
+          <h2>Guides, Stories &amp; Career Advice</h2>
+          <p>
+            Practical guides, learner stories and straight answers about building a tech career in India.
+          </p>
+          <Link href="/blog" className="cta-link">
+            All articles
           </Link>
         </div>
 
-        <div className="sq-posts">
-          {POSTS.map((p, i) => (
-            <Link href={`/blog/${p.slug}`} className="sq-post" key={p.slug} data-aos="fade-up" data-aos-delay={i * 90}>
-              <div className="sq-post__art" aria-hidden>
-                <span>{p.tag}</span>
-              </div>
-              <time dateTime={p.date}>{fmt.format(new Date(p.date))}</time>
-              <h3>{p.title}</h3>
-              <span className="sq-post__more">
-                Read article <FiArrowRight aria-hidden />
-              </span>
-            </Link>
-          ))}
+        <div className="ix-news__grid">
+          {POSTS.map((p, i) => {
+            const pictured = i === 0 || i === POSTS.length - 1
+            return (
+              <article key={p.slug} className={`ix-ncard${pictured ? ' ix-ncard--pic' : ''}`}>
+                {pictured && (
+                  <div className="ix-ncard__img">
+                    <Image src={ART[p.tag] ?? ART.Careers} alt="" fill sizes="(max-width: 900px) 100vw, 40vw" />
+                  </div>
+                )}
+                <div className="ix-ncard__body">
+                  <span className="eyebrow">{p.tag}</span>
+                  <h3>{p.title}</h3>
+                  <time dateTime={p.date}>{fmt.format(new Date(p.date))}</time>
+                  <Link href={`/blog/${p.slug}`} className="cta-link">
+                    Read more
+                  </Link>
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

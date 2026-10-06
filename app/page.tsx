@@ -1,39 +1,31 @@
 import Hero from '@/components/landing/Hero'
-import About from '@/components/landing/About'
-import Categories from '@/components/landing/Categories'
-import FeaturedCourses from '@/components/landing/FeaturedCourses'
-import AICourses from '@/components/landing/AICourses'
-import WhyTechcadd from '@/components/landing/WhyTechcadd'
-import HowItWorks from '@/components/landing/HowItWorks'
-import Technologies from '@/components/landing/Technologies'
-import Testimonials from '@/components/landing/Testimonials'
+import TopCourses from '@/components/landing/TopCourses'
+import Method from '@/components/landing/Method'
+import Stories from '@/components/landing/Stories'
+import Programs from '@/components/landing/Programs'
+import Blog from '@/components/landing/Blog'
 import Branches from '@/components/landing/Branches'
 import FAQ from '@/components/landing/FAQ'
-import Blog from '@/components/landing/Blog'
 import CTA from '@/components/landing/CTA'
 
 import '@/styles/landing.css'
 
-/* Who we are → what we teach → why us → how it works → proof → where to find
-   us → questions → next step. The homepage has its own section components
-   (components/landing) and stylesheet; the ones in components/home are still
-   what the inner pages use. Each section picks its own band: navy, white or
-   the tinted page ground. */
+/* The homepage follows the infosys.com page order: the framed banner with its
+   prompt box → a carousel of top courses → how we train, as widening picture
+   cards → student stories on black → every course and program as a link grid
+   → the blog mosaic → then our own centres, questions and the dark closing
+   band. Each section picks its own band colour. */
 export default function HomePage() {
   return (
     <div className="sq">
       <Hero />
-      <About />
-      <Categories />
-      <FeaturedCourses />
-      <AICourses />
-      <WhyTechcadd />
-      <HowItWorks />
-      <Technologies />
-      <Testimonials />
+      <TopCourses />
+      <Method />
+      <Stories />
+      <Programs />
+      <Blog />
       <Branches />
       <FAQ />
-      <Blog />
       <CTA />
     </div>
   )

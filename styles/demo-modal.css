@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Book Demo modal — navy pitch on the left, blue-to-violet form on the right
+   Book Demo modal — white pitch on the left, pale blue form on the right
    ========================================================================== */
 
 .demo {
@@ -9,7 +9,7 @@
   display: grid;
   place-items: center;
   padding: 1rem;
-  background: rgba(2, 6, 23, 0.78);
+  background: rgba(233, 238, 247, 0.82);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   overflow-y: auto;
@@ -21,11 +21,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: min(1120px, 100%);
-  border-radius: 32px;
+  border-radius: var(--r-lg);
   overflow: hidden;
-  color: #fff;
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+  box-shadow: 0 40px 120px rgba(14, 10, 66, 0.22);
   animation: demo-rise 0.4s var(--ease);
+  border: 1px solid var(--border);
 }
 
 .demo__close {
@@ -38,13 +39,13 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  color: #fff;
+  border: 1px solid var(--border-strong);
+  color: var(--ink);
   font-size: 1.1rem;
   transition: background var(--t-fast), transform var(--t-fast);
 }
 .demo__close:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--c-mist);
   transform: rotate(90deg);
 }
 
@@ -52,13 +53,11 @@
 
 .demo__info {
   padding: clamp(1.75rem, 4vw, 2.8rem);
-  background:
-    radial-gradient(70% 50% at 20% 0%, rgba(37, 99, 255, 0.35), transparent 70%),
-    #070b2a;
+  background: #ffffff;
 }
 
 .demo__info h2 {
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(1.6rem, 3vw, 2.3rem);
   line-height: 1.2;
 }
@@ -66,15 +65,15 @@
 .demo__lead {
   margin-top: 0.9rem;
   max-width: 440px;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--ink-3);
 }
 
 .demo__quote {
   margin-top: 1.9rem;
   padding: 1.6rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--bg);
 }
 .demo__quote blockquote {
   font-size: 1.2rem;
@@ -88,12 +87,12 @@
   margin-top: 1.4rem;
   font-size: 0.9rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--ink-3);
 }
 .demo__quote strong {
   display: block;
   font-size: 1rem;
-  color: #fff;
+  color: var(--ink);
 }
 .demo__quote-icon {
   display: grid;
@@ -102,7 +101,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--c-mist);
   font-size: 1.2rem;
 }
 
@@ -112,16 +111,16 @@
   gap: 0.6rem;
   margin-top: 2rem;
   padding: 1rem 1.4rem;
-  border-radius: 18px;
-  background: #e5e7eb;
-  color: #1e2a5a;
+  border-radius: var(--r-lg);
+  background: var(--c-mist);
+  color: var(--ink);
   font-size: 1.05rem;
 }
 .demo__google > svg:first-child {
   font-size: 1.5rem;
 }
 .demo__tick {
-  color: #1a73e8;
+  color: #2e53e1;
 }
 .demo__stars {
   display: flex;
@@ -136,11 +135,11 @@
 .demo__support {
   margin-top: 1.9rem;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--ink-3);
 }
 .demo__support a {
-  color: #fff;
-  font-weight: 700;
+  color: var(--c-azure);
+  font-weight: 600;
   text-decoration: underline;
 }
 
@@ -151,14 +150,14 @@
   align-content: start;
   gap: 1rem;
   padding: clamp(1.75rem, 4vw, 2.8rem);
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #6d28d9 100%);
+  background: var(--c-mist);
 }
 
 .demo__form h3 {
   max-width: 400px;
   margin-bottom: 0.6rem;
   padding-right: 3rem; /* clears the close button */
-  color: #fff;
+  color: var(--ink);
   font-size: 1.35rem;
   line-height: 1.5;
   letter-spacing: -0.01em;
@@ -173,10 +172,10 @@
   width: 100%;
   min-height: 64px;
   padding: 0 1.5rem;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-strong);
+  background: #ffffff;
+  color: var(--ink);
   font-size: 1.02rem;
   font-weight: 500;
   outline: none;
@@ -185,11 +184,11 @@
 .demo__field select {
   appearance: none;
   padding-right: 3.2rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 .demo__field option {
-  color: #04124a;
+  color: #0e0a42;
   background: #fff;
 }
 .demo__field--select > svg {
@@ -200,15 +199,15 @@
   pointer-events: none;
 }
 .demo__field input::placeholder {
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--ink-3);
 }
 .demo__field input:focus-visible,
 .demo__field select:focus-visible {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--c-azure);
+  background: #ffffff;
 }
 .demo__field [aria-invalid='true'] {
-  border-color: #fecaca;
+  border-color: #dc2626;
 }
 
 .demo__err {
@@ -216,7 +215,7 @@
   padding-left: 0.4rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #fee2e2;
+  color: #b91c1c;
 }
 
 .demo__verify {
@@ -225,14 +224,14 @@
   align-items: center;
   gap: 0.9rem;
   margin: 0.5rem 0 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .demo__sum,
 .demo__refresh {
   min-height: 40px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--border-strong);
+  background: #ffffff;
 }
 .demo__sum {
   display: grid;
@@ -244,11 +243,11 @@
   display: grid;
   place-items: center;
   width: 40px;
-  color: #fff;
+  color: var(--ink);
   transition: background var(--t-fast);
 }
 .demo__refresh:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: var(--bg-3);
 }
 
 .demo__promise {
@@ -258,9 +257,10 @@
   margin-top: 0.5rem;
   padding: 0.95rem 1.4rem;
   border-radius: 14px;
-  background: #a3e635;
-  color: #1e1b4b;
-  font-weight: 700;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 600;
+  border: 1px solid var(--border);
 }
 .demo__promise svg {
   flex: none;
@@ -273,19 +273,20 @@
   justify-content: center;
   gap: 0.7rem;
   justify-self: start;
-  min-height: 64px;
+  min-height: 52px;
   margin-top: 0.9rem;
-  padding: 0 2.5rem;
-  border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.72);
-  color: #1e2a8a;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  transition: background var(--t-fast), transform var(--t-fast);
+  padding: 0 1.75rem;
+  border-radius: var(--r-sm);
+  background: var(--grad-dark);
+  box-shadow: 0 15px 22px var(--glow);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: box-shadow var(--t-fast), transform var(--t-fast);
 }
 .demo__submit:hover {
-  background: #fff;
+  box-shadow: 0 15px 22px rgba(119, 95, 184, 0.63);
   transform: translateY(-2px);
 }
 
@@ -295,7 +296,7 @@
 }
 .demo__form--done > svg {
   font-size: 3rem;
-  color: #a3e635;
+  color: var(--c-azure);
 }
 .demo__form--done h3 {
   margin: 0;
@@ -319,7 +320,7 @@
   }
   .demo__dialog {
     grid-template-columns: 1fr;
-    border-radius: 24px;
+    border-radius: var(--r-lg);
   }
   /* the form is why the visitor is here: it leads, the pitch follows */
   .demo__form {

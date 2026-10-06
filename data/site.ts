@@ -32,7 +32,7 @@ export type NavLink = { label: string; href: string; badge?: NavBadge }
 /** One numbered column of the Courses mega menu. */
 export type NavColumn = { title: string; blurb: string; href: string; items: NavLink[] }
 
-/** One icon tile of the Internship & Training panel. `icon` is a key into the map in Navbar.tsx. */
+/** One icon tile of the Internships panel. `icon` is a key into the map in Navbar.tsx. */
 export type NavCard = NavLink & { icon: string }
 
 /** One picture card of the About / Resources panels. */
@@ -45,7 +45,7 @@ export type NavItem = {
   children?: { label: string; href: string; note?: string }[]
   /** Wide panel of numbered link columns (Courses). */
   columns?: NavColumn[]
-  /** Wide panel of icon tiles (Internship & Training). */
+  /** Wide panel of icon tiles (Internships). */
   cards?: NavCard[]
   /** Wide panel: a link column beside three picture cards (About, Resources). */
   links?: NavLink[]
@@ -81,87 +81,7 @@ export const NAV: NavItem[] = [
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
   {
-    label: 'Trainings',
-    href: '/courses',
-    columns: [
-      {
-        title: 'Programming',
-        blurb: 'Core languages and full-stack engineering',
-        href: cat('full-stack'),
-        items: [
-          { label: 'Python', href: '/courses/python-programming', badge: 'Hot' },
-          { label: 'Java', href: cat('full-stack') },
-          { label: 'C & C++', href: cat('full-stack') },
-          { label: 'Kotlin', href: cat('full-stack'), badge: 'Trending' },
-          { label: 'Web Designing', href: cat('full-stack') },
-          { label: 'Web Development', href: cat('full-stack') },
-          { label: 'MERN Stack', href: '/courses/full-stack-development', badge: 'Hot' },
-          { label: 'MEAN Stack', href: cat('full-stack') },
-          { label: 'PHP Full Stack', href: cat('full-stack') },
-        ],
-      },
-      {
-        title: 'AI & Data',
-        blurb: 'Models, analytics and decision intelligence',
-        href: cat('ai'),
-        items: [
-          { label: 'Artificial Intelligence', href: '/courses/ai-machine-learning', badge: 'Hot' },
-          { label: 'Machine Learning', href: '/courses/ai-machine-learning', badge: 'Hot' },
-          { label: 'Generative AI', href: '/courses/generative-agentic-ai' },
-          { label: 'Agentic AI', href: '/courses/generative-agentic-ai', badge: 'New' },
-          { label: 'Data Science', href: '/courses/data-science-analytics', badge: 'Trending' },
-          { label: 'Data Analytics', href: '/courses/data-science-analytics', badge: 'Trending' },
-          { label: 'Power BI', href: cat('data-science') },
-          { label: 'Tableau', href: cat('data-science') },
-        ],
-      },
-      {
-        title: 'Digital Marketing',
-        blurb: 'Growth, performance and commerce',
-        href: cat('marketing'),
-        items: [
-          { label: 'Digital Marketing', href: '/courses/digital-marketing' },
-          { label: 'Social Media Marketing', href: cat('marketing'), badge: 'Trending' },
-          { label: 'Google Ads', href: cat('marketing') },
-          { label: 'SEO', href: cat('marketing') },
-          { label: 'WordPress', href: cat('marketing') },
-          { label: 'Shopify', href: cat('marketing') },
-          { label: 'Meta Ads', href: cat('marketing'), badge: 'New' },
-        ],
-      },
-      {
-        title: 'Cyber & Cloud',
-        blurb: 'Secure, resilient infrastructure',
-        href: cat('cyber'),
-        items: [
-          { label: 'Cybersecurity', href: '/courses/cybersecurity-ethical-hacking' },
-          { label: 'Ethical Hacking', href: '/courses/cybersecurity-ethical-hacking', badge: 'Trending' },
-          { label: 'Network Security', href: cat('cyber') },
-          { label: 'SOC Analyst', href: cat('cyber'), badge: 'New' },
-          { label: 'Cloud Computing', href: '/courses/cloud-devops' },
-          { label: 'Linux', href: cat('cloud') },
-          { label: 'AWS', href: cat('cloud'), badge: 'Hot' },
-          { label: 'Microsoft Azure', href: cat('cloud') },
-          { label: 'DevOps', href: '/courses/cloud-devops', badge: 'Trending' },
-        ],
-      },
-      {
-        title: 'More Courses',
-        blurb: 'CADD, office, accounting and design',
-        href: '/courses',
-        items: [
-          { label: 'Civil & Architecture CAD', href: '/courses', badge: 'New' },
-          { label: 'Mechanical CAD & CAM', href: '/courses' },
-          { label: 'Basic Computer', href: '/courses' },
-          { label: 'Accounting & Tally', href: '/courses', badge: 'Hot' },
-          { label: 'Graphics & Video', href: '/courses' },
-        ],
-      },
-    ],
-    cta: { label: 'Browse all courses', href: '/courses' },
-  },
-  {
-    label: 'Internship & Training',
+    label: 'Internships',
     href: INTERNSHIP,
     cards: [
       { label: 'Cloud Computing', href: INTERNSHIP, icon: 'cloud' },

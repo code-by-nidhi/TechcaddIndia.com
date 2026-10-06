@@ -13,21 +13,26 @@ import { TESTIMONIALS } from '@/data/site'
    the centre, a short intro above the pile and a scroll hint below it. As
    the page scrolls the intro fades and the pile breaks up: each card slides
    out to its own spot round the edge, leaving the big headline in the
-   middle.
+   middle. Spots are measured against the headline, so no card ever lands on
+   it — on a short or narrow stage the cards run off the edge instead.
 
    Below 900px wide, on short viewports, with reduced motion or without JS
    the cards are a plain grid under the heading (see `.sq-testi.is-scatter`).
    ========================================================================== */
 
-/* where each card ends up, as a share of the stage (centre of the card), and its tilt */
+/* where each card ends up, as a share of the stage (centre of the card), its
+   tilt, and the side of the headline it has to stay clear of */
 const SPOTS = [
-  { x: 0.2, y: 0.2, r: -4 },
-  { x: 0.8, y: 0.19, r: 3 },
-  { x: 0.115, y: 0.6, r: 2 },
-  { x: 0.885, y: 0.57, r: -3 },
-  { x: 0.33, y: 0.83, r: 3 },
-  { x: 0.67, y: 0.84, r: -2 },
+  { x: 0.2, y: 0.2, r: -4, side: 'top' },
+  { x: 0.8, y: 0.19, r: 3, side: 'top' },
+  { x: 0.115, y: 0.6, r: 2, side: 'left' },
+  { x: 0.885, y: 0.57, r: -3, side: 'right' },
+  { x: 0.33, y: 0.83, r: 3, side: 'bottom' },
+  { x: 0.67, y: 0.84, r: -2, side: 'bottom' },
 ]
+
+/* breathing room between the headline block and any card */
+const CLEAR = 20
 
 export default function Testimonials() {
   const root = useRef<HTMLElement>(null)
@@ -38,6 +43,19 @@ export default function Testimonials() {
       if (!el) return
       const stage = el.querySelector<HTMLElement>('.sq-quotes')!
       const cards = gsap.utils.toArray<HTMLElement>('.sq-quote', el)
+      const head = el.querySelector<HTMLElement>('.sq-testi__head')!
+
+      /* the headline block (tag, headline, lead) in stage coordinates; offsets,
+         not client rects, so the head's own scale tween doesn't skew them */
+      const textBox = () => {
+        const parts = Array.from(head.children) as HTMLElement[]
+        return {
+          top: Math.min(...parts.map((p) => p.offsetTop)),
+          bottom: Math.max(...parts.map((p) => p.offsetTop + p.offsetHeight)),
+          left: Math.min(...parts.map((p) => p.offsetLeft)),
+          right: Math.max(...parts.map((p) => p.offsetLeft + p.offsetWidth)),
+        }
+      }
 
       const mm = gsap.matchMedia()
       mm.add('(min-width: 900px) and (min-height: 620px) and (prefers-reduced-motion: no-preference)', () => {
@@ -62,9 +80,24 @@ export default function Testimonials() {
           const spot = SPOTS[i % SPOTS.length]
           // piled: fanned a little, the first card on top
           const from = { x: 0, y: (i - (cards.length - 1) / 2) * 6, rotation: (i % 2 ? 1 : -1) * (3 + i * 2), scale: 0.92 }
+          // its spot, pushed out as far as it takes to leave the headline uncovered
           const to = {
-            x: () => (spot.x - 0.5) * stage.clientWidth,
-            y: () => (spot.y - 0.5) * stage.clientHeight,
+            x: () => {
+              const box = textBox()
+              const half = card.offsetWidth / 2 + CLEAR
+              let x = spot.x * stage.clientWidth
+              if (spot.side === 'left') x = Math.min(x, box.left - half)
+              if (spot.side === 'right') x = Math.max(x, box.right + half)
+              return x - stage.clientWidth / 2
+            },
+            y: () => {
+              const box = textBox()
+              const half = card.offsetHeight / 2 + CLEAR
+              let y = spot.y * stage.clientHeight
+              if (spot.side === 'top') y = Math.min(y, box.top - half)
+              if (spot.side === 'bottom') y = Math.max(y, box.bottom + half)
+              return y - stage.clientHeight / 2
+            },
             rotation: spot.r,
             scale: 1,
           }

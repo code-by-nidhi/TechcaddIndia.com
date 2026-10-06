@@ -28,7 +28,7 @@ import {
 import DemoLink from '@/components/ui/DemoLink'
 import { NAV, SITE, type NavItem, type NavLink } from '@/data/site'
 
-/** `icon` keys used by the Internship & Training tiles in data/site.ts. */
+/** `icon` keys used by the Internships tiles in data/site.ts. */
 const CARD_ICONS: Record<string, IconType> = {
   cloud: FiCloud,
   mobile: FiSmartphone,
@@ -138,7 +138,7 @@ export default function Navbar() {
       <header className={`nav${scrolled || open ? ' nav--scrolled' : ''}`}>
         <div className="shell nav__inner">
           <Link href="/" className="nav__logo" aria-label="techcadd home">
-            <Image src="/images/techcadd-logo-white.png" alt="techcadd" width={150} height={40} priority />
+            <Image src="/images/techcadd-logo-navy.png" alt="techcadd" width={150} height={40} priority />
           </Link>
 
           <nav aria-label="Primary" className="nav__links">

@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="shell">
         <div className="footer__top">
           <div className="footer__brand">
-            <Image src="/images/techcadd-logo-white.png" alt="techcadd" width={170} height={46} />
+            <Image src="/images/techcadd-logo-navy.png" alt="techcadd" width={170} height={46} />
             <p>
               Two decades of turning students into engineers. Now training learners across India — in our centres and
               in live online batches.

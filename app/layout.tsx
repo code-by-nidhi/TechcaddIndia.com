@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans, Manrope } from 'next/font/google'
+import { Geist, Inter } from 'next/font/google'
 
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -16,8 +16,8 @@ import '@/styles/home.css'
 import '@/styles/pages.css'
 import '@/styles/demo-modal.css'
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['500', '600', '700', '800'], variable: '--font-jakarta', display: 'swap' })
-const manrope = Manrope({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-manrope', display: 'swap' })
+const geist = Geist({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-geist', display: 'swap' })
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#04124a',
+  themeColor: '#0e0a42',
   width: 'device-width',
   initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-IN" className={`${jakarta.variable} ${manrope.variable}`}>
+    <html lang="en-IN" className={`${geist.variable} ${inter.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content

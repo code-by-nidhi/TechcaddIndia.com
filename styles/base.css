@@ -1,76 +1,94 @@
 /* ==========================================================================
    techcadd — Design tokens, reset & primitives
 
-   Same palette, type and geometry as techcaddjalandhar.com / Phagwara so the
-   national site reads as the same brand: navy ground, blue mid-tones, one
-   gold accent (primary CTA, one highlighted phrase per headline, stars).
+   The design language follows infosys.com: a deep indigo ink on white and
+   cool blue-grey bands, one bright blue for links and marks, near-black
+   gradient buttons that cast a soft violet glow, light Geist headlines over
+   Inter body copy, and small 8–16px radii.
    ========================================================================== */
 
 :root {
-  --c-mist: #e9eff9;
-  --c-sky: #3b82f6;
-  --c-azure: #2563ff;
-  --c-navy: #04124a;
-  --c-gold: #ffc81c;
+  /* the palette */
+  --c-ink: #0e0a42; /* indigo: headlines, body, nav */
+  --c-indigo: #1a1552; /* label chips */
+  --c-slate: #444c79; /* secondary text, footer links */
+  --c-blue: #2e53e1; /* links, hover, marks */
+  --c-blue-bright: #3262fa;
+  --c-blue-soft: #e0e7fe;
+  --c-violet: #765fb8; /* the glow under buttons and cards */
+  --c-grey-600: #8aa1c1;
+  --c-grey-500: #bac9dd;
+  --c-grey-400: #d1dceb;
+  --c-grey-300: #e9eef7;
+  --c-grey-200: #f0f5fd;
+  --c-dark: #141414;
 
-  --gold: var(--c-gold);
-  --gold-deep: #f2ad00;
-  --gold-ink: #c98700; /* gold for marks on a light ground (3:1 on white) */
-  --gold-soft: rgba(255, 200, 28, 0.14);
-  --on-gold: #04124a; /* never white on gold */
-  --grad-gold: linear-gradient(120deg, #f2ad00 0%, var(--c-gold) 46%, #ffd968 100%);
+  /* older names, kept so every stylesheet picks the palette up */
+  --c-mist: var(--c-grey-200);
+  --c-sky: var(--c-blue-bright);
+  --c-azure: var(--c-blue);
+  --c-navy: var(--c-ink);
+  --c-gold: var(--c-violet);
 
-  --bg: #f3f6fb;
-  --bg-2: var(--c-mist);
-  --bg-3: #dfe7f4;
-  --card: rgba(255, 255, 255, 0.62);
+  /* what used to be the gold accent is now the blue mark / black button */
+  --gold: var(--c-blue);
+  --gold-deep: var(--c-indigo);
+  --gold-ink: var(--c-blue);
+  --gold-soft: rgba(46, 83, 225, 0.1);
+  --on-gold: #ffffff;
+  --grad-gold: linear-gradient(180deg, #383838 26.47%, #000000 100%);
+
+  --bg: var(--c-grey-200);
+  --bg-2: var(--c-grey-300);
+  --bg-3: var(--c-grey-400);
+  --card: rgba(255, 255, 255, 0.6);
   --card-solid: #ffffff;
 
-  --ink: #04124a;
-  --ink-2: #2a5183;
-  --ink-3: #587ca8;
-  --ink-4: #90aecd;
+  --ink: var(--c-ink);
+  --ink-2: var(--c-slate);
+  --ink-3: #5c6690;
+  --ink-4: var(--c-grey-600);
 
-  --border: rgba(37, 99, 255, 0.16);
-  --border-strong: rgba(37, 99, 255, 0.28);
-  --border-soft: rgba(37, 99, 255, 0.09);
+  --border: var(--c-grey-400);
+  --border-strong: var(--c-grey-500);
+  --border-soft: var(--c-grey-300);
 
-  --sh-xs: 0 1px 2px rgba(8, 43, 98, 0.04);
-  --sh-sm: 0 4px 14px rgba(37, 99, 255, 0.07);
-  --sh-md: 0 12px 34px rgba(37, 99, 255, 0.1);
-  --sh-lg: 0 24px 60px rgba(37, 99, 255, 0.14);
-  --sh-xl: 0 40px 90px rgba(37, 99, 255, 0.18);
+  --glow: rgba(118, 95, 184, 0.3);
+  --sh-xs: 0 1px 2px rgba(14, 10, 66, 0.05);
+  --sh-sm: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --sh-md: 0 15px 22px rgba(118, 95, 184, 0.18);
+  --sh-lg: 0 15px 22px var(--glow);
+  --sh-xl: 0 24px 44px rgba(118, 95, 184, 0.36);
 
-  --grad: linear-gradient(120deg, var(--c-navy) 0%, var(--c-azure) 58%, var(--c-sky) 100%);
-  --grad-soft: linear-gradient(120deg, var(--c-azure) 0%, var(--c-sky) 100%);
-  --grad-deep: linear-gradient(135deg, var(--c-navy) 0%, #1565c0 45%, var(--c-azure) 100%);
-  --grad-text: linear-gradient(100deg, var(--c-navy) 0%, var(--c-azure) 25%, var(--c-sky) 45%, var(--c-azure) 70%, var(--c-navy) 100%);
+  --grad-dark: linear-gradient(180deg, #383838 26.47%, #000000 100%);
+  --grad: linear-gradient(180deg, var(--c-blue-bright) 0%, var(--c-blue) 100%);
+  --grad-soft: linear-gradient(180deg, #6f9ffb 0%, #3263f9 100%);
+  --grad-deep: linear-gradient(135deg, var(--c-ink) 0%, var(--c-indigo) 45%, var(--c-blue) 100%);
+  --grad-text: linear-gradient(270deg, #9793d3 0%, #7243a7 50%, #9793d3 100%);
   --grad-mesh:
-    radial-gradient(58% 48% at 12% 8%, rgba(37, 99, 255, 0.22), transparent 62%),
-    radial-gradient(52% 44% at 88% 4%, rgba(59, 130, 246, 0.2), transparent 60%),
-    radial-gradient(46% 40% at 74% 92%, rgba(59, 130, 246, 0.18), transparent 62%);
-  /* the brand navy, flat, with a faint dot texture */
+    radial-gradient(58% 48% at 12% 8%, rgba(46, 83, 225, 0.16), transparent 62%),
+    radial-gradient(52% 44% at 88% 4%, rgba(118, 95, 184, 0.16), transparent 60%),
+    radial-gradient(46% 40% at 74% 92%, rgba(50, 98, 250, 0.12), transparent 62%);
   --navy-band:
     radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px) 0 0 / 26px 26px,
-    #04124a;
+    var(--c-ink);
 
-  /* text accents, re-pointed on navy bands (see .section--navy) */
-  --accent: var(--gold-ink); /* gold that passes contrast on white */
-  --link: var(--c-azure);
+  --accent: var(--c-blue);
+  --link: var(--c-blue);
 
-  --font-display: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-body: var(--font-manrope), 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-geist), 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: var(--font-inter), 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --r-sm: 12px;
-  --r-md: 18px;
-  --r-lg: 26px;
-  --r-xl: 34px;
-  --r-pill: 999px;
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 16px;
+  --r-pill: 50px;
 
   --shell: 1320px;
   --gutter: clamp(1rem, 4vw, 2.75rem);
-  --section-y: clamp(4.5rem, 9vw, 8.5rem);
-  --nav-h: 78px;
+  --section-y: clamp(4rem, 7vw, 6.5rem);
+  --nav-h: 86px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --t-fast: 0.22s var(--ease);
@@ -102,7 +120,7 @@ html.lenis body {
 body {
   font-family: var(--font-body);
   font-size: clamp(0.98rem, 0.4vw + 0.9rem, 1.06rem);
-  line-height: 1.72;
+  line-height: 1.6;
   color: var(--ink-2);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -155,10 +173,26 @@ h3,
 h4 {
   font-family: var(--font-display);
   color: var(--ink);
-  line-height: 1.08;
-  letter-spacing: -0.028em;
-  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 500;
   text-wrap: balance;
+}
+
+/* inline text links: underlined, turning blue (the Infosys `cta-link`) */
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 8px;
+  transition: color var(--t-fast);
+}
+.cta-link:hover {
+  color: var(--c-blue);
 }
 
 p {
@@ -191,41 +225,27 @@ p {
 }
 
 /* ==========================================================================
-   Alternating bands — navy / white, automatically
+   Alternating bands — white / tinted, automatically
 
-   Top-level sections inside <main> alternate by position: odd = navy
-   (#04124A), even = white. Every page starts with a navy hero/page-hero, so
-   the rhythm holds on every route without components choosing a colour.
+   White is the site's ground. Top-level sections inside <main> alternate by
+   position: odd = white, even = the pale page tint, so the rhythm holds on
+   every route without components choosing a colour.
 
-   The navy band doesn't restate colours per component — it redefines the
-   tokens components already read (--ink, borders, cards, --accent, --link),
-   so any section renders correctly on either band. `.section--navy` stays as
-   an opt-in for navy surfaces outside that flow (CTA card, footer).
+   Nothing on the site sits on navy. `.section--navy` is kept as the name of
+   the opt-in accent surface (CTA cards, form cards, the footer), but it is
+   now the palest blue, with the same dark-on-light tokens as everywhere else.
    ========================================================================== */
 
-main > section:nth-of-type(even) {
+main > section:nth-of-type(odd) {
   background: #ffffff;
 }
+main > section:nth-of-type(even) {
+  background: var(--bg);
+}
 
-.section--navy,
-main > section:nth-of-type(odd) {
-  --accent: var(--gold);
-  --link: #93c5fd;
-  --ink: #ffffff;
-  --ink-2: rgba(255, 255, 255, 0.86);
-  --ink-3: rgba(255, 255, 255, 0.66);
-  --ink-4: rgba(255, 255, 255, 0.5);
-  --border: rgba(255, 255, 255, 0.14);
-  --border-strong: rgba(255, 255, 255, 0.26);
-  --border-soft: rgba(255, 255, 255, 0.08);
-  --card: rgba(255, 255, 255, 0.06);
-  --card-solid: rgba(255, 255, 255, 0.07);
-  --bg-2: rgba(255, 255, 255, 0.05);
-  --bg-3: rgba(255, 255, 255, 0.08);
-
+.section--navy {
   isolation: isolate;
-  color: var(--ink);
-  background: var(--navy-band);
+  background: var(--c-mist);
 }
 
 .gradient-text {
@@ -238,13 +258,8 @@ main > section:nth-of-type(odd) {
   animation: shimmer 8s linear infinite;
 }
 
-.section--navy .gradient-text,
-main > section:nth-of-type(odd) .gradient-text {
-  background-image: linear-gradient(120deg, #bfdbfe 0%, #93c5fd 55%, #e0f2fe 100%);
-}
-
 .gold-text {
-  color: var(--accent);
+  color: #7041a7;
 }
 
 .brand-name {
@@ -274,9 +289,9 @@ main > section:nth-of-type(odd) .gradient-text {
   z-index: 999;
   padding: 0.75rem 1.25rem;
   border-radius: var(--r-sm);
-  background: var(--grad);
+  background: var(--grad-dark);
   color: #fff;
-  font-weight: 700;
+  font-weight: 500;
   transition: top var(--t-fast);
 }
 .skip-link:focus {

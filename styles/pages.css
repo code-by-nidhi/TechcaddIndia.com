@@ -43,11 +43,16 @@
   color: var(--ink-3);
   font-size: 0.9rem;
 }
+/* the icon tile keeps its own white-on-blue */
+.branch-card .ai__icon {
+  color: #fff;
+  font-size: 1.35rem;
+}
 .branch-card em {
   justify-self: start;
   font-style: normal;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 500;
   padding: 0.15rem 0.55rem;
   border-radius: 6px;
   background: var(--gold);
@@ -70,7 +75,7 @@
   background: var(--grad);
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 500;
   color: #fff;
 }
 .company-card h2 {
@@ -106,10 +111,10 @@
    from the inline slot in the headline. */
 .whyz {
   --whyz-art:
-    radial-gradient(60% 70% at 28% 30%, #a78bfa 0%, transparent 62%),
-    radial-gradient(55% 65% at 74% 34%, #60a5fa 0%, transparent 60%),
-    radial-gradient(60% 70% at 52% 82%, #7c6cff 0%, transparent 64%),
-    linear-gradient(135deg, #5b5bf0 0%, #2563ff 100%);
+    radial-gradient(60% 70% at 28% 30%, #9998d6 0%, transparent 62%),
+    radial-gradient(55% 65% at 74% 34%, #7cb0fb 0%, transparent 60%),
+    radial-gradient(60% 70% at 52% 82%, #765fb8 0%, transparent 64%),
+    linear-gradient(135deg, #7041a7 0%, #2563ff 100%);
   position: relative;
   padding-block: var(--section-y);
   scroll-margin-top: calc(var(--nav-h) + 12px);
@@ -143,7 +148,7 @@
   background:
     url('/images/techcadd-logo-white.png') center / 72% auto no-repeat,
     var(--whyz-art);
-  box-shadow: 0 0 2.2em rgba(124, 108, 255, 0.55);
+  box-shadow: 0 0 2.2em rgba(118, 95, 184, 0.55);
 }
 /* pinned only: the same logo on its own layer above the fill, so it stays
    visible over the slot and can fade as the card opens */
@@ -159,14 +164,14 @@
 
 /* the panel is always a light surface, whatever band the section sits on */
 .whyz__fill {
-  --ink: #04124a;
+  --ink: #0e0a42;
   --ink-3: #3f5685;
   position: relative;
   margin-top: clamp(2.5rem, 6vw, 4.5rem);
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border-radius: var(--r-xl);
   overflow: hidden;
-  background: #e6e5ff;
+  background: #efeffd;
   color: var(--ink);
 }
 .whyz__glow {
@@ -186,7 +191,7 @@
 .whyz__label {
   font-family: var(--font-display);
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-align: center;
@@ -206,18 +211,18 @@
   background: rgba(255, 255, 255, 0.42);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  box-shadow: 0 18px 44px rgba(37, 50, 160, 0.12);
+  box-shadow: 0 18px 44px rgba(46, 83, 225, 0.12);
 }
 .whyz__card strong {
   font-family: var(--font-display);
   font-size: clamp(1.9rem, 3.6vw, 3.5rem);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.03em;
 }
 .whyz__card h3 {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -242,11 +247,11 @@
   gap: 0.55rem;
   padding: 0.95rem 1.9rem;
   border-radius: var(--r-pill);
-  background: #0a0a12;
+  background: var(--c-azure);
   color: #fff;
   font-family: var(--font-display);
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   transition: transform var(--t-fast), box-shadow var(--t-fast);
 }
 .whyz__cta:hover {
@@ -330,7 +335,7 @@
   margin-top: 1.8rem;
   font-family: var(--font-display);
   font-size: 1.05rem;
-  color: var(--gold);
+  color: var(--accent);
 }
 .fr-hero__badges {
   display: flex;
@@ -347,12 +352,12 @@
   border-radius: var(--r-pill);
   background: var(--card);
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .fr-hero__badges svg {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 /* shared pieces */
@@ -410,7 +415,7 @@
 .fr-steps__num {
   font-family: var(--font-display);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
@@ -528,12 +533,12 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(0deg, rgba(4, 18, 74, 0.94) 8%, rgba(4, 18, 74, 0.4) 62%, rgba(4, 18, 74, 0.2));
+  background: linear-gradient(0deg, rgba(14, 10, 66, 0.94) 8%, rgba(14, 10, 66, 0.4) 62%, rgba(14, 10, 66, 0.2));
 }
 .fr-tile strong {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 3vw, 2.5rem);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--gold);
@@ -547,7 +552,8 @@
 .fr-form {
   padding: clamp(1.4rem, 3vw, 2.4rem);
   border-radius: var(--r-xl);
-  box-shadow: var(--sh-xl);
+  box-shadow: var(--sh-md);
+  border: 1px solid var(--border);
 }
 .fr-form form,
 .fr-form fieldset {
@@ -568,10 +574,10 @@
   width: 100%;
   font-family: var(--font-display);
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
 }
 .fr-form__row {
   display: grid;
@@ -586,7 +592,7 @@
 }
 .fr-form__field label {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.4;
   color: var(--ink-2);
 }
@@ -598,7 +604,7 @@
   padding: 0 1rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--r-sm);
-  background: var(--bg-3);
+  background: #ffffff;
   outline: none;
   transition: border-color var(--t-fast), background var(--t-fast);
 }
@@ -617,7 +623,7 @@
   cursor: pointer;
 }
 .fr-form__field option {
-  color: #04124a;
+  color: #0e0a42;
   background: #fff;
 }
 /* the chevron shares the select's grid cell */
@@ -628,16 +634,16 @@
   pointer-events: none;
 }
 .fr-form__field :is(input, select, textarea):focus-visible {
-  border-color: var(--gold);
-  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--c-azure);
+  background: #ffffff;
 }
 .fr-form [aria-invalid='true'] {
-  border-color: #fca5a5;
+  border-color: #dc2626;
 }
 .fr-form__err {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #fecaca;
+  color: #b91c1c;
 }
 .fr-form__consent label {
   display: flex;
@@ -652,7 +658,7 @@
   width: 18px;
   height: 18px;
   margin-top: 0.15rem;
-  accent-color: var(--gold);
+  accent-color: var(--c-azure);
 }
 .fr-form .btn {
   justify-self: start;
@@ -666,7 +672,7 @@
 }
 .fr-form__done > svg {
   font-size: 2.8rem;
-  color: var(--gold);
+  color: var(--accent);
 }
 .fr-form__done p {
   color: var(--ink-2);
@@ -682,7 +688,7 @@
   gap: 0.6rem;
 }
 .fr-form__done li svg {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 /* the tabs */
@@ -700,7 +706,7 @@
   border-radius: var(--r-pill);
   font-family: var(--font-display);
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
   transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
 }
@@ -753,10 +759,11 @@
   gap: 0.7rem;
   padding: clamp(1.4rem, 2.6vw, 2.2rem);
   border-radius: var(--r-lg);
+  border: 1px solid var(--border);
 }
 .fr-purpose h3 {
   font-size: 1.3rem;
-  color: var(--gold);
+  color: var(--accent);
 }
 .fr-purpose p {
   font-size: 0.96rem;
@@ -881,7 +888,7 @@
 .fr-founder__quote figcaption {
   margin-top: 1.2rem;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
 }
 .fr-impact {
