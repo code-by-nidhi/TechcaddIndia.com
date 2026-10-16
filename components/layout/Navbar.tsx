@@ -4,45 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import type { IconType } from 'react-icons'
-import {
-  FiChevronDown,
-  FiMenu,
-  FiX,
-  FiPhone,
-  FiArrowRight,
-  FiCloud,
-  FiSmartphone,
-  FiCode,
-  FiZap,
-  FiTrendingUp,
-  FiBarChart2,
-  FiDatabase,
-  FiShield,
-  FiCpu,
-  FiLayers,
-  FiBookOpen,
-  FiTool,
-} from 'react-icons/fi'
+import { FiChevronDown, FiMenu, FiX, FiPhone, FiArrowRight } from 'react-icons/fi'
 
 import DemoLink from '@/components/ui/DemoLink'
+import { trackIcon } from '@/components/ui/trackIcons'
 import { NAV, SITE, type NavItem, type NavLink } from '@/data/site'
-
-/** `icon` keys used by the Internships tiles in data/site.ts. */
-const CARD_ICONS: Record<string, IconType> = {
-  cloud: FiCloud,
-  mobile: FiSmartphone,
-  code: FiCode,
-  zap: FiZap,
-  trending: FiTrendingUp,
-  chart: FiBarChart2,
-  database: FiDatabase,
-  shield: FiShield,
-  cpu: FiCpu,
-  layers: FiLayers,
-  book: FiBookOpen,
-  tool: FiTool,
-}
 
 const QUOTE = {
   text: 'Everybody should learn to program a computer, because it teaches you how to think.',
@@ -220,7 +186,7 @@ export default function Navbar() {
                 <div key={item.label} className={`mega mega--cards${shown}`} {...panelProps(item)}>
                   <ul className="progs__grid">
                     {item.cards.map((card) => {
-                      const Icon = CARD_ICONS[card.icon] ?? FiCode
+                      const Icon = trackIcon(card.icon)
                       return (
                         <li key={card.label}>
                           <Link className="progs__card" href={card.href} role="menuitem" onClick={close}>

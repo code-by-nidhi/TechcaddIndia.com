@@ -7,6 +7,8 @@
    be confirmed before launch.
    ========================================================================== */
 
+import { INTERNSHIP_BASE, TRACKS, internshipHref } from '@/data/internships'
+
 export const SITE = {
   name: 'techcadd',
   legalName: 'techcadd Computer Education',
@@ -56,10 +58,10 @@ export type NavItem = {
 
 /* Menu structure mirrors techcaddamritsar.com. Only eight courses have their
    own page so far (FEATURED_COURSES), so every other entry points at its
-   category listing until its page exists.
-   TODO: give each course and each training track its own page. */
+   category listing until its page exists. Each internship track has its own
+   page under /internship-training (data/internships.ts).
+   TODO: give each course its own page. */
 const cat = (slug: string) => `/courses?category=${slug}`
-const INTERNSHIP = '/certificate-programs'
 
 export const NAV: NavItem[] = [
   { label: 'Home', href: '/' },
@@ -82,22 +84,9 @@ export const NAV: NavItem[] = [
   },
   {
     label: 'Internships',
-    href: INTERNSHIP,
-    cards: [
-      { label: 'Cloud Computing', href: INTERNSHIP, icon: 'cloud' },
-      { label: 'Flutter App Development', href: INTERNSHIP, icon: 'mobile' },
-      { label: 'MERN Stack', href: INTERNSHIP, icon: 'code' },
-      { label: 'Agentic AI', href: INTERNSHIP, icon: 'zap', badge: 'New' },
-      { label: 'Digital Marketing', href: INTERNSHIP, icon: 'trending' },
-      { label: 'Data Analytics', href: INTERNSHIP, icon: 'chart' },
-      { label: 'Data Science', href: INTERNSHIP, icon: 'database' },
-      { label: 'Cyber Security', href: INTERNSHIP, icon: 'shield' },
-      { label: 'Artificial Intelligence', href: INTERNSHIP, icon: 'cpu' },
-      { label: 'Full Stack Development', href: INTERNSHIP, icon: 'layers' },
-      { label: 'Basic Skill and Programs', href: INTERNSHIP, icon: 'book' },
-      { label: 'Civil/Mechanical', href: INTERNSHIP, icon: 'tool' },
-    ],
-    cta: { label: 'See all training formats', href: INTERNSHIP },
+    href: INTERNSHIP_BASE,
+    cards: TRACKS.map((t) => ({ label: t.title, href: internshipHref(t.slug), icon: t.icon, badge: t.badge })),
+    cta: { label: 'See all programs & training formats', href: INTERNSHIP_BASE },
   },
   {
     label: 'Services & Projects',
@@ -320,11 +309,11 @@ export const FOOTER_LINKS: { title: string; links: { label: string; href: string
   {
     title: 'Programs',
     links: [
-      { label: 'Internship', href: '/certificate-programs' },
+      { label: 'Internship & Training', href: '/internship-training' },
       { label: 'After 12th', href: '/after-12th' },
-      { label: 'Industrial Training', href: '/certificate-programs' },
-      { label: '6 Months', href: '/courses' },
-      { label: '45 Days', href: '/courses' },
+      { label: 'Industrial Training', href: '/internship-training/industrial-training' },
+      { label: '6 Months Training', href: '/internship-training/6-months' },
+      { label: '45 Days Training', href: '/internship-training/45-days' },
     ],
   },
   {

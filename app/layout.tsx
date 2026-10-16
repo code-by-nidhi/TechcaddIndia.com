@@ -14,6 +14,7 @@ import '@/styles/ui.css'
 import '@/styles/layout.css'
 import '@/styles/home.css'
 import '@/styles/pages.css'
+import '@/styles/internship.css'
 import '@/styles/demo-modal.css'
 
 const geist = Geist({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-geist', display: 'swap' })
