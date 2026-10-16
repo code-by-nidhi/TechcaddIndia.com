@@ -13,16 +13,18 @@ export default function FAQ() {
   return (
     <section className="section sq-faq" id="faq">
       <div className="shell sq-faq__inner">
-        <SectionHeading
-          eyebrow="FAQ"
-          title={['Questions,', { text: 'answered', className: 'sq-hl' }]}
-          lead={
-            <>
-              Can&apos;t find yours? <Link href="/contact">Talk to a counsellor</Link> or call{' '}
-              <a href={SITE.phoneHref}>{SITE.phone}</a>.
-            </>
-          }
-        />
+        <div className="sq-faq__intro">
+          <SectionHeading
+            eyebrow="FAQ"
+            title={['Questions,', { text: 'answered', className: 'sq-hl' }]}
+            lead={
+              <>
+                Can&apos;t find yours? <Link href="/contact">Talk to a counsellor</Link> or call{' '}
+                <a href={SITE.phoneHref}>{SITE.phone}</a>.
+              </>
+            }
+          />
+        </div>
 
         <div className="sq-faq__list">
           {FAQS.map((f, i) => {
@@ -36,7 +38,10 @@ export default function FAQ() {
                     aria-controls={`faq-${i}`}
                     onClick={() => setOpen(isOpen ? -1 : i)}
                   >
-                    {f.q}
+                    <span className="sq-faq__no" aria-hidden>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="sq-faq__q">{f.q}</span>
                     <FiPlus aria-hidden />
                   </button>
                 </h3>

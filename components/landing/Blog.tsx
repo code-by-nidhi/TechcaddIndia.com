@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { FiArrowUpRight } from 'react-icons/fi'
 
 import { POSTS } from '@/data/site'
 
-/* A mosaic of white cards on the grey band: one tall lead story with a
-   picture, two short ones beside it and a wide one under those. Each carries
-   an indigo label, a title, its date in violet and an underlined link. */
+/* A newsroom: the latest post as a large picture story on the left, and the
+   rest as a ruled list of rows — thumbnail, label and date, title — on the
+   right. */
 
 const fmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
 
@@ -18,40 +19,66 @@ const ART: Record<string, string> = {
 }
 
 export default function Blog() {
+  const [lead, ...rest] = POSTS
+
   return (
-    <section className="ix-news" id="blog">
+    <section className="section cx-news" id="blog">
       <div className="shell">
-        <div className="ix-news__head">
-          <h2>Guides, Stories &amp; Career Advice</h2>
-          <p>
-            Practical guides, learner stories and straight answers about building a tech career in India.
-          </p>
+        <div className="cx-head">
+          <div className="cx-head__text">
+            <h2 className="cx-title" data-aos="fade-up">
+              Guides, Stories &amp; Career Advice
+            </h2>
+            <p data-aos="fade-up" data-aos-delay="100">
+              Practical guides, learner stories and straight answers about building a tech career in India.
+            </p>
+          </div>
           <Link href="/blog" className="cta-link">
             All articles
           </Link>
         </div>
 
-        <div className="ix-news__grid">
-          {POSTS.map((p, i) => {
-            const pictured = i === 0 || i === POSTS.length - 1
-            return (
-              <article key={p.slug} className={`ix-ncard${pictured ? ' ix-ncard--pic' : ''}`}>
-                {pictured && (
-                  <div className="ix-ncard__img">
-                    <Image src={ART[p.tag] ?? ART.Careers} alt="" fill sizes="(max-width: 900px) 100vw, 40vw" />
+        <div className="cx-news__grid">
+          <article className="cx-lead" data-aos="fade-up">
+            <div className="cx-lead__img">
+              <Image src={ART[lead.tag] ?? ART.Careers} alt="" fill sizes="(max-width: 900px) 100vw, 55vw" />
+            </div>
+            <div className="cx-lead__body">
+              <span className="eyebrow">{lead.tag}</span>
+              <h3>
+                <Link href={`/blog/${lead.slug}`}>{lead.title}</Link>
+              </h3>
+              <time dateTime={lead.date}>{fmt.format(new Date(lead.date))}</time>
+              <span className="cta-link" aria-hidden>
+                Read more
+              </span>
+            </div>
+          </article>
+
+          <ul className="cx-news__list">
+            {rest.map((p, i) => (
+              <li key={p.slug} data-aos="fade-up" data-aos-delay={100 + i * 90}>
+                <article className="cx-row">
+                  <div className="cx-row__img">
+                    <Image src={ART[p.tag] ?? ART.Careers} alt="" fill sizes="140px" />
                   </div>
-                )}
-                <div className="ix-ncard__body">
-                  <span className="eyebrow">{p.tag}</span>
-                  <h3>{p.title}</h3>
-                  <time dateTime={p.date}>{fmt.format(new Date(p.date))}</time>
-                  <Link href={`/blog/${p.slug}`} className="cta-link">
-                    Read more
-                  </Link>
-                </div>
-              </article>
-            )
-          })}
+                  <div className="cx-row__body">
+                    <p className="cx-row__meta">
+                      <span className="eyebrow">{p.tag}</span>
+                      <time dateTime={p.date}>{fmt.format(new Date(p.date))}</time>
+                    </p>
+                    <h3>
+                      <Link href={`/blog/${p.slug}`}>{p.title}</Link>
+                    </h3>
+                    <span className="cta-link" aria-hidden>
+                      Read more
+                    </span>
+                  </div>
+                  <FiArrowUpRight className="cx-row__go" aria-hidden />
+                </article>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
