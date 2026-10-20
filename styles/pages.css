@@ -977,3 +977,39 @@
     padding-inline: 0.8rem;
   }
 }
+
+/* ------------------------------------- course category pages -- */
+
+.ccard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--r-lg);
+  font-weight: 500;
+  color: var(--ink);
+}
+.ccard svg {
+  flex: none;
+  color: var(--c-azure);
+}
+.ccard--cat {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 0.75rem;
+  padding: 1.4rem 1.5rem;
+}
+.ccard--cat strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+.ccard--cat small {
+  grid-column: 1;
+  color: var(--ink-3);
+}
+.ccard--cat svg {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+}

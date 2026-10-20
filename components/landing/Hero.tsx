@@ -10,6 +10,7 @@ import DemoLink from '@/components/ui/DemoLink'
 import SplitHeading from '@/components/fx/SplitHeading'
 import CountUp from '@/components/fx/CountUp'
 import { CATEGORIES, SITE, STATS } from '@/data/site'
+import { legacyCategoryHref } from '@/data/courses-menu'
 
 /* ==========================================================================
    Hero — a split corporate banner. Headline and the prompt box on the left;
@@ -29,8 +30,8 @@ const KEYWORDS: [slug: string, words: string[]][] = [
 ]
 
 const SUGGESTIONS = [
-  { label: 'AI & Machine Learning', href: '/courses/ai-machine-learning' },
-  { label: 'Full-Stack Development', href: '/courses/full-stack-development' },
+  { label: 'AI & Machine Learning', href: '/courses/artificial-intelligence-ai' },
+  { label: 'Full-Stack Development', href: '/courses/full-stack-web-development' },
   { label: 'All courses', href: '/courses' },
 ]
 
@@ -44,7 +45,7 @@ export default function Hero() {
     /* short words must match whole ("ai" is not in "training") */
     const q = ` ${query.toLowerCase().replace(/[^a-z0-9 ]/g, ' ')} `
     const hit = KEYWORDS.find(([, words]) => words.some((w) => q.includes(w.length <= 3 ? ` ${w} ` : w)))
-    router.push(hit ? `/courses?category=${hit[0]}` : '/courses')
+    router.push(hit ? legacyCategoryHref(hit[0]) : '/courses')
   }
 
   return (
@@ -125,7 +126,7 @@ export default function Hero() {
         <ul className="cx-hero__index">
           {CATEGORIES.slice(0, 4).map((c, i) => (
             <li key={c.slug} data-aos="fade-up" data-aos-delay={300 + i * 80}>
-              <Link href={`/courses?category=${c.slug}`}>
+              <Link href={legacyCategoryHref(c.slug)}>
                 <span className="cx-hero__no">{String(i + 1).padStart(2, '0')}</span>
                 <h2>{c.title}</h2>
                 <p>{c.blurb}</p>

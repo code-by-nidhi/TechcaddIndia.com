@@ -6,31 +6,57 @@ import Placeholder from '@/components/ui/Placeholder'
 import FAQ from '@/components/home/FAQ'
 import CTA from '@/components/home/CTA'
 import { FEATURED_COURSES } from '@/data/site'
+import { ALL_MENU_COURSES, categoryHref, courseHref, findMenuCategory, findMenuCourse } from '@/data/courses-menu'
 
 type Props = { params: Promise<{ slug: string }> }
 
+/** Every course in the catalogue has a page; featured ones add duration and topics. */
+function resolve(slug: string) {
+  const course = findMenuCourse(slug)
+  if (!course) return null
+  const category = findMenuCategory(course.categorySlug)!
+  const featured = FEATURED_COURSES.find((c) => c.slug === slug)
+  return { course, category, featured }
+}
+
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return FEATURED_COURSES.map((c) => ({ slug: c.slug }))
+  return ALL_MENU_COURSES.map((c) => ({ slug: c.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const course = FEATURED_COURSES.find((c) => c.slug === slug)
-  return { title: course ? `${course.title} Course` : 'Course' }
+  const hit = resolve(slug)
+  if (!hit) return { title: 'Course not found' }
+  const title = `${hit.course.label} Course`
+  const description = `Learn ${hit.course.label} at techcadd — ${hit.category.title.toLowerCase()} training with classroom and live online batches, live projects and placement support.`
+  const url = courseHref(slug)
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url, type: 'website' },
+  }
 }
 
 export default async function CoursePage({ params }: Props) {
   const { slug } = await params
-  const course = FEATURED_COURSES.find((c) => c.slug === slug)
-  if (!course) notFound()
+  const hit = resolve(slug)
+  if (!hit) notFound()
+  const { course, category, featured } = hit
 
   return (
     <>
       <PageHero
-        eyebrow={`${course.duration} · ${course.mode}`}
-        title={course.title}
-        lead={`Topics: ${course.topics.join(', ')}.`}
-        crumbs={[{ label: 'Courses', href: '/courses' }, { label: course.title }]}
+        eyebrow={featured ? `${featured.duration} · ${featured.mode}` : category.title}
+        title={course.label}
+        lead={featured ? `Topics: ${featured.topics.join(', ')}.` : `Part of ${category.title}. Classroom and live online batches.`}
+        crumbs={[
+          { label: 'Courses', href: '/courses' },
+          { label: category.title, href: categoryHref(category.slug) },
+          { label: course.label },
+        ]}
       />
       <section className="section">
         <div className="shell page-stack">

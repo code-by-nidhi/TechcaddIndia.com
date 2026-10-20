@@ -5,13 +5,17 @@ import { FiClock, FiMonitor, FiArrowRight } from 'react-icons/fi'
 
 import PageHero from '@/components/ui/PageHero'
 import CTA from '@/components/home/CTA'
-import { CATEGORIES, FEATURED_COURSES } from '@/data/site'
+import { FEATURED_COURSES } from '@/data/site'
+import { COURSES_MENU, categoryHref } from '@/data/courses-menu'
 
-export const metadata: Metadata = { title: 'Courses' }
+export const metadata: Metadata = {
+  title: 'Courses',
+  description: 'Career tracks, certificate programs and industrial training in AI, software, data, cybersecurity, design and engineering — classroom or live online.',
+  alternates: { canonical: '/courses' },
+}
 
-export default async function CoursesPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
-  const { category } = await searchParams
-  const courses = category ? FEATURED_COURSES.filter((c) => c.category === category) : FEATURED_COURSES
+export default function CoursesPage() {
+  const courses = FEATURED_COURSES
 
   return (
     <>
@@ -23,18 +27,18 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
       />
       <section className="section">
         <div className="shell">
-          <nav className="filter-row" aria-label="Filter by category">
-            <Link href="/courses" className={!category ? 'is-active' : undefined}>
+          <nav className="filter-row" id="categories" aria-label="Filter by category">
+            <Link href="/courses" className="is-active">
               All
             </Link>
-            {CATEGORIES.map((c) => (
-              <Link key={c.slug} href={`/courses?category=${c.slug}`} className={category === c.slug ? 'is-active' : undefined}>
+            {COURSES_MENU.map((c) => (
+              <Link key={c.slug} href={categoryHref(c.slug)}>
                 {c.title}
               </Link>
             ))}
           </nav>
 
-          <div className="page-grid">
+          <div className="page-grid" id="course-list">
             {courses.map((c, i) => (
               <article className="fcard glass" style={{ width: 'auto' }} key={c.slug} data-aos="fade-up" data-aos-delay={(i % 3) * 80}>
                 <div className="fcard__img">

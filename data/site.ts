@@ -54,6 +54,8 @@ export type NavItem = {
   linksTitle?: string
   featured?: NavFeatured[]
   cta?: { label: string; href: string }
+  /** Opens the Courses mega menu (components/layout/CoursesMenu.tsx). */
+  coursesMenu?: boolean
 }
 
 /* Menu structure mirrors techcaddamritsar.com. Only eight courses have their
@@ -61,7 +63,6 @@ export type NavItem = {
    category listing until its page exists. Each internship track has its own
    page under /internship-training (data/internships.ts).
    TODO: give each course its own page. */
-const cat = (slug: string) => `/courses?category=${slug}`
 
 export const NAV: NavItem[] = [
   { label: 'Home', href: '/' },
@@ -82,6 +83,7 @@ export const NAV: NavItem[] = [
     ],
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
+  { label: 'Courses', href: '/courses', coursesMenu: true },
   {
     label: 'Internships',
     href: INTERNSHIP_BASE,
@@ -212,14 +214,14 @@ export type Course = {
 }
 
 export const FEATURED_COURSES: Course[] = [
-  { slug: 'ai-machine-learning', title: 'AI & Machine Learning', category: 'ai', duration: '6 months', mode: 'Classroom + Online', highlight: 'Most enrolled', image: '/images/course/ai-category.png', topics: ['Python', 'TensorFlow', 'LLMs', 'MLOps'] },
-  { slug: 'full-stack-development', title: 'Full-Stack Development', category: 'full-stack', duration: '6 months', mode: 'Classroom + Online', highlight: '92% placement rate', image: '/images/course/full-stack-development-category.png', topics: ['React', 'Node.js', 'MongoDB', 'Next.js'] },
-  { slug: 'data-science-analytics', title: 'Data Science & Analytics', category: 'data-science', duration: '6 months', mode: 'Classroom + Online', image: '/images/course/data-science-category.png', topics: ['Pandas', 'SQL', 'Power BI', 'ML'] },
-  { slug: 'cybersecurity-ethical-hacking', title: 'Cybersecurity & Ethical Hacking', category: 'cyber', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cyber-security-category.png', topics: ['Kali Linux', 'OWASP', 'Networking', 'SOC'] },
+  { slug: 'artificial-intelligence-ai', title: 'AI & Machine Learning', category: 'ai', duration: '6 months', mode: 'Classroom + Online', highlight: 'Most enrolled', image: '/images/course/ai-category.png', topics: ['Python', 'TensorFlow', 'LLMs', 'MLOps'] },
+  { slug: 'full-stack-web-development', title: 'Full-Stack Development', category: 'full-stack', duration: '6 months', mode: 'Classroom + Online', highlight: '92% placement rate', image: '/images/course/full-stack-development-category.png', topics: ['React', 'Node.js', 'MongoDB', 'Next.js'] },
+  { slug: 'data-science-machine-learning', title: 'Data Science & Analytics', category: 'data-science', duration: '6 months', mode: 'Classroom + Online', image: '/images/course/data-science-category.png', topics: ['Pandas', 'SQL', 'Power BI', 'ML'] },
+  { slug: 'cybersecurity', title: 'Cybersecurity & Ethical Hacking', category: 'cyber', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cyber-security-category.png', topics: ['Kali Linux', 'OWASP', 'Networking', 'SOC'] },
   { slug: 'digital-marketing', title: 'Digital Marketing', category: 'marketing', duration: '3 months', mode: 'Classroom + Online', image: '/images/course/digital-marketing-category.png', topics: ['SEO', 'Google Ads', 'Meta Ads', 'AI tools'] },
-  { slug: 'cloud-devops', title: 'Cloud & DevOps', category: 'cloud', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cloud-computing-category.png', topics: ['AWS', 'Docker', 'Kubernetes', 'CI/CD'] },
+  { slug: 'aws-cloud-computing', title: 'Cloud & DevOps', category: 'cloud', duration: '4 months', mode: 'Classroom + Online', image: '/images/course/cloud-computing-category.png', topics: ['AWS', 'Docker', 'Kubernetes', 'CI/CD'] },
   { slug: 'python-programming', title: 'Python Programming', category: 'full-stack', duration: '2 months', mode: 'Classroom + Online', image: '/images/categories/full-stack.webp', topics: ['Python', 'OOP', 'Django', 'Projects'] },
-  { slug: 'generative-agentic-ai', title: 'Generative & Agentic AI', category: 'ai', duration: '4 months', mode: 'Classroom + Online', highlight: 'New batch', image: '/images/categories/ai.webp', topics: ['LLMs', 'RAG', 'LangChain', 'AI agents'] },
+  { slug: 'generative-ai', title: 'Generative & Agentic AI', category: 'ai', duration: '4 months', mode: 'Classroom + Online', highlight: 'New batch', image: '/images/categories/ai.webp', topics: ['LLMs', 'RAG', 'LangChain', 'AI agents'] },
 ]
 
 export const AI_TRACKS = [
@@ -298,10 +300,10 @@ export const FOOTER_LINKS: { title: string; links: { label: string; href: string
   {
     title: 'Courses',
     links: [
-      { label: 'Programming', href: '/courses?category=full-stack' },
-      { label: 'AI & Data', href: '/courses?category=ai' },
-      { label: 'Marketing & Design', href: '/courses?category=marketing' },
-      { label: 'Cyber & Cloud', href: '/courses?category=cyber' },
+      { label: 'Programming', href: '/course-categories/software-programming' },
+      { label: 'AI & Data', href: '/course-categories/ai-emerging-technologies' },
+      { label: 'Marketing & Design', href: '/course-categories/digital-creative-skills' },
+      { label: 'Cyber & Cloud', href: '/course-categories/cybersecurity-forensics' },
     ],
   },
   {

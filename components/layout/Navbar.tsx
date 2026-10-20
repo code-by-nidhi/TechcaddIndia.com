@@ -8,6 +8,7 @@ import { FiChevronDown, FiMenu, FiX, FiPhone, FiArrowRight } from 'react-icons/f
 
 import DemoLink from '@/components/ui/DemoLink'
 import { trackIcon } from '@/components/ui/trackIcons'
+import { CoursesDrawer, CoursesPanel, COURSES_PANEL_ID } from '@/components/layout/CoursesMenu'
 import { NAV, SITE, type NavItem, type NavLink } from '@/data/site'
 
 const QUOTE = {
@@ -59,6 +60,16 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  /* A click anywhere outside the Courses trigger and panel closes the panel. */
+  useEffect(() => {
+    if (panel !== 'Courses') return
+    const onDown = (e: PointerEvent) => {
+      if (!(e.target as Element).closest('[data-courses]')) setPanel(null)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => document.removeEventListener('pointerdown', onDown)
+  }, [panel])
+
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   /* The panels are siblings of the link row, not children of their trigger,
@@ -109,7 +120,24 @@ export default function Navbar() {
 
           <nav aria-label="Primary" className="nav__links">
             {NAV.map((item) =>
-              hasPanel(item) ? (
+              item.coursesMenu ? (
+                <button
+                  key={item.label}
+                  type="button"
+                  data-courses
+                  className={`nav__link nav__link--btn${isActive(item.href) ? ' is-active' : ''}${panel === item.label ? ' is-open' : ''}`}
+                  aria-expanded={panel === item.label}
+                  aria-controls={COURSES_PANEL_ID}
+                  onMouseEnter={() => holdPanel(item.label)}
+                  onMouseLeave={() => holdPanel(null)}
+                  onClick={() => {
+                    window.clearTimeout(panelTimer.current)
+                    setPanel(panel === item.label ? null : item.label)
+                  }}
+                >
+                  {item.label} <FiChevronDown aria-hidden className="nav__caret" />
+                </button>
+              ) : hasPanel(item) ? (
                 <Link
                   key={item.label}
                   href={item.href}
@@ -143,6 +171,12 @@ export default function Navbar() {
               )
             )}
           </nav>
+
+          {NAV.some((i) => i.coursesMenu) && (
+            <div data-courses>
+              <CoursesPanel open={panel === 'Courses'} onHold={(h) => holdPanel(h ? 'Courses' : null)} onNavigate={close} />
+            </div>
+          )}
 
           {NAV.filter(hasPanel).map((item) => {
             const shown = panel === item.label ? ' is-open' : ''
@@ -267,6 +301,19 @@ export default function Navbar() {
             const sub = drawerLinks(item)
             const subOpen = drawerSub === item.label
             const delay = { transitionDelay: open ? `${80 + i * 40}ms` : '0ms' }
+
+            if (item.coursesMenu) {
+              return (
+                <CoursesDrawer
+                  key={item.label}
+                  open={subOpen}
+                  drawerOpen={open}
+                  style={delay}
+                  onToggle={() => setDrawerSub(subOpen ? null : item.label)}
+                  onNavigate={close}
+                />
+              )
+            }
 
             if (!sub) {
               return (

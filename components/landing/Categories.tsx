@@ -8,6 +8,7 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { prefersReducedMotion } from '@/lib/gsap'
 import { CATEGORIES } from '@/data/site'
+import { legacyCategoryHref } from '@/data/courses-menu'
 
 /* Course categories — a scroll-snap rail of cards. It scrolls natively
    (touch, trackpad, keyboard); the two buttons move it one card at a time. */
@@ -47,7 +48,7 @@ export default function Categories() {
         <ul ref={rail} className="sq-rail">
           {CATEGORIES.map((c) => (
             <li key={c.slug}>
-              <Link href={`/courses?category=${c.slug}`} className="sq-card">
+              <Link href={legacyCategoryHref(c.slug)} className="sq-card">
                 <div className="sq-card__img">
                   <Image
                     src={`/images/categories/${c.slug}.webp`}

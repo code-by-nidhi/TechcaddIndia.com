@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 import { CATEGORIES } from '@/data/site'
+import { legacyCategoryHref } from '@/data/courses-menu'
 
 /* A corporate "what we do" index: the heading and introduction split across
    the top, then the campus photograph beside a numbered two-column directory
@@ -18,7 +19,7 @@ const MORE = [
   { label: 'Franchises', href: '/franchises' },
 ]
 
-const LINKS = [...CATEGORIES.map((c) => ({ label: c.title, href: `/courses?category=${c.slug}` })), ...MORE]
+const LINKS = [...CATEGORIES.map((c) => ({ label: c.title, href: legacyCategoryHref(c.slug) })), ...MORE]
 
 export default function Programs() {
   return (

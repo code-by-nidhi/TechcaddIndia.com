@@ -792,3 +792,189 @@ button.drawer__link {
     gap: 2rem 1.25rem;
   }
 }
+
+/* ------------------------------------------------- courses mega menu --
+   Reuses the `.mega` shell (position, border, shadow, open/close motion) and
+   only changes what is inside: six icon-headed groups and a quiet footer. */
+
+[data-courses] {
+  display: contents;
+}
+
+.nav__link--btn {
+  border: 0;
+  cursor: pointer;
+}
+
+.mega.cmega {
+  --mega-pad-x: 2rem;
+  width: min(1200px, calc(100vw - 32px));
+  max-width: none;
+  padding: 1.25rem var(--mega-pad-x) 0;
+}
+
+.cmega__grid {
+  display: grid;
+  /* each column is at least as wide as its longest course name */
+  grid-template-columns: repeat(3, minmax(max-content, 1fr));
+  gap: 1.25rem 2rem;
+  padding-bottom: 1rem;
+  /* viewport minus the panel's top offset (half the header + 41px), its top padding and its footer */
+  max-height: calc(100vh - var(--nav-h) / 2 - 135px);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cmega__cat {
+  min-width: 0;
+}
+
+.cmega__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-soft);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.cmega__title svg {
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--c-azure);
+}
+
+.cmega__cat ul {
+  display: grid;
+}
+
+.cmega__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.18rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--c-slate);
+  transition: color var(--t-fast), transform var(--t-fast);
+}
+.cmega__link svg {
+  flex: none;
+  width: 0.85rem;
+  height: 0.85rem;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.cmega__link:hover,
+.cmega__link:focus-visible {
+  color: var(--c-azure);
+}
+.cmega__link:hover svg,
+.cmega__link:focus-visible svg {
+  opacity: 1;
+  transform: none;
+}
+
+.cmega__foot {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 calc(-1 * var(--mega-pad-x));
+  padding: 0.85rem var(--mega-pad-x);
+  border-top: 1px solid var(--border-soft);
+  background: var(--bg-2);
+}
+.cmega__foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  transition: color var(--t-fast);
+}
+.cmega__foot a:first-child {
+  color: var(--c-azure);
+}
+.cmega__foot a svg {
+  transition: transform var(--t-fast);
+}
+.cmega__foot a:hover {
+  color: var(--c-azure);
+}
+.cmega__foot a:hover svg {
+  transform: translateX(3px);
+}
+
+.cmega a:focus-visible,
+.nav__link--btn:focus-visible {
+  outline: 2px solid var(--c-azure);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega.cmega,
+  .cmega__link,
+  .cmega__link svg,
+  .cmega__foot a svg,
+  .nav__caret {
+    transition: none;
+  }
+}
+
+/* drawer: category accordions inside the Courses accordion */
+.dcourses__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 48px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.dcourses__head svg:first-child {
+  flex: none;
+  color: var(--c-azure);
+}
+.dcourses__head span {
+  flex: 1;
+}
+.dcourses__head svg:last-child {
+  flex: none;
+  transition: transform var(--t-fast);
+}
+.dcourses__head.is-open svg:last-child {
+  transform: rotate(180deg);
+}
+.dcourses__list {
+  display: grid;
+  margin: 0 0 0.5rem 0.4rem;
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--border-soft);
+}
+.dcourses__list a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+.dcourses__list a:hover {
+  color: var(--c-azure);
+}
+.drawer__sub .dcourses__more {
+  color: var(--ink-2);
+}

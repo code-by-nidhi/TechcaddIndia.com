@@ -10,6 +10,7 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import usePauseOffscreen from '@/components/fx/usePauseOffscreen'
 import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap'
 import { CATEGORIES } from '@/data/site'
+import { legacyCategoryHref } from '@/data/courses-menu'
 
 /* ==========================================================================
    Course categories — a curved 3D carousel (as on techcaddchandigarh.com).
@@ -295,7 +296,7 @@ export default function Categories() {
                       style={{ opacity: 0 }}
                     >
                       <Link
-                        href={`/courses?category=${c.slug}`}
+                        href={legacyCategoryHref(c.slug)}
                         draggable={false}
                         className={`ccard${isActive ? ' is-active' : ''}`}
                         style={
