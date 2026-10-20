@@ -7,7 +7,7 @@
    be confirmed before launch.
    ========================================================================== */
 
-import { INTERNSHIP_BASE, TRACKS, internshipHref } from '@/data/internships'
+import { INTERNSHIP_BASE } from '@/data/internships'
 
 export const SITE = {
   name: 'techcadd',
@@ -85,8 +85,6 @@ export const NAV: NavItem[] = [
   {
     label: 'Internships',
     href: INTERNSHIP_BASE,
-    cards: TRACKS.map((t) => ({ label: t.title, href: internshipHref(t.slug), icon: t.icon, badge: t.badge })),
-    cta: { label: 'See all programs & training formats', href: INTERNSHIP_BASE },
   },
   {
     label: 'Services & Projects',
