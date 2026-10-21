@@ -8,6 +8,7 @@
    ========================================================================== */
 
 import { INTERNSHIP_BASE } from '@/data/internships'
+import { ABOUT_MENU_LINKS } from '@/data/about-pages'
 
 export const SITE = {
   name: 'techcadd',
@@ -70,12 +71,7 @@ export const NAV: NavItem[] = [
     label: 'About',
     href: '/about',
     linksTitle: 'About',
-    links: [
-      { label: 'About techcadd', href: '/about' },
-      { label: 'How We Train', href: '/about#how-it-works' },
-      { label: 'Why techcadd', href: '/about#why-techcadd' },
-      { label: 'Companies', href: '/companies' },
-    ],
+    links: ABOUT_MENU_LINKS,
     featured: [
       { title: 'About techcadd', href: '/about', image: '/images/course/campus1.webp', tag: 'Story', meta: '20 years of training' },
       { title: 'How We Train', href: '/about#how-it-works', image: '/images/course/classroom.webp', tag: 'Method', meta: 'Classroom to placement' },
@@ -85,23 +81,16 @@ export const NAV: NavItem[] = [
   },
   { label: 'Courses', href: '/courses', coursesMenu: true },
   {
-    label: 'Internships',
+    label: 'Training',
     href: INTERNSHIP_BASE,
   },
+  { label: 'Careers', href: '/careers' },
   {
-    label: 'Services & Projects',
+    label: 'IT Services',
     href: '/services',
     children: [
       { label: 'Services', href: '/services', note: 'Software, training and consulting' },
       { label: 'Projects', href: '/projects', note: 'Work we have delivered' },
-    ],
-  },
-  {
-    label: 'Franchises',
-    href: '/franchises',
-    children: [
-      { label: 'Open a Franchise', href: '/franchises', note: 'Partner with techcadd' },
-      { label: 'Branches', href: '/branches', note: 'Centres across India' },
     ],
   },
   {
@@ -322,6 +311,7 @@ export const FOOTER_LINKS: { title: string; links: { label: string; href: string
       { label: 'About', href: '/about' },
       { label: 'Companies', href: '/companies' },
       { label: 'Branches', href: '/branches' },
+      { label: 'Franchises', href: '/franchises' },
       { label: 'Career', href: '/careers' },
       { label: 'Blog', href: '/blog' },
       { label: 'Contact', href: '/contact' },

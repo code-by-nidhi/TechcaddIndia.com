@@ -1013,3 +1013,705 @@
   grid-column: 2;
   align-self: center;
 }
+
+/* ------------------------------------------------------ about hero -- */
+
+/* The home hero's panel (.cx-hero in landing.css), value for value: a rounded
+   card set 10px in from the page edge that the floating header rides over —
+   lilac-to-white wash, a faint blueprint grid, and the soft colour mesh. */
+.ahero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding-block: calc(var(--nav-h) + clamp(3rem, 7vw, 6rem)) clamp(3rem, 6vw, 5rem);
+  border-radius: 15px;
+  color: var(--ink);
+}
+
+/* `main > section` is what the white / tint banding in base.css targets */
+main > section.ahero {
+  background: linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 48%, #ffffff 100%);
+}
+
+.ahero::before,
+.ahero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ahero::before {
+  background:
+    linear-gradient(rgba(14, 10, 66, 0.055) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(14, 10, 66, 0.055) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(75% 65% at 70% 30%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(75% 65% at 70% 30%, #000 0%, transparent 78%);
+}
+.ahero::after {
+  background: var(--grad-mesh);
+}
+
+.ahero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.ahero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7041a7;
+}
+
+.ahero__title {
+  margin-block: 1.1rem 1.4rem;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.ahero__line {
+  display: block;
+}
+@media (min-width: 801px) {
+  .ahero__line {
+    white-space: nowrap;
+  }
+}
+/* the one highlighted line: the same violet gradient as the home headlines */
+.ahero__hl {
+  width: fit-content;
+  background: linear-gradient(270deg, #9793d3 9.1%, #7243a7 98.46%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ahero__lead {
+  max-width: 540px;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.ahero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* ---------------------------------------------------------- visual -- */
+
+.ahero__visual {
+  position: relative;
+  padding: 0 0 2.5rem 2.5rem;
+}
+
+.ahero__photo {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+}
+.ahero__photo img {
+  object-fit: cover;
+}
+.ahero__photo--main {
+  aspect-ratio: 4 / 3.1;
+  box-shadow: 0 24px 48px rgba(14, 10, 66, 0.14), 0 2px 6px rgba(14, 10, 66, 0.06);
+}
+.ahero__photo--aside {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 38%;
+  aspect-ratio: 4 / 3;
+  border: 5px solid #fff;
+  box-shadow: 0 16px 32px rgba(14, 10, 66, 0.16);
+}
+
+/* a thin violet frame offset behind the photograph */
+.ahero__accent {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 62%;
+  height: 62%;
+  border: 1px solid rgba(118, 95, 184, 0.45);
+  border-radius: calc(var(--r-lg) + 6px);
+  animation: ahero-drift 14s ease-in-out infinite alternate;
+}
+
+/* -------------------------------------------------- values strip -- */
+
+.ahero__values {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(14, 10, 66, 0.1);
+  list-style: none;
+}
+.ahero__values li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.ahero__values li::before {
+  content: '';
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7041a7;
+}
+
+/* ------------------------------------------------------- motion -- */
+
+@keyframes ahero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ahero-drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-8px, 8px);
+  }
+}
+
+.ahero__in {
+  animation: ahero-in 0.8s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+}
+.ahero__rise {
+  animation: ahero-in 1s var(--ease) 0.35s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ahero__in,
+  .ahero__rise,
+  .ahero__accent {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------- responsive -- */
+
+@media (max-width: 1024px) {
+  .ahero__visual {
+    padding: 0 0 2rem 1.75rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .ahero__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ahero__visual {
+    max-width: 560px;
+    padding-right: 14px;
+    padding-top: 14px;
+  }
+  .ahero__accent {
+    top: 0;
+    right: 0;
+  }
+  .ahero__values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+  }
+}
+
+/* ------------------------------------------------------ our services --
+   The one dark band on the About page. The wrapper is a <div> on purpose:
+   base.css bands every direct <section> of <main> white / tint by position,
+   and a <section> here would flip that for everything after it. */
+
+.osv-wrap {
+  margin: 10px 10px 0;
+}
+
+.osv {
+  --osv-line: rgba(255, 255, 255, 0.16);
+  --osv-violet: #8b6cff;
+  --osv-teal: #2dd4bf;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(50% 45% at 50% 0%, rgba(118, 95, 184, 0.28), transparent 70%),
+    radial-gradient(40% 40% at 50% 100%, rgba(50, 98, 250, 0.14), transparent 70%),
+    #050505;
+  color: #fff;
+  text-align: center;
+}
+
+.osv__pill {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--osv-line);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.osv__title {
+  margin-block: 1.1rem 0.9rem;
+  font-size: clamp(2.1rem, 4.6vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.6) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.osv__lead {
+  max-width: 580px;
+  margin-inline: auto;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+/* the large rounded container the diagram sits in */
+.osv__stage {
+  position: relative;
+  max-width: 1080px;
+  margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+}
+
+/* ------------------------------------------------------------ nodes -- */
+
+.osv__nodes {
+  display: grid;
+  /* no grid gap: the wires aim at 12.5% / 37.5% / 62.5% / 87.5%, so the
+     spacing lives in the nodes' own padding and the centres stay exact */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+}
+
+.osv__node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.625rem 1.1rem;
+}
+
+/* the clipped upper-right corner: a lit 1px edge layer under a charcoal face,
+   both cut with the same polygon */
+.osv__panel {
+  --cut: 28px;
+  position: relative;
+  width: 100%;
+  min-height: 170px;
+  padding: 1rem;
+  text-align: left;
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+  transition: background 0.4s var(--ease);
+}
+.osv__panel::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+  background: linear-gradient(160deg, rgba(34, 34, 40, 0.92), rgba(14, 14, 18, 0.94));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.4s var(--ease);
+}
+/* a soft sheen that sweeps the face once */
+.osv__panel::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.07) 50%, transparent 65%) -150% 0 / 250% 100% no-repeat;
+  pointer-events: none;
+}
+.osv__panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.osv__ring {
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+.osv__ring circle {
+  fill: none;
+  stroke-width: 2.5;
+}
+.osv__ring-track {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+.osv__ring-arc {
+  stroke: var(--osv-violet);
+  stroke-linecap: round;
+  stroke-dasharray: 38 100;
+  transform-origin: 50% 50%;
+}
+
+.osv__panel > .osv__status {
+  position: absolute;
+  top: calc(1rem + 15px);
+  left: calc(1rem + 15px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--osv-teal);
+  box-shadow: 0 0 10px var(--osv-teal);
+}
+
+/* placeholder "document" lines; swapped for the description on hover */
+.osv__lines {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+  transition: opacity 0.3s var(--ease);
+}
+.osv__lines i {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.osv__lines i:nth-child(2) {
+  width: 78%;
+}
+.osv__lines i:nth-child(3) {
+  width: 52%;
+}
+
+.osv__panel > .osv__text {
+  position: absolute;
+  inset: calc(1rem + 38px + 0.9rem) 1rem 1.6rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.osv__node:hover .osv__lines,
+.osv__panel:focus-visible .osv__lines {
+  opacity: 0;
+}
+.osv__node:hover .osv__text,
+.osv__panel:focus-visible .osv__text {
+  opacity: 1;
+  transform: none;
+}
+.osv__node:hover .osv__panel,
+.osv__panel:focus-visible {
+  background: linear-gradient(160deg, rgba(139, 108, 255, 0.7), rgba(255, 255, 255, 0.22));
+}
+.osv__node:hover .osv__panel::before,
+.osv__panel:focus-visible::before {
+  background: linear-gradient(160deg, rgba(42, 40, 58, 0.94), rgba(18, 18, 24, 0.96));
+}
+
+/* the name rides the panel's lower edge */
+.osv__label {
+  position: relative;
+  z-index: 2;
+  margin-top: -15px;
+  padding: 0.4rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--r-pill);
+  background: rgba(24, 24, 30, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* ------------------------------------------------------------ wires -- */
+
+.osv__wires {
+  display: block;
+  width: 100%;
+  height: 150px;
+  overflow: visible;
+}
+.osv__wire {
+  fill: none;
+  stroke: var(--osv-line);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke 0.35s var(--ease);
+}
+.osv__wire--trunk {
+  stroke: rgba(255, 255, 255, 0.24);
+}
+
+/* the point where the four routes meet: bus y is 56 of the 150-high wires */
+.osv__bus {
+  position: relative;
+}
+.osv__core {
+  position: absolute;
+  left: 50%;
+  top: 37.333%;
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  border-radius: 50%;
+  background: var(--osv-violet);
+  box-shadow: 0 0 0 4px rgba(139, 108, 255, 0.18), 0 0 18px 4px rgba(139, 108, 255, 0.55);
+}
+
+.osv__business {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.5rem 1.6rem 0.5rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.osv__plus {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #9c82ff, #6d4de0);
+  font-size: 1.15rem;
+  box-shadow: 0 0 18px rgba(139, 108, 255, 0.5);
+}
+
+/* hover: the hovered panel's route lights up */
+.osv[data-active='0'] .osv__wire--0,
+.osv[data-active='1'] .osv__wire--1,
+.osv[data-active='2'] .osv__wire--2,
+.osv[data-active='3'] .osv__wire--3 {
+  stroke: var(--osv-violet);
+}
+
+/* ----------------------------------------------------------- motion -- */
+
+@keyframes osv-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes osv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes osv-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes osv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes osv-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(139, 108, 255, 0.18), 0 0 14px 3px rgba(139, 108, 255, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(139, 108, 255, 0.1), 0 0 24px 6px rgba(139, 108, 255, 0.7);
+  }
+}
+@keyframes osv-sheen {
+  to {
+    background-position: 150% 0;
+  }
+}
+@keyframes osv-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* the arcs turn slowly at all times (cheap: transform only) */
+.osv__ring-arc {
+  animation: osv-spin 6s linear infinite;
+}
+
+/* armed = JS is running and motion is allowed: hide, then play once on .is-in */
+.osv.is-armed .osv__node,
+.osv.is-armed .osv__business,
+.osv.is-armed .osv__core {
+  opacity: 0;
+}
+.osv.is-armed .osv__wire {
+  stroke-dashoffset: 1;
+}
+
+.osv.is-in .osv__node {
+  animation: osv-rise 0.8s var(--ease) both;
+  animation-delay: calc(var(--i) * 120ms + 100ms);
+}
+.osv.is-in .osv__panel::after {
+  animation: osv-sheen 1.6s var(--ease) both;
+  animation-delay: calc(var(--i) * 120ms + 700ms);
+}
+.osv.is-in .osv__wire {
+  animation: osv-draw 0.9s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 120ms + 800ms);
+}
+.osv.is-in .osv__wire--trunk {
+  animation-delay: 1.75s;
+  animation-duration: 0.6s;
+}
+.osv.is-in .osv__core {
+  animation: osv-fade 0.5s var(--ease) 1.7s both, osv-pulse 3.6s ease-in-out 2.3s infinite;
+}
+.osv.is-in .osv__business {
+  animation: osv-rise 0.8s var(--ease) 2.2s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .osv__ring-arc {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------- responsive -- */
+
+@media (max-width: 1000px) {
+  .osv__node {
+    padding-inline: 0.375rem;
+  }
+  .osv__panel {
+    min-height: 150px;
+    padding: 0.85rem;
+  }
+  .osv__panel > .osv__text {
+    font-size: 0.76rem;
+  }
+}
+
+/* vertical flow: panels stacked, a short line under each, then the business */
+@media (max-width: 800px) {
+  .osv__stage {
+    max-width: 420px;
+  }
+  .osv__nodes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .osv__node {
+    padding: 0 0 2.4rem;
+  }
+  .osv__node::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 1.5px;
+    height: 2.4rem;
+    margin-left: -0.75px;
+    background: linear-gradient(180deg, var(--osv-line), rgba(139, 108, 255, 0.7));
+    transform-origin: top;
+  }
+  .osv.is-armed .osv__node::after {
+    transform: scaleY(0);
+  }
+  .osv.is-in .osv__node::after {
+    animation: osv-grow 0.6s var(--ease) both;
+    animation-delay: calc(var(--i) * 120ms + 700ms);
+  }
+  .osv__wires,
+  .osv__core {
+    display: none;
+  }
+  /* no hover on touch: show the description, drop the placeholder lines */
+  .osv__lines {
+    display: none;
+  }
+  .osv__panel > .osv__text {
+    position: relative; /* stays above the panel face (z-index needs a positioned box) */
+    inset: auto;
+    margin-top: 0.9rem;
+    opacity: 1;
+    transform: none;
+    font-size: 0.85rem;
+  }
+  .osv__panel {
+    min-height: 0;
+    padding-bottom: 1.6rem;
+  }
+}
+
+@media (hover: none) and (min-width: 801px) {
+  .osv__lines {
+    display: none;
+  }
+  .osv__panel > .osv__text {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -243,10 +243,16 @@ export default function Navbar() {
               <div key={item.label} className={`mega mega--featured${shown}`} {...panelProps(item)}>
                 <div className="featured__col">
                   <span className="featured__kicker">{item.linksTitle}</span>
-                  <ul className="featured__links">
+                  <ul className="featured__links" data-lenis-prevent>
                     {item.links?.map((l) => (
                       <li key={l.label}>
-                        <Link className="featured__link" href={l.href} role="menuitem" onClick={close}>
+                        <Link
+                          className={`featured__link${l.href === pathname ? ' is-active' : ''}`}
+                          href={l.href}
+                          role="menuitem"
+                          aria-current={l.href === pathname ? 'page' : undefined}
+                          onClick={close}
+                        >
                           {l.label}
                         </Link>
                       </li>

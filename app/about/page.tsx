@@ -1,23 +1,24 @@
 import type { Metadata } from 'next'
 
-import PageHero from '@/components/ui/PageHero'
+import AboutHero from '@/components/about/AboutHero'
+import OurServices from '@/components/about/OurServices'
 import About from '@/components/home/About'
 import HowItWorks from '@/components/home/HowItWorks'
 import WhyZoom from '@/components/about/WhyZoom'
 import StatsStrip from '@/components/home/StatsStrip'
 import CTA from '@/components/home/CTA'
 
-export const metadata: Metadata = { title: 'About' }
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'techcadd bridges education and industry through practical training, emerging technologies and career-focused learning.',
+  alternates: { canonical: '/about' },
+}
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero
-        eyebrow="About techcadd"
-        title="Two decades of turning students into engineers"
-        lead="From one classroom in Punjab to a national training network — the story, the people and the method."
-        crumbs={[{ label: 'About' }]}
-      />
+      <AboutHero />
+      <OurServices />
       <StatsStrip />
       <About />
       <HowItWorks />

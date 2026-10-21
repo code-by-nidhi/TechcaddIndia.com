@@ -421,6 +421,10 @@
   display: grid;
   gap: 0.125rem;
   margin-top: 1rem;
+  /* only bites when the list outgrows a short viewport */
+  max-height: calc(100vh - var(--nav-h) / 2 - 230px);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
 }
 
 .featured__link {
@@ -432,9 +436,14 @@
   color: var(--c-slate);
   transition: background var(--t-fast), color var(--t-fast);
 }
-.featured__link:hover {
+.featured__link:hover,
+.featured__link:focus-visible,
+.featured__link.is-active {
   background: var(--c-grey-200);
   color: var(--c-azure);
+}
+.featured__link.is-active {
+  font-weight: 500;
 }
 
 .featured__cta {
