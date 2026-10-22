@@ -1132,47 +1132,361 @@ main > section.ahero {
   margin-top: 2rem;
 }
 
-/* ---------------------------------------------------------- visual -- */
+/* ---------------------------------------------------------- visual --
+   The technology ecosystem (components/about/TechEcosystem.tsx), scoped under
+   .te. The stage keeps the 100 x 96 aspect of its SVG so node positions (in %)
+   and line endpoints (in viewBox units) always agree. Nothing orbits. */
 
 .ahero__visual {
   position: relative;
-  padding: 0 0 2.5rem 2.5rem;
 }
 
-.ahero__photo {
+.te {
+  --navy: #111344;
+  --purple: #7950b5;
+  --blue: #356dff;
+  --lav: #b6a4ff;
   position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  background: var(--bg-2);
-}
-.ahero__photo img {
-  object-fit: cover;
-}
-.ahero__photo--main {
-  aspect-ratio: 4 / 3.1;
-  box-shadow: 0 24px 48px rgba(14, 10, 66, 0.14), 0 2px 6px rgba(14, 10, 66, 0.06);
-}
-.ahero__photo--aside {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 38%;
-  aspect-ratio: 4 / 3;
-  border: 5px solid #fff;
-  box-shadow: 0 16px 32px rgba(14, 10, 66, 0.16);
+  width: 100%;
+  aspect-ratio: 100 / 96;
 }
 
-/* a thin violet frame offset behind the photograph */
-.ahero__accent {
+/* soft ambient light behind the core, no hard edge */
+.te__aura {
   position: absolute;
-  top: -14px;
-  right: -14px;
+  left: 47%;
+  top: 52%;
+  width: 78%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(182, 164, 255, 0.4), rgba(53, 109, 255, 0.12) 55%, transparent 78%);
+  pointer-events: none;
+}
+
+.te__net {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------ lines -- */
+
+.te__spoke,
+.te__link,
+.te__pulse {
+  fill: none;
+}
+.te__spoke {
+  stroke: url(#te-grad);
+  stroke-width: 0.28; /* viewBox units: about 1.3px at the desktop size */
+  stroke-opacity: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: te-draw 1.5s var(--ease) both;
+  animation-delay: calc(var(--i) * 120ms + 700ms);
+}
+.te__link {
+  stroke: rgba(121, 80, 181, 0.3);
+  stroke-width: 0.22;
+  stroke-dasharray: 0.9 1.8;
+  animation: te-fade 1.6s var(--ease) 1.6s both;
+}
+
+/* the travelling light: a short bright dash that crosses the line, then rests
+   for most of the period so it stays occasional */
+.te__pulse {
+  stroke: #fff;
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  stroke-dasharray: 2.5 97.5;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px rgba(121, 80, 181, 0.9));
+  animation: te-travel var(--pt) ease-in-out var(--pd) infinite;
+}
+
+/* ------------------------------------------------------------- core -- */
+
+.te__core {
+  position: absolute;
+  width: 30%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  animation: te-core-in 1.1s var(--ease) 0.1s both;
+}
+
+.te__sphere {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.25) 30%, transparent 55%),
+    radial-gradient(circle at 70% 78%, rgba(53, 109, 255, 0.5), transparent 60%),
+    linear-gradient(150deg, rgba(182, 164, 255, 0.75), rgba(121, 80, 181, 0.7));
+  box-shadow:
+    0 30px 60px rgba(17, 19, 68, 0.22),
+    0 0 60px rgba(121, 80, 181, 0.3),
+    inset 0 -14px 30px rgba(17, 19, 68, 0.18),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+.te__sphere svg {
   width: 62%;
   height: 62%;
-  border: 1px solid rgba(118, 95, 184, 0.45);
-  border-radius: calc(var(--r-lg) + 6px);
-  animation: ahero-drift 14s ease-in-out infinite alternate;
+  overflow: visible;
+}
+
+/* two still rings, a hint of depth; they do not rotate */
+.te__ring {
+  position: absolute;
+  border: 1px solid rgba(121, 80, 181, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.te__ring--a {
+  inset: -12%;
+}
+.te__ring--b {
+  inset: -26%;
+  border-color: rgba(53, 109, 255, 0.16);
+}
+
+.te__hex {
+  fill: rgba(255, 255, 255, 0.14);
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.te__cube {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.2;
+}
+.te__cube--soft {
+  stroke: rgba(255, 255, 255, 0.45);
+}
+.te__vertex {
+  fill: #fff;
+  stroke: var(--navy);
+  stroke-width: 1;
+}
+.te__heart {
+  fill: var(--navy);
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+/* a slow pulse on a few of the details, one third of them at a time */
+.te__vertex--0 {
+  animation: te-glow 4.8s ease-in-out infinite;
+}
+.te__vertex--1 {
+  animation: te-glow 4.8s ease-in-out 1.6s infinite;
+}
+.te__vertex--2 {
+  animation: te-glow 4.8s ease-in-out 3.2s infinite;
+}
+.te__heart {
+  animation: te-heart 4.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ------------------------------------------------------------ nodes -- */
+
+.te__node {
+  position: absolute;
+  translate: -50% -50%;
+  animation: te-node-in 1s var(--ease) both;
+  animation-delay: calc(var(--i) * 130ms + 1100ms);
+}
+.te__float {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  /* out and back along a straight line; never a circle */
+  animation: te-float var(--dur) ease-in-out var(--delay) infinite;
+}
+
+.te__icon {
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 30px rgba(17, 19, 68, 0.14), 0 2px 6px rgba(17, 19, 68, 0.06);
+  font-size: 1.3rem;
+  color: var(--purple);
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .te__icon {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+  }
+}
+.te__label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+}
+
+/* depth: near nodes are larger and crisper, far ones smaller and softer */
+.te__node--near .te__icon {
+  scale: 1.12;
+  color: var(--blue);
+}
+.te__node--far .te__icon {
+  scale: 0.86;
+}
+.te__node--far {
+  opacity: 0.88;
+}
+.te__node:hover .te__icon {
+  border-color: rgba(121, 80, 181, 0.55);
+  box-shadow: 0 18px 36px rgba(17, 19, 68, 0.2);
+}
+
+/* ----------------------------------------------------------- motion -- */
+
+@keyframes te-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes te-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes te-core-in {
+  from {
+    opacity: 0;
+    scale: 0.88;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes te-node-in {
+  from {
+    opacity: 0;
+    margin-top: 14px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes te-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: var(--dx) calc(var(--dy) * -1);
+  }
+}
+@keyframes te-travel {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.9;
+  }
+  44% {
+    stroke-dashoffset: -100;
+    opacity: 0.9;
+  }
+  50%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+@keyframes te-glow {
+  0%,
+  70%,
+  100% {
+    fill: #fff;
+  }
+  35% {
+    fill: #b6a4ff;
+  }
+}
+@keyframes te-heart {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.18;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .te__core,
+  .te__node,
+  .te__spoke,
+  .te__link,
+  .te__float,
+  .te__vertex,
+  .te__heart {
+    animation: none;
+  }
+  .te__pulse {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 1024px) {
+  .te__icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.1rem;
+  }
+  .te__label {
+    font-size: 0.68rem;
+  }
+}
+
+/* small screens: four nodes, no travelling light, no drifting */
+@media (max-width: 800px) {
+  .te {
+    max-width: 440px;
+  }
+  .te__x {
+    display: none;
+  }
+  .te__pulse {
+    display: none;
+  }
+  .te__float {
+    animation: none;
+  }
+  .te__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1rem;
+  }
 }
 
 /* -------------------------------------------------- values strip -- */
@@ -1215,14 +1529,6 @@ main > section.ahero {
     transform: none;
   }
 }
-@keyframes ahero-drift {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-8px, 8px);
-  }
-}
 
 .ahero__in {
   animation: ahero-in 0.8s var(--ease) both;
@@ -1234,32 +1540,16 @@ main > section.ahero {
 
 @media (prefers-reduced-motion: reduce) {
   .ahero__in,
-  .ahero__rise,
-  .ahero__accent {
+  .ahero__rise {
     animation: none;
   }
 }
 
 /* ---------------------------------------------------- responsive -- */
 
-@media (max-width: 1024px) {
-  .ahero__visual {
-    padding: 0 0 2rem 1.75rem;
-  }
-}
-
 @media (max-width: 800px) {
   .ahero__grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .ahero__visual {
-    max-width: 560px;
-    padding-right: 14px;
-    padding-top: 14px;
-  }
-  .ahero__accent {
-    top: 0;
-    right: 0;
   }
   .ahero__values {
     grid-template-columns: repeat(2, minmax(0, 1fr));

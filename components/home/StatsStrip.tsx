@@ -18,7 +18,7 @@ export default function StatsStrip() {
       <div className="shell">
         <SectionHeading
           center
-          title={['Two decades of', { text: 'building engineers', className: 'gold-text' }]}
+          title={['10 Years of', { text: 'building engineers', className: 'gold-text' }]}
         />
 
         <div className="stats__grid">
