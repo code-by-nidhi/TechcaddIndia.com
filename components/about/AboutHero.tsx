@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiArrowRight } from 'react-icons/fi'
 
+import RotatingHeadline from '@/components/about/RotatingHeadline'
 import { aboutHref } from '@/data/about-pages'
 
 /* Company-profile hero: copy and two actions on the left, a campus photograph
@@ -18,17 +19,7 @@ export default function AboutHero() {
           <p className="ahero__eyebrow ahero__in" style={{ ['--i' as string]: 0 }}>
             About techcadd
           </p>
-          <h1 id="about-hero-title" className="ahero__title">
-            <span className="ahero__line ahero__in" style={{ ['--i' as string]: 1 }}>
-              Building Skills.
-            </span>
-            <span className="ahero__line ahero__hl ahero__in" style={{ ['--i' as string]: 2 }}>
-              Empowering Innovation.
-            </span>
-            <span className="ahero__line ahero__in" style={{ ['--i' as string]: 3 }}>
-              Shaping Careers.
-            </span>
-          </h1>
+          <RotatingHeadline />
           <p className="ahero__lead ahero__in" style={{ ['--i' as string]: 4 }}>
             Discover Techcadd&rsquo;s journey in technology education, our commitment to practical learning, and our approach to
             developing industry-ready professionals through hands-on training and emerging technologies.

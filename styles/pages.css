@@ -1086,6 +1086,29 @@ main > section.ahero {
     white-space: nowrap;
   }
 }
+/* rotating phrase: all the phrases stack in one grid cell and cross-fade */
+.ahero__words {
+  display: grid;
+}
+.ahero__word {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), visibility 0s linear 0.6s;
+}
+.ahero__word.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ahero__word {
+    transition: none;
+  }
+}
+
 /* the one highlighted line: the same violet gradient as the home headlines */
 .ahero__hl {
   width: fit-content;
@@ -1250,22 +1273,23 @@ main > section.ahero {
    and a <section> here would flip that for everything after it. */
 
 .osv-wrap {
-  margin: 10px 10px 0;
+  margin: 10px;
 }
 
 .osv {
-  --osv-line: rgba(255, 255, 255, 0.16);
-  --osv-violet: #8b6cff;
+  --osv-line: rgba(255, 255, 255, 0.2);
+  --osv-violet: #8065ff;
   --osv-teal: #2dd4bf;
+  --osv-muted: #b4c2dd;
   position: relative;
   isolation: isolate;
   overflow: hidden;
   padding-block: clamp(3.5rem, 7vw, 6rem);
   border-radius: 15px;
   background:
-    radial-gradient(50% 45% at 50% 0%, rgba(118, 95, 184, 0.28), transparent 70%),
-    radial-gradient(40% 40% at 50% 100%, rgba(50, 98, 250, 0.14), transparent 70%),
-    #050505;
+    radial-gradient(ellipse at 50% 0%, rgba(59, 130, 246, 0.22) 0%, transparent 55%),
+    radial-gradient(45% 50% at 100% 100%, rgba(23, 59, 118, 0.75), transparent 70%),
+    linear-gradient(135deg, #081735 0%, #0d2450 55%, #081735 100%);
   color: #fff;
   text-align: center;
 }
@@ -1287,7 +1311,7 @@ main > section.ahero {
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.035em;
-  background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.6) 100%);
+  background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.62) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1298,7 +1322,7 @@ main > section.ahero {
   margin-inline: auto;
   font-size: clamp(1rem, 1.3vw, 1.1rem);
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--osv-muted);
 }
 
 /* the large rounded container the diagram sits in */
@@ -1307,12 +1331,14 @@ main > section.ahero {
   max-width: 1080px;
   margin: clamp(2.5rem, 5vw, 4rem) auto 0;
   padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(128, 101, 255, 0.1), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
 }
 
-/* ------------------------------------------------------------ nodes -- */
+/* ------------------------------------------------------------ cards -- */
 
 .osv__nodes {
   display: grid;
@@ -1324,23 +1350,44 @@ main > section.ahero {
 
 .osv__node {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 0.625rem 1.1rem;
+  padding-inline: 0.625rem;
+}
+
+/* where a card's route leaves it: a small ring on the bottom edge */
+.osv__node::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  z-index: 2;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: #0d2450;
+  transition: border-color 0.35s var(--ease), background 0.35s var(--ease);
+}
+
+/* a drop shadow survives the clipped corner because the filter sits on this
+   wrapper, not on the clipped panel */
+.osv__card {
+  filter: drop-shadow(0 18px 22px rgba(2, 8, 28, 0.55));
 }
 
 /* the clipped upper-right corner: a lit 1px edge layer under a charcoal face,
    both cut with the same polygon */
 .osv__panel {
-  --cut: 28px;
+  --cut: 26px;
   position: relative;
-  width: 100%;
-  min-height: 170px;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 176px;
+  padding: 1.25rem 1.25rem 1.35rem;
   text-align: left;
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
   outline: none;
   transition: background 0.4s var(--ease);
 }
@@ -1350,124 +1397,90 @@ main > section.ahero {
   inset: 1px;
   z-index: 0;
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
-  background: linear-gradient(160deg, rgba(34, 34, 40, 0.92), rgba(14, 14, 18, 0.94));
+  background:
+    radial-gradient(90% 60% at 0% 0%, rgba(128, 101, 255, 0.1), transparent 70%),
+    linear-gradient(160deg, rgba(31, 66, 128, 0.9), rgba(19, 46, 98, 0.94));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: background 0.4s var(--ease);
 }
-/* a soft sheen that sweeps the face once */
+/* a short violet-to-teal rule along the top edge */
 .osv__panel::after {
   content: '';
   position: absolute;
-  inset: 1px;
-  z-index: 0;
-  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.07) 50%, transparent 65%) -150% 0 / 250% 100% no-repeat;
-  pointer-events: none;
+  top: 1px;
+  left: 1.25rem;
+  z-index: 1;
+  width: 34px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--osv-violet), var(--osv-teal));
+  transition: width 0.45s var(--ease);
 }
 .osv__panel > * {
   position: relative;
   z-index: 1;
 }
 
-.osv__ring {
-  display: block;
-  width: 38px;
-  height: 38px;
-}
-.osv__ring circle {
-  fill: none;
-  stroke-width: 2.5;
-}
-.osv__ring-track {
-  stroke: rgba(255, 255, 255, 0.12);
-}
-.osv__ring-arc {
-  stroke: var(--osv-violet);
-  stroke-linecap: round;
-  stroke-dasharray: 38 100;
-  transform-origin: 50% 50%;
-}
-
-.osv__panel > .osv__status {
-  position: absolute;
-  top: calc(1rem + 15px);
-  left: calc(1rem + 15px);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--osv-teal);
-  box-shadow: 0 0 10px var(--osv-teal);
-}
-
-/* placeholder "document" lines; swapped for the description on hover */
-.osv__lines {
+.osv__icon {
   display: grid;
-  gap: 0.55rem;
-  margin-top: 1.25rem;
-  transition: opacity 0.3s var(--ease);
-}
-.osv__lines i {
-  display: block;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.1);
-}
-.osv__lines i:nth-child(2) {
-  width: 78%;
-}
-.osv__lines i:nth-child(3) {
-  width: 52%;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(128, 101, 255, 0.28), rgba(128, 101, 255, 0.08));
+  font-size: 1.2rem;
+  color: #c9bcff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
 }
 
-.osv__panel > .osv__text {
-  position: absolute;
-  inset: calc(1rem + 38px + 0.9rem) 1rem 1.6rem;
-  font-size: 0.82rem;
+.osv__name {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.osv__text {
+  font-size: 0.88rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.72);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  color: var(--osv-muted);
 }
 
-.osv__node:hover .osv__lines,
-.osv__panel:focus-visible .osv__lines {
-  opacity: 0;
-}
-.osv__node:hover .osv__text,
-.osv__panel:focus-visible .osv__text {
-  opacity: 1;
-  transform: none;
-}
 .osv__node:hover .osv__panel,
 .osv__panel:focus-visible {
-  background: linear-gradient(160deg, rgba(139, 108, 255, 0.7), rgba(255, 255, 255, 0.22));
+  background: linear-gradient(160deg, rgba(128, 101, 255, 0.75), rgba(255, 255, 255, 0.22));
 }
 .osv__node:hover .osv__panel::before,
 .osv__panel:focus-visible::before {
-  background: linear-gradient(160deg, rgba(42, 40, 58, 0.94), rgba(18, 18, 24, 0.96));
+  background:
+    radial-gradient(90% 60% at 0% 0%, rgba(128, 101, 255, 0.18), transparent 70%),
+    linear-gradient(160deg, rgba(42, 74, 140, 0.95), rgba(26, 52, 108, 0.97));
 }
-
-/* the name rides the panel's lower edge */
-.osv__label {
-  position: relative;
-  z-index: 2;
-  margin-top: -15px;
-  padding: 0.4rem 0.95rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: var(--r-pill);
-  background: rgba(24, 24, 30, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: 0.88rem;
-  font-weight: 500;
-  white-space: nowrap;
+.osv__node:hover .osv__panel::after,
+.osv__panel:focus-visible::after {
+  width: 56px;
+}
+.osv__node:hover .osv__icon,
+.osv__panel:focus-visible .osv__icon {
+  border-color: rgba(201, 188, 255, 0.5);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.osv__node:hover::before {
+  border-color: var(--osv-violet);
+  background: var(--osv-violet);
 }
 
 /* ------------------------------------------------------------ wires -- */
 
+.osv__bus {
+  position: relative;
+}
 .osv__wires {
   display: block;
   width: 100%;
@@ -1489,9 +1502,6 @@ main > section.ahero {
 }
 
 /* the point where the four routes meet: bus y is 56 of the 150-high wires */
-.osv__bus {
-  position: relative;
-}
 .osv__core {
   position: absolute;
   left: 50%;
@@ -1501,25 +1511,29 @@ main > section.ahero {
   margin: -5.5px 0 0 -5.5px;
   border-radius: 50%;
   background: var(--osv-violet);
-  box-shadow: 0 0 0 4px rgba(139, 108, 255, 0.18), 0 0 18px 4px rgba(139, 108, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(128, 101, 255, 0.18), 0 0 18px 4px rgba(128, 101, 255, 0.5);
 }
 
+/* the destination: it sits flush under the trunk */
 .osv__business {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   width: fit-content;
   margin: 0 auto;
-  padding: 0.5rem 1.6rem 0.5rem 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0.5rem 1.7rem 0.5rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-size: 1.1rem;
   font-weight: 500;
   color: #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.45),
+    0 0 28px rgba(128, 101, 255, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .osv__plus {
   display: grid;
@@ -1529,10 +1543,10 @@ main > section.ahero {
   border-radius: 50%;
   background: linear-gradient(180deg, #9c82ff, #6d4de0);
   font-size: 1.15rem;
-  box-shadow: 0 0 18px rgba(139, 108, 255, 0.5);
+  box-shadow: 0 0 16px rgba(128, 101, 255, 0.5);
 }
 
-/* hover: the hovered panel's route lights up */
+/* hover: the hovered card's route lights up */
 .osv[data-active='0'] .osv__wire--0,
 .osv[data-active='1'] .osv__wire--1,
 .osv[data-active='2'] .osv__wire--2,
@@ -1568,23 +1582,13 @@ main > section.ahero {
     opacity: 1;
   }
 }
-@keyframes osv-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 @keyframes osv-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 4px rgba(139, 108, 255, 0.18), 0 0 14px 3px rgba(139, 108, 255, 0.45);
+    box-shadow: 0 0 0 4px rgba(128, 101, 255, 0.18), 0 0 14px 3px rgba(128, 101, 255, 0.42);
   }
   50% {
-    box-shadow: 0 0 0 7px rgba(139, 108, 255, 0.1), 0 0 24px 6px rgba(139, 108, 255, 0.7);
-  }
-}
-@keyframes osv-sheen {
-  to {
-    background-position: 150% 0;
+    box-shadow: 0 0 0 7px rgba(128, 101, 255, 0.1), 0 0 24px 6px rgba(128, 101, 255, 0.66);
   }
 }
 @keyframes osv-grow {
@@ -1594,11 +1598,6 @@ main > section.ahero {
   to {
     transform: scaleY(1);
   }
-}
-
-/* the arcs turn slowly at all times (cheap: transform only) */
-.osv__ring-arc {
-  animation: osv-spin 6s linear infinite;
 }
 
 /* armed = JS is running and motion is allowed: hide, then play once on .is-in */
@@ -1614,10 +1613,6 @@ main > section.ahero {
 .osv.is-in .osv__node {
   animation: osv-rise 0.8s var(--ease) both;
   animation-delay: calc(var(--i) * 120ms + 100ms);
-}
-.osv.is-in .osv__panel::after {
-  animation: osv-sheen 1.6s var(--ease) both;
-  animation-delay: calc(var(--i) * 120ms + 700ms);
 }
 .osv.is-in .osv__wire {
   animation: osv-draw 0.9s var(--ease) both;
@@ -1635,8 +1630,12 @@ main > section.ahero {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .osv__ring-arc {
-    animation: none;
+  .osv__panel,
+  .osv__panel::before,
+  .osv__panel::after,
+  .osv__icon,
+  .osv__wire {
+    transition: none;
   }
 }
 
@@ -1647,15 +1646,18 @@ main > section.ahero {
     padding-inline: 0.375rem;
   }
   .osv__panel {
-    min-height: 150px;
-    padding: 0.85rem;
+    min-height: 160px;
+    padding: 1.1rem 1rem 1.2rem;
   }
-  .osv__panel > .osv__text {
-    font-size: 0.76rem;
+  .osv__panel::after {
+    left: 1rem;
+  }
+  .osv__text {
+    font-size: 0.82rem;
   }
 }
 
-/* vertical flow: panels stacked, a short line under each, then the business */
+/* vertical flow: cards stacked, a short line under each, then the business */
 @media (max-width: 800px) {
   .osv__stage {
     max-width: 420px;
@@ -1666,6 +1668,9 @@ main > section.ahero {
   .osv__node {
     padding: 0 0 2.4rem;
   }
+  .osv__node::before {
+    display: none;
+  }
   .osv__node::after {
     content: '';
     position: absolute;
@@ -1674,7 +1679,7 @@ main > section.ahero {
     width: 1.5px;
     height: 2.4rem;
     margin-left: -0.75px;
-    background: linear-gradient(180deg, var(--osv-line), rgba(139, 108, 255, 0.7));
+    background: linear-gradient(180deg, var(--osv-line), rgba(128, 101, 255, 0.7));
     transform-origin: top;
   }
   .osv.is-armed .osv__node::after {
@@ -1684,34 +1689,632 @@ main > section.ahero {
     animation: osv-grow 0.6s var(--ease) both;
     animation-delay: calc(var(--i) * 120ms + 700ms);
   }
-  .osv__wires,
-  .osv__core {
+  .osv__bus {
     display: none;
-  }
-  /* no hover on touch: show the description, drop the placeholder lines */
-  .osv__lines {
-    display: none;
-  }
-  .osv__panel > .osv__text {
-    position: relative; /* stays above the panel face (z-index needs a positioned box) */
-    inset: auto;
-    margin-top: 0.9rem;
-    opacity: 1;
-    transform: none;
-    font-size: 0.85rem;
   }
   .osv__panel {
     min-height: 0;
-    padding-bottom: 1.6rem;
   }
 }
 
-@media (hover: none) and (min-width: 801px) {
-  .osv__lines {
-    display: none;
+/* ------------------------------------------------------- who we are --
+   A deep-blue spatial band: an editorial column on the left, a stage of three
+   photographs at three depths on the right. Wrapped in a <div> (not a bare
+   <section>) so base.css's white / tint banding of <main> sections is
+   undisturbed. Everything is scoped under .wwa. */
+
+.wwa-wrap {
+  margin: 10px 10px 0;
+}
+
+.wwa {
+  --wwa-navy: #081735;
+  --wwa-mid: #0d2450;
+  --wwa-blue: #173b76;
+  --wwa-accent: #5b9bff;
+  --wwa-text: #d0dcf2;
+  --wwa-rim: rgba(255, 255, 255, 0.2);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(50% 55% at 82% 55%, rgba(79, 140, 255, 0.26), transparent 70%),
+    radial-gradient(40% 45% at 6% 0%, rgba(79, 140, 255, 0.14), transparent 70%),
+    linear-gradient(155deg, var(--wwa-navy) 0%, var(--wwa-mid) 55%, var(--wwa-blue) 100%);
+  color: #fff;
+}
+
+/* a faint blueprint grid that fades toward the edges */
+.wwa::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(70% 70% at 60% 45%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(70% 70% at 60% 45%, #000 0%, transparent 75%);
+  pointer-events: none;
+}
+
+.wwa__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+/* ----------------------------------------------------------- story -- */
+
+.wwa__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--wwa-accent);
+}
+
+.wwa__title {
+  margin-block: 1rem 1.75rem;
+  /* sized so the longest line, "Accelerating Innovation.", stays on one line */
+  font-size: clamp(1.75rem, 7.2vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+.wwa__title span {
+  display: block;
+}
+@media (min-width: 901px) {
+  .wwa__title {
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
   }
-  .osv__panel > .osv__text {
+}
+.wwa__title .wwa__accent {
+  color: var(--wwa-accent);
+}
+
+/* the one frosted surface in the column; solid blue where backdrop-filter is missing */
+.wwa__panel {
+  max-width: 560px;
+  padding: clamp(1.1rem, 2.2vw, 1.6rem) clamp(1.2rem, 2.4vw, 1.75rem);
+  border: 1px solid var(--wwa-rim);
+  border-radius: 18px;
+  background: rgba(23, 59, 118, 0.92);
+  box-shadow: 0 18px 44px rgba(3, 10, 30, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .wwa__panel {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+}
+.wwa__panel:hover {
+  border-color: rgba(143, 184, 255, 0.5);
+  box-shadow: 0 22px 50px rgba(3, 10, 30, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+.wwa__panel p {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--wwa-text);
+}
+.wwa__panel .wwa__lead {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  color: #fff;
+}
+
+/* ------------------------------------------------------- expertise -- */
+
+.wwa__expertise {
+  max-width: 600px;
+  margin-top: 2rem;
+}
+
+.wwa__sub {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.wwa__groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 2rem;
+  margin-top: 0.9rem;
+}
+.wwa__group {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.wwa__group h4 {
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+}
+.wwa__group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+}
+.wwa__group a {
+  display: inline-block;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--r-pill);
+  background: rgba(79, 140, 255, 0.12);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: #e4edff;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.wwa__group a:hover,
+.wwa__group a:focus-visible {
+  border-color: rgba(143, 184, 255, 0.85);
+  background: rgba(79, 140, 255, 0.3);
+  color: #fff;
+}
+.wwa__group a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.wwa__expertise .wwa__hq {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 0.92rem;
+  color: var(--wwa-text);
+}
+.wwa__hq svg {
+  flex: none;
+  color: var(--wwa-accent);
+}
+
+/* ------------------------------------------------------------ stage --
+   Three photographs at three depths. The .wwa__layer wrappers carry position
+   and the entrance animation; the .wwa__frame inside carries the tilt and the
+   pointer drift, so the two never fight over `transform`. */
+
+.wwa__stage {
+  position: relative;
+  aspect-ratio: 1 / 0.98;
+}
+
+.wwa__layer {
+  position: absolute;
+}
+.wwa__layer--main {
+  top: 2%;
+  right: 0;
+  width: 86%;
+  aspect-ratio: 4 / 3.1;
+  z-index: 1;
+}
+.wwa__layer--a {
+  left: 0;
+  top: 44%;
+  width: 38%;
+  aspect-ratio: 4 / 3;
+  z-index: 3;
+}
+.wwa__layer--b {
+  right: 4%;
+  bottom: 0;
+  width: 40%;
+  aspect-ratio: 4 / 3;
+  z-index: 2;
+}
+
+/* glass rim around each photograph */
+.wwa__frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 5px;
+  border: 1px solid var(--wwa-rim);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 28px 56px rgba(3, 10, 30, 0.5), 0 4px 12px rgba(3, 10, 30, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.6s var(--ease);
+}
+.wwa__layer--a .wwa__frame,
+.wwa__layer--b .wwa__frame {
+  border-radius: 16px;
+}
+.wwa__frame img {
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 17px;
+  object-fit: cover;
+  transition: filter 0.5s var(--ease);
+}
+.wwa__layer--a .wwa__frame img,
+.wwa__layer--b .wwa__frame img {
+  border-radius: 11px;
+}
+.wwa__frame:hover {
+  border-color: rgba(143, 184, 255, 0.7);
+}
+.wwa__frame:hover img {
+  filter: brightness(1.07);
+}
+
+/* the perspective and the drift are for roomy screens only; below that the
+   stage is simply three layered photographs */
+@media (min-width: 901px) {
+  .wwa__stage {
+    perspective: 1400px;
+  }
+  .wwa__frame {
+    transform: translate3d(calc(var(--px, 0) * var(--d, 0px)), calc(var(--py, 0) * var(--d, 0px)), 0) var(--tilt, none);
+  }
+  .wwa__layer--main .wwa__frame {
+    --tilt: rotateY(-5deg) rotateX(2deg);
+  }
+  .wwa__layer--a .wwa__frame {
+    --tilt: rotateY(-5deg);
+  }
+  .wwa__layer--b .wwa__frame {
+    --tilt: rotateY(-5deg) rotateX(-1deg);
+  }
+}
+
+/* ---------------------------------------------------------- motion -- */
+
+@keyframes wwa-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
     opacity: 1;
     transform: none;
+  }
+}
+
+.wwa.is-armed .wwa__in {
+  opacity: 0;
+}
+.wwa.is-in .wwa__in {
+  animation: wwa-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wwa__frame,
+  .wwa__frame img,
+  .wwa__group a,
+  .wwa__panel {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 1100px) {
+  .wwa__grid {
+    gap: 2rem;
+  }
+  .wwa__groups {
+    gap: 1rem 1.25rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .wwa__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wwa__stage {
+    max-width: 560px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .wwa__groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wwa__layer--a {
+    width: 42%;
+  }
+  .wwa__layer--b {
+    width: 44%;
+  }
+}
+
+/* ---------------------------------------------------- about techcadd --
+   The editorial company profile (components/home/About.tsx). Scoped under
+   .abt. The background selector carries `main >` because base.css bands every
+   direct <section> of <main> white / tint by position. */
+
+main > section.abt {
+  background:
+    radial-gradient(45% 55% at 100% 0%, rgba(121, 80, 181, 0.1), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(53, 109, 255, 0.09), transparent 70%),
+    linear-gradient(180deg, #f1f5fc 0%, #ebeffb 100%);
+}
+
+.abt {
+  --abt-ink: #111344;
+  --abt-text: #58678a;
+  --abt-purple: #7950b5;
+  --abt-blue: #356dff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+/* a very light grid that fades out toward the edges */
+.abt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(17, 19, 68, 0.04) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, rgba(17, 19, 68, 0.04) 1px, transparent 1px) 0 0 / 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(70% 70% at 50% 50%, #000 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.abt__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5.5rem);
+  align-items: center;
+}
+
+/* ------------------------------------------------------------ stage -- */
+
+.abt__stage {
+  position: relative;
+  aspect-ratio: 1 / 0.96;
+}
+
+.abt__layer {
+  position: absolute;
+}
+.abt__layer--main {
+  left: 0;
+  top: 0;
+  width: 70%;
+  height: 82%;
+  z-index: 1;
+}
+.abt__layer--lab {
+  right: 0;
+  top: 9%;
+  width: 34%;
+  aspect-ratio: 4 / 3;
+  z-index: 2;
+}
+.abt__layer--room {
+  right: 3%;
+  bottom: 0;
+  width: 42%;
+  aspect-ratio: 4 / 3;
+  z-index: 2;
+}
+
+.abt__frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  background: #dfe6f7;
+  box-shadow: 0 24px 48px rgba(17, 19, 68, 0.14), 0 3px 10px rgba(17, 19, 68, 0.08), 0 0 0 1px rgba(17, 19, 68, 0.06);
+}
+.abt__layer--lab .abt__frame,
+.abt__layer--room .abt__frame {
+  border: 4px solid #fff;
+  border-radius: 16px;
+}
+.abt__frame img {
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+.abt__frame:hover img {
+  transform: scale(1.04);
+}
+
+/* a compact glass fact badge over the large frame */
+.abt__badge {
+  position: absolute;
+  left: 4%;
+  bottom: 24%;
+  z-index: 3;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 36px rgba(17, 19, 68, 0.16);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .abt__badge {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+}
+.abt__badge-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--abt-text);
+}
+.abt__badge strong {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--abt-ink);
+}
+.abt__badge-place {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: var(--abt-text);
+}
+.abt__badge-place svg {
+  color: var(--abt-purple);
+}
+
+/* ------------------------------------------------------------- copy -- */
+
+.abt__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--abt-purple);
+}
+
+.abt__title {
+  margin-block: 1rem 1.4rem;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: var(--abt-ink);
+}
+.abt__title span {
+  display: block;
+}
+.abt__title .abt__hl {
+  width: fit-content;
+  /* the same violet gradient as the other headlines on the site */
+  background: linear-gradient(270deg, #9793d3 9.1%, #7243a7 98.46%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.abt__lead {
+  max-width: 520px;
+  font-size: clamp(1.02rem, 1.3vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--abt-ink);
+}
+.abt__body {
+  max-width: 520px;
+  margin-top: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--abt-text);
+}
+
+.abt__points {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 520px;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(17, 19, 68, 0.1);
+  list-style: none;
+}
+.abt__points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.96rem;
+  line-height: 1.5;
+  color: var(--abt-ink);
+}
+.abt__points svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.1rem;
+  padding: 0.22rem;
+  border-radius: 50%;
+  background: rgba(121, 80, 181, 0.12);
+  color: var(--abt-purple);
+}
+
+.abt__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.9rem;
+}
+
+/* ---------------------------------------------------------- motion -- */
+
+@keyframes abt-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.abt.is-armed .abt__in {
+  opacity: 0;
+}
+.abt.is-in .abt__in {
+  animation: abt-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abt__frame img {
+    transition: none;
+  }
+  .abt__frame:hover img {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 900px) {
+  .abt__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* reading order on a phone: the story first, the photographs after */
+  .abt__copy {
+    order: -1;
+  }
+  .abt__stage {
+    width: 100%;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 520px) {
+  .abt__badge {
+    padding: 0.7rem 0.9rem;
+  }
+  .abt__badge strong {
+    font-size: 1.6rem;
+  }
+  .abt__actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 }

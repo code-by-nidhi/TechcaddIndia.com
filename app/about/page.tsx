@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import AboutHero from '@/components/about/AboutHero'
 import OurServices from '@/components/about/OurServices'
+import WhoWeAre from '@/components/about/WhoWeAre'
 import About from '@/components/home/About'
 import HowItWorks from '@/components/home/HowItWorks'
 import WhyZoom from '@/components/about/WhyZoom'
@@ -18,9 +19,10 @@ export default function AboutPage() {
   return (
     <>
       <AboutHero />
-      <OurServices />
-      <StatsStrip />
+      <WhoWeAre />
       <About />
+      <StatsStrip />
+      <OurServices />
       <HowItWorks />
       <WhyZoom />
       <CTA />

@@ -1,36 +1,37 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { FiPlus } from 'react-icons/fi'
+import type { IconType } from 'react-icons'
+import { FiCode, FiDroplet, FiLayers, FiPlus, FiTrendingUp } from 'react-icons/fi'
 
-/* "Your Digital Powerhouse": four glass service panels feed one shared
+/* "Your Digital Powerhouse": four glass service cards feed one shared
    connector that ends at a "Your Business" node.
 
-   Desktop draws the connector in SVG — each panel has its own route
-   (down, across, to the centre) so hovering a panel can light its route, and
-   all four meet at one glowing point above a single trunk. Each path has
+   Desktop draws the connector in SVG — each card has its own route (down,
+   across, to the centre) so hovering a card can light its route, and all four
+   meet at one glowing point above a single trunk. Each path has
    `pathLength="1"`, so the draw-in is a plain stroke-dashoffset 1 → 0 whatever
-   the rendered width. Below 800px the SVG is hidden and each panel carries a
+   the rendered width. Below 800px the SVG is hidden and each card carries a
    short vertical line instead.
 
    Motion starts once, when the section first scrolls into view. Until the
    component has mounted, and for reduced-motion users, everything is simply
    shown in its final state. */
 
-const SERVICES = [
-  { name: 'Branding', text: 'Brand identity, visual systems, and digital experiences.' },
-  { name: 'Web Development', text: 'Modern websites, web applications, and scalable digital platforms.' },
-  { name: 'Motion & Creative', text: 'Motion graphics, visual storytelling, and creative production.' },
-  { name: 'Digital Marketing', text: 'Digital campaigns, search optimization, and audience growth.' },
+const SERVICES: { name: string; text: string; Icon: IconType }[] = [
+  { name: 'Branding', text: 'Brand identity and visual systems.', Icon: FiDroplet },
+  { name: 'Web Development', text: 'Websites and digital platforms.', Icon: FiCode },
+  { name: 'Motion & Creative', text: 'Motion graphics and creative production.', Icon: FiLayers },
+  { name: 'Digital Marketing', text: 'Digital campaigns and audience growth.', Icon: FiTrendingUp },
 ]
 
-/* x of each panel's centre in the 1000-wide connector viewBox */
+/* x of each card's centre in the 1000-wide connector viewBox */
 const XS = [125, 375, 625, 875]
 const BUS_Y = 56
 const H = 150
 
 export default function OurServices() {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
   const [armed, setArmed] = useState(false)
   const [seen, setSeen] = useState(false)
   const [active, setActive] = useState<number | null>(null)
@@ -71,9 +72,9 @@ export default function OurServices() {
 
           <div className="osv__stage">
             <ul className="osv__nodes">
-              {SERVICES.map((s, i) => (
+              {SERVICES.map(({ name, text, Icon }, i) => (
                 <li
-                  key={s.name}
+                  key={name}
                   className="osv__node"
                   style={{ ['--i' as string]: i }}
                   onMouseEnter={() => setActive(i)}
@@ -81,45 +82,33 @@ export default function OurServices() {
                   onFocus={() => setActive(i)}
                   onBlur={() => setActive(null)}
                 >
-                  {/* a focusable stop so keyboard users get the same highlight as hover */}
-                  <div className="osv__panel" tabIndex={0} aria-label={`${s.name}: ${s.text}`}>
-                    <svg className="osv__ring" viewBox="0 0 40 40" aria-hidden>
-                      <circle className="osv__ring-track" cx="20" cy="20" r="16" />
-                      <circle className="osv__ring-arc" cx="20" cy="20" r="16" pathLength="100" />
-                    </svg>
-                    <span className="osv__status" aria-hidden />
-                    <span className="osv__lines" aria-hidden>
-                      <i />
-                      <i />
-                      <i />
-                    </span>
-                    <p className="osv__text">{s.text}</p>
+                  <div className="osv__card">
+                    <div className="osv__panel" tabIndex={0} role="group" aria-label={name}>
+                      <span className="osv__icon" aria-hidden>
+                        <Icon />
+                      </span>
+                      <h3 className="osv__name">{name}</h3>
+                      <p className="osv__text">{text}</p>
+                    </div>
                   </div>
-                  <span className="osv__label">{s.name}</span>
                 </li>
               ))}
             </ul>
 
             <div className="osv__bus">
-            <svg
-              className="osv__wires"
-              viewBox={`0 0 1000 ${H}`}
-              preserveAspectRatio="none"
-              aria-hidden
-              focusable="false"
-            >
-              {XS.map((x, i) => (
-                <path
-                  key={x}
-                  className={`osv__wire osv__wire--${i}`}
-                  d={`M${x} 0 V${BUS_Y} H500`}
-                  pathLength={1}
-                  style={{ ['--i' as string]: i }}
-                />
-              ))}
-              <path className="osv__wire osv__wire--trunk" d={`M500 ${BUS_Y} V${H}`} pathLength={1} />
-            </svg>
-            <span className="osv__core" aria-hidden />
+              <svg className="osv__wires" viewBox={`0 0 1000 ${H}`} preserveAspectRatio="none" aria-hidden focusable="false">
+                {XS.map((x, i) => (
+                  <path
+                    key={x}
+                    className={`osv__wire osv__wire--${i}`}
+                    d={`M${x} 0 V${BUS_Y} H500`}
+                    pathLength={1}
+                    style={{ ['--i' as string]: i }}
+                  />
+                ))}
+                <path className="osv__wire osv__wire--trunk" d={`M500 ${BUS_Y} V${H}`} pathLength={1} />
+              </svg>
+              <span className="osv__core" aria-hidden />
             </div>
 
             <div className="osv__business">
