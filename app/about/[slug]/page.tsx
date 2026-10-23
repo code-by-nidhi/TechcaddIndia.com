@@ -7,6 +7,7 @@ import About from '@/components/home/About'
 import HowItWorks from '@/components/home/HowItWorks'
 import WhyZoom from '@/components/about/WhyZoom'
 import CTA from '@/components/home/CTA'
+import MissionVisionHero from '@/components/about/MissionVisionHero'
 import { ABOUT_PAGES, aboutHref, findAboutPage } from '@/data/about-pages'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -37,12 +38,16 @@ export default async function AboutSubPage({ params }: Props) {
 
   return (
     <>
-      <PageHero
-        eyebrow="About techcadd"
-        title={page.title}
-        lead={page.lead}
-        crumbs={[{ label: 'About', href: '/about' }, { label: page.label }]}
-      />
+      {slug === 'mission-vision' ? (
+        <MissionVisionHero />
+      ) : (
+        <PageHero
+          eyebrow="About techcadd"
+          title={page.title}
+          lead={page.lead}
+          crumbs={[{ label: 'About', href: '/about' }, { label: page.label }]}
+        />
+      )}
       {page.section === 'story' && <About />}
       {page.section === 'approach' && <HowItWorks />}
       {page.section === 'why' && <WhyZoom />}
@@ -50,7 +55,9 @@ export default async function AboutSubPage({ params }: Props) {
         <section className="section">
           <div className="shell page-stack">
             {page.blocks.map((b) => (
-              <Placeholder key={b.title} title={b.title} items={b.items} />
+              <div key={b.title} id={b.id} className="about-block">
+                <Placeholder title={b.title} items={b.items} />
+              </div>
             ))}
           </div>
         </section>

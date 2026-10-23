@@ -216,7 +216,7 @@ export const STATS = [
   { value: 25000, suffix: '+', label: 'Engineers trained' },
   { value: 500, suffix: '+', label: 'Hiring partners' },
   { value: 100, suffix: '+', label: 'Technologies taught' },
-  { value: 20, suffix: ' yrs', label: 'Of training excellence' },
+  { value: 10, suffix: ' years', label: 'Of training excellence' },
 ]
 
 /* ------------------------------------------------------------ courses -- */

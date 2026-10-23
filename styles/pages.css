@@ -2608,3 +2608,464 @@ main > section.abt {
     justify-content: center;
   }
 }
+
+/* ---------------------------------------------- mission & vision hero --
+   components/about/MissionVisionHero.tsx + MissionVisual.tsx, scoped under
+   .mvh / .mvv. A deep-navy rounded panel (same inset and radius as the About
+   hero) sitting below the navbar. The background selector carries `main >`
+   because base.css bands every direct <section> of <main> by position. */
+
+main > section.mvh {
+  background:
+    radial-gradient(55% 60% at 85% 20%, rgba(53, 109, 255, 0.3), transparent 70%),
+    radial-gradient(45% 55% at 0% 100%, rgba(121, 80, 181, 0.26), transparent 70%),
+    linear-gradient(150deg, #081735 0%, #102957 100%);
+}
+
+.mvh {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0 10px;
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  border-radius: 15px;
+  color: #fff;
+}
+
+/* a faint grid, strongest on the right where the visual sits */
+.mvh::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(75% 80% at 70% 40%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(75% 80% at 70% 40%, #000 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.mvh__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.mvh__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #b6a4ff;
+}
+
+.mvh__title {
+  margin-block: 1.1rem 1.5rem;
+  font-size: clamp(2rem, 8.4vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+.mvh__title span {
+  display: block;
+}
+/* two columns: sized so "Empowering Innovation." stays on one line */
+@media (min-width: 801px) {
+  .mvh__title {
+    font-size: clamp(1.9rem, 4.1vw, 3.7rem);
+  }
+  .mvh__title span {
+    white-space: nowrap;
+  }
+}
+/* electric blue into lavender into purple */
+.mvh__hl {
+  width: fit-content;
+  background: linear-gradient(95deg, #5b8cff 0%, #b6a4ff 55%, #9a6fe0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mvh__lead {
+  max-width: 560px;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.7;
+  color: #c5d2ea;
+}
+
+.mvh__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.mvh__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.65rem 1.5rem;
+  border-radius: var(--r-pill);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.mvh__btn svg {
+  transition: transform 0.3s var(--ease);
+}
+.mvh__btn:hover svg {
+  transform: translateX(3px);
+}
+.mvh__btn--primary {
+  background: linear-gradient(95deg, #356dff, #7950b5);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(53, 109, 255, 0.35);
+}
+.mvh__btn--primary:hover {
+  box-shadow: 0 16px 34px rgba(53, 109, 255, 0.48);
+}
+.mvh__btn--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mvh__btn--ghost {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+.mvh__btn--ghost:hover {
+  border-color: rgba(182, 164, 255, 0.8);
+  background: rgba(255, 255, 255, 0.13);
+}
+.mvh__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* entrance: a short upward fade, staggered */
+@keyframes mvh-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mvh__in {
+  animation: mvh-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 100ms + 80ms);
+}
+
+/* ---------------------------------------------------------- visual -- */
+
+.mvv {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 100 / 90;
+}
+
+.mvv__aura {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 80%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(121, 80, 181, 0.35), rgba(53, 109, 255, 0.14) 55%, transparent 78%);
+  pointer-events: none;
+}
+
+.mvv__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mvv__beam {
+  animation: mvv-fade 1.6s var(--ease) 1.2s both;
+}
+
+.mvv__line,
+.mvv__pulse,
+.mvv__spine {
+  fill: none;
+}
+.mvv__line {
+  stroke: url(#mvv-edge);
+  stroke-width: 0.3;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: mvv-draw 1.4s var(--ease) both;
+  animation-delay: calc(var(--i) * 130ms + 900ms);
+}
+.mvv__spine {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 0.25;
+  stroke-dasharray: 0.8 1.4;
+}
+.mvv__pulse {
+  stroke: #fff;
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  stroke-dasharray: 2.5 97.5;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px rgba(182, 164, 255, 0.95));
+  animation: mvv-travel var(--pt) ease-in-out var(--pd) infinite;
+}
+
+.mvv__face {
+  fill: url(#mvv-face);
+  stroke: rgba(255, 255, 255, 0.34);
+  stroke-width: 0.3;
+  stroke-linejoin: round;
+}
+.mvv__edge {
+  fill: none;
+  stroke: url(#mvv-edge);
+  stroke-width: 0.45;
+  stroke-linejoin: round;
+}
+.mvv__plate {
+  animation: mvv-plate-in 1.1s var(--ease) both, mvv-breathe 7s ease-in-out infinite;
+}
+.mvv__plate--0 {
+  animation-delay: 0.2s, 1.4s;
+}
+.mvv__plate--1 {
+  animation-delay: 0.4s, 2.6s;
+  animation-duration: 1.1s, 8s;
+}
+.mvv__plate--2 {
+  animation-delay: 0.6s, 0.8s;
+  animation-duration: 1.1s, 6s;
+}
+
+.mvv__ring {
+  fill: none;
+  stroke: rgba(182, 164, 255, 0.6);
+  stroke-width: 0.3;
+  animation: mvv-fade 1s var(--ease) 1s both;
+}
+.mvv__core {
+  fill: #fff;
+  filter: drop-shadow(0 0 2.5px #b6a4ff);
+  animation: mvv-fade 1s var(--ease) 1s both, mvv-pulse 4.8s ease-in-out 2.2s infinite;
+}
+
+/* ------------------------------------------------------------ nodes -- */
+
+.mvv__node {
+  position: absolute;
+  translate: -50% -50%;
+  animation: mvv-node-in 1s var(--ease) both;
+  animation-delay: calc(var(--i) * 140ms + 1500ms);
+}
+.mvv__float {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  /* out and back along a straight line, never a circle */
+  animation: mvv-float var(--dur) ease-in-out var(--delay) infinite;
+}
+.mvv__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: rgba(16, 41, 87, 0.8);
+  box-shadow: 0 14px 28px rgba(3, 10, 30, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  font-size: 1.2rem;
+  color: #b6a4ff;
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mvv__icon {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+}
+.mvv__label {
+  max-width: 7rem;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: #e4ecfb;
+}
+
+@keyframes mvv-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes mvv-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mvv-plate-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes mvv-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.8px);
+  }
+}
+@keyframes mvv-node-in {
+  from {
+    opacity: 0;
+    margin-top: 12px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes mvv-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: var(--dx) calc(var(--dy) * -1);
+  }
+}
+@keyframes mvv-travel {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.9;
+  }
+  44% {
+    stroke-dashoffset: -100;
+    opacity: 0.9;
+  }
+  50%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+@keyframes mvv-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mvh__in,
+  .mvh__btn,
+  .mvv__beam,
+  .mvv__line,
+  .mvv__plate,
+  .mvv__ring,
+  .mvv__core,
+  .mvv__node,
+  .mvv__float {
+    animation: none;
+    transition: none;
+  }
+  .mvv__pulse {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 1024px) {
+  .mvv__icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.05rem;
+  }
+  .mvv__label {
+    font-size: 0.68rem;
+    max-width: 6rem;
+  }
+}
+
+/* stacked: copy first, the visual below the buttons; calmer and flatter */
+@media (max-width: 800px) {
+  .mvh__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mvh__visual {
+    max-width: 460px;
+    width: 100%;
+  }
+  .mvv__pulse {
+    display: none;
+  }
+  .mvv__float,
+  .mvv__plate {
+    animation: none;
+  }
+  .mvv__plate {
+    opacity: 1;
+  }
+  .mvv__icon {
+    width: 2.3rem;
+    height: 2.3rem;
+    font-size: 0.95rem;
+  }
+  .mvv__label {
+    font-size: 0.62rem;
+    max-width: 5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .mvv__label {
+    max-width: 4rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .mvh__actions .mvh__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* anchored blocks on the About sub-pages clear the sticky header */
+.about-block {
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+}
