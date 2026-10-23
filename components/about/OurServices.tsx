@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { IconType } from 'react-icons'
 import { FiCode, FiDroplet, FiLayers, FiPlus, FiTrendingUp } from 'react-icons/fi'
 
-/* "Your Digital Powerhouse": four glass service cards feed one shared
+/* "Your Technology Partner": four glass service cards feed one shared
    connector that ends at a "Your Business" node.
 
    Desktop draws the connector in SVG — each card has its own route (down,
@@ -64,10 +64,11 @@ export default function OurServices() {
         <div className="shell osv__inner">
           <span className="osv__pill">Our Services</span>
           <h2 id="osv-title" className="osv__title">
-            Your Digital Powerhouse
+            Your Technology Partner
           </h2>
           <p className="osv__lead">
-            Delivering technology-driven solutions that help businesses innovate, grow, and succeed in an evolving digital world.
+            Delivering innovative IT solutions, intelligent digital experiences, and scalable technologies that help businesses grow
+            and succeed.
           </p>
 
           <div className="osv__stage">

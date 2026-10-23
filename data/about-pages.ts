@@ -13,7 +13,8 @@ export type AboutPage = {
   lead: string
   /** Existing section component to render, or the placeholder blocks below. */
   section?: 'story' | 'approach' | 'why'
-  blocks?: { title: string; items: string[] }[]
+  /** `id` is an anchor on the page, used by the Mission & Vision hero buttons */
+  blocks?: { title: string; items: string[]; id?: string }[]
 }
 
 export const aboutHref = (slug: string) => `/about/${slug}`
@@ -32,9 +33,9 @@ export const ABOUT_PAGES: AboutPage[] = [
     title: 'Mission & Vision',
     lead: 'Why techcadd exists and where it is going.',
     blocks: [
-      { title: 'Our mission', items: ['What we set out to do for learners'] },
-      { title: 'Our vision', items: ['Where we want the techcadd network to be'] },
-      { title: 'Our values', items: ['The principles behind every batch'] },
+      { title: 'Our mission', id: 'mission', items: ['What we set out to do for learners'] },
+      { title: 'Our vision', id: 'vision', items: ['Where we want the techcadd network to be'] },
+      { title: 'Our values', id: 'values', items: ['The principles behind every batch'] },
     ],
   },
   {
