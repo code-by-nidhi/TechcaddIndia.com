@@ -1988,278 +1988,215 @@ main > section.ahero {
 }
 
 /* ------------------------------------------------------- who we are --
-   A deep-blue spatial band: an editorial column on the left, a stage of three
-   photographs at three depths on the right. Wrapped in a <div> (not a bare
-   <section>) so base.css's white / tint banding of <main> sections is
-   undisturbed. Everything is scoped under .wwa. */
+   An enterprise-style company profile on a near-black navy band. Wrapped in a
+   <div> (not a bare <section>) so base.css's white / tint banding of <main>
+   sections is undisturbed. Everything is scoped under .wwa. */
 
 .wwa-wrap {
   margin: 10px 10px 0;
 }
 
 .wwa {
-  --wwa-navy: #081735;
-  --wwa-mid: #0d2450;
-  --wwa-blue: #173b76;
-  --wwa-accent: #5b9bff;
-  --wwa-text: #d0dcf2;
-  --wwa-rim: rgba(255, 255, 255, 0.2);
+  --wwa-bg: #050914;
+  --wwa-bg2: #0a1530;
+  --wwa-card: rgba(13, 28, 58, 0.78);
+  --wwa-text: #a9b8d2;
+  --wwa-blue: #4c8dff;
+  --wwa-purple: #9365e8;
+  --wwa-line: rgba(148, 174, 255, 0.16);
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  padding-block: clamp(3.5rem, 7vw, 6rem);
   border-radius: 15px;
   background:
-    radial-gradient(50% 55% at 82% 55%, rgba(79, 140, 255, 0.26), transparent 70%),
-    radial-gradient(40% 45% at 6% 0%, rgba(79, 140, 255, 0.14), transparent 70%),
-    linear-gradient(155deg, var(--wwa-navy) 0%, var(--wwa-mid) 55%, var(--wwa-blue) 100%);
+    radial-gradient(45% 50% at 12% 0%, rgba(76, 141, 255, 0.2), transparent 70%),
+    radial-gradient(40% 45% at 100% 100%, rgba(147, 101, 232, 0.18), transparent 70%),
+    linear-gradient(160deg, var(--wwa-bg) 0%, var(--wwa-bg2) 100%);
   color: #fff;
 }
 
-/* a faint blueprint grid that fades toward the edges */
+/* a faint grid at the top-left, behind the headline */
 .wwa::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
-  -webkit-mask-image: radial-gradient(70% 70% at 60% 45%, #000 0%, transparent 75%);
-  mask-image: radial-gradient(70% 70% at 60% 45%, #000 0%, transparent 75%);
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(60% 55% at 25% 20%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(60% 55% at 25% 20%, #000 0%, transparent 80%);
   pointer-events: none;
 }
 
+/* the headline and wide photo on the left; the tall photo spans their height */
 .wwa__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: center;
+  grid-template-columns: minmax(0, 2.05fr) minmax(0, 1fr);
+  gap: clamp(1rem, 2.2vw, 1.75rem);
 }
 
-/* ----------------------------------------------------------- story -- */
+.wwa__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
 .wwa__eyebrow {
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--wwa-accent);
+  color: var(--wwa-blue);
 }
 
 .wwa__title {
-  margin-block: 1rem 1.75rem;
-  /* sized so the longest line, "Accelerating Innovation.", stays on one line */
-  font-size: clamp(1.75rem, 7.2vw, 3.2rem);
+  margin-block: 1rem 1.25rem;
+  font-size: clamp(2rem, 4vw, 3.6rem);
   font-weight: 500;
-  line-height: 1.04;
+  line-height: 1.05;
   letter-spacing: -0.035em;
   color: #fff;
 }
 .wwa__title span {
   display: block;
 }
-@media (min-width: 901px) {
-  .wwa__title {
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
+@media (min-width: 701px) {
+  .wwa__title span {
+    white-space: nowrap;
   }
 }
-.wwa__title .wwa__accent {
-  color: var(--wwa-accent);
+.wwa__title em {
+  font-style: normal;
+  background: linear-gradient(95deg, var(--wwa-blue) 0%, var(--wwa-purple) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* the one frosted surface in the column; solid blue where backdrop-filter is missing */
-.wwa__panel {
-  max-width: 560px;
-  padding: clamp(1.1rem, 2.2vw, 1.6rem) clamp(1.2rem, 2.4vw, 1.75rem);
-  border: 1px solid var(--wwa-rim);
-  border-radius: 18px;
-  background: rgba(23, 59, 118, 0.92);
-  box-shadow: 0 18px 44px rgba(3, 10, 30, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .wwa__panel {
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-  }
-}
-.wwa__panel:hover {
-  border-color: rgba(143, 184, 255, 0.5);
-  box-shadow: 0 22px 50px rgba(3, 10, 30, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.24);
-}
-.wwa__panel p {
-  font-size: 0.98rem;
+.wwa__lead {
+  max-width: 760px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(0.98rem, 1.15vw, 1.08rem);
   line-height: 1.7;
   color: var(--wwa-text);
 }
-.wwa__panel .wwa__lead {
-  margin-bottom: 0.8rem;
-  font-size: clamp(1rem, 1.2vw, 1.1rem);
-  color: #fff;
+
+/* ------------------------------------------------------------ photos -- */
+
+.wwa__photo {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--wwa-line);
+  border-radius: 18px;
+  background: #0a1530;
+  box-shadow: 0 24px 50px rgba(2, 6, 20, 0.5);
+}
+.wwa__photo img {
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+.wwa__photo:hover img {
+  transform: scale(1.04);
+}
+/* a soft floor under each photo so the caption always reads */
+.wwa__photo::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, rgba(5, 9, 20, 0.7));
+  pointer-events: none;
 }
 
-/* ------------------------------------------------------- expertise -- */
-
-.wwa__expertise {
-  max-width: 600px;
-  margin-top: 2rem;
+.wwa__photo--wide {
+  flex: 1;
+  min-height: 220px;
+  aspect-ratio: 16 / 7.6;
+}
+.wwa__photo--tall {
+  min-height: 360px;
 }
 
-.wwa__sub {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.wwa__groups {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem 2rem;
-  margin-top: 0.9rem;
-}
-.wwa__group {
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-}
-.wwa__group h4 {
-  margin-bottom: 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #fff;
-}
-.wwa__group ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  list-style: none;
-}
-.wwa__group a {
-  display: inline-block;
-  padding: 0.28rem 0.7rem;
+.wwa__photo figcaption {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.9rem;
+  z-index: 1;
+  padding: 0.35rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--r-pill);
-  background: rgba(79, 140, 255, 0.12);
-  font-size: 0.8rem;
-  line-height: 1.35;
-  color: #e4edff;
-  transition: background 0.3s var(--ease), border-color 0.3s var(--ease), color 0.3s var(--ease);
-}
-.wwa__group a:hover,
-.wwa__group a:focus-visible {
-  border-color: rgba(143, 184, 255, 0.85);
-  background: rgba(79, 140, 255, 0.3);
+  background: rgba(10, 21, 48, 0.82);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: #fff;
 }
-.wwa__group a:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .wwa__photo figcaption {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
 }
 
-.wwa__expertise .wwa__hq {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  font-size: 0.92rem;
-  color: var(--wwa-text);
-}
-.wwa__hq svg {
-  flex: none;
-  color: var(--wwa-accent);
+/* ------------------------------------------------------------ stats -- */
+
+.wwa__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1.4vw, 1.1rem);
+  margin-top: clamp(1rem, 2.2vw, 1.75rem);
+  list-style: none;
 }
 
-/* ------------------------------------------------------------ stage --
-   Three photographs at three depths. The .wwa__layer wrappers carry position
-   and the entrance animation; the .wwa__frame inside carries the tilt and the
-   pointer drift, so the two never fight over `transform`. */
-
-.wwa__stage {
-  position: relative;
-  aspect-ratio: 1 / 0.98;
-}
-
-.wwa__layer {
-  position: absolute;
-}
-.wwa__layer--main {
-  top: 2%;
-  right: 0;
-  width: 86%;
-  aspect-ratio: 4 / 3.1;
-  z-index: 1;
-}
-.wwa__layer--a {
-  left: 0;
-  top: 44%;
-  width: 38%;
-  aspect-ratio: 4 / 3;
-  z-index: 3;
-}
-.wwa__layer--b {
-  right: 4%;
-  bottom: 0;
-  width: 40%;
-  aspect-ratio: 4 / 3;
-  z-index: 2;
-}
-
-/* glass rim around each photograph */
-.wwa__frame {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  padding: 5px;
-  border: 1px solid var(--wwa-rim);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 28px 56px rgba(3, 10, 30, 0.5), 0 4px 12px rgba(3, 10, 30, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.6s var(--ease);
-}
-.wwa__layer--a .wwa__frame,
-.wwa__layer--b .wwa__frame {
+.wwa__stat {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.35rem;
+  min-height: 118px;
+  padding: 1.1rem 0.8rem;
+  border: 1px solid var(--wwa-line);
   border-radius: 16px;
+  background: linear-gradient(180deg, var(--wwa-card), rgba(8, 22, 50, 0.55));
+  text-align: center;
+  transition: border-color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.wwa__frame img {
-  inset: 5px;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  border-radius: 17px;
-  object-fit: cover;
-  transition: filter 0.5s var(--ease);
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .wwa__stat {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
 }
-.wwa__layer--a .wwa__frame img,
-.wwa__layer--b .wwa__frame img {
-  border-radius: 11px;
+.wwa__stat:hover {
+  border-color: rgba(148, 174, 255, 0.4);
+  background: linear-gradient(180deg, rgba(20, 40, 82, 0.85), rgba(10, 26, 58, 0.65));
+  transform: translateY(-2px);
 }
-.wwa__frame:hover {
-  border-color: rgba(143, 184, 255, 0.7);
+.wwa__stat strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
 }
-.wwa__frame:hover img {
-  filter: brightness(1.07);
+/* the one non-numeric highlight gets the accent gradient and a smaller size */
+.wwa__stat strong.is-text {
+  font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+  font-weight: 500;
+  background: linear-gradient(95deg, var(--wwa-blue), var(--wwa-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-
-/* the perspective and the drift are for roomy screens only; below that the
-   stage is simply three layered photographs */
-@media (min-width: 901px) {
-  .wwa__stage {
-    perspective: 1400px;
-  }
-  .wwa__frame {
-    transform: translate3d(calc(var(--px, 0) * var(--d, 0px)), calc(var(--py, 0) * var(--d, 0px)), 0) var(--tilt, none);
-  }
-  .wwa__layer--main .wwa__frame {
-    --tilt: rotateY(-5deg) rotateX(2deg);
-  }
-  .wwa__layer--a .wwa__frame {
-    --tilt: rotateY(-5deg);
-  }
-  .wwa__layer--b .wwa__frame {
-    --tilt: rotateY(-5deg) rotateX(-1deg);
-  }
+.wwa__stat span {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--wwa-text);
 }
 
 /* ---------------------------------------------------------- motion -- */
@@ -2284,44 +2221,44 @@ main > section.ahero {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wwa__frame,
-  .wwa__frame img,
-  .wwa__group a,
-  .wwa__panel {
+  .wwa__photo img,
+  .wwa__stat {
     transition: none;
+  }
+  .wwa__photo:hover img,
+  .wwa__stat:hover {
+    transform: none;
   }
 }
 
 /* ------------------------------------------------------ responsive -- */
 
-@media (max-width: 1100px) {
-  .wwa__grid {
-    gap: 2rem;
-  }
-  .wwa__groups {
-    gap: 1rem 1.25rem;
+@media (max-width: 1000px) {
+  .wwa__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 900px) {
+/* stacked: headline, description, wide photo, tall photo, then the figures */
+@media (max-width: 800px) {
   .wwa__grid {
     grid-template-columns: minmax(0, 1fr);
   }
-  .wwa__stage {
-    max-width: 560px;
-    width: 100%;
+  .wwa__photo--tall {
+    min-height: 0;
+    aspect-ratio: 4 / 3.4;
   }
 }
 
-@media (max-width: 520px) {
-  .wwa__groups {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 560px) {
+  .wwa__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .wwa__layer--a {
-    width: 42%;
+  .wwa__stat:last-child {
+    grid-column: 1 / -1;
   }
-  .wwa__layer--b {
-    width: 44%;
+  .wwa__stat {
+    min-height: 104px;
   }
 }
 
