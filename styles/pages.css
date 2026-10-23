@@ -3672,3 +3672,197 @@ main > section.osh {
     font-size: 0.95rem;
   }
 }
+
+/* ------------------------------------------------- our story cta --
+   components/about/OurStoryCTA.tsx, scoped under .ocs. A white band with one
+   soft card. Wrapped in a <div> (not a bare <section>) so base.css's white /
+   tint banding of <main> sections is undisturbed; the white is set here. */
+
+.ocs-wrap {
+  background: #ffffff;
+}
+
+.ocs {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(3.5rem, 8vw, 6.5rem);
+  background: #ffffff;
+}
+
+/* the blue-lavender glow sits behind the card and never takes a click */
+.ocs::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: min(1100px, 92vw);
+  height: 70%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 32% 50%, rgba(53, 109, 255, 0.2), transparent 75%),
+    radial-gradient(closest-side at 70% 50%, rgba(121, 80, 181, 0.2), transparent 75%);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+.ocs__card {
+  position: relative;
+  max-width: 980px;
+  margin-inline: auto;
+  padding: clamp(2.25rem, 5vw, 4.25rem) clamp(1.25rem, 5vw, 4rem);
+  border: 1px solid rgba(17, 19, 68, 0.1);
+  border-radius: 28px;
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgba(238, 240, 255, 0.9), transparent 70%),
+    #ffffff;
+  box-shadow: 0 30px 70px rgba(53, 109, 255, 0.1), 0 4px 14px rgba(17, 19, 68, 0.05);
+  text-align: center;
+}
+
+/* a slow gradient highlight travelling round the card's edge */
+.ocs__card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 20%, rgba(53, 109, 255, 0.55) 40%, rgba(121, 80, 181, 0.55) 60%, transparent 80%) 0 0 / 300% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+  animation: ocs-edge 9s linear infinite;
+}
+
+.ocs__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #7950b5;
+}
+
+.ocs__title {
+  max-width: 760px;
+  margin: 1rem auto 1.25rem;
+  font-size: clamp(1.9rem, 4.4vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: #111344;
+}
+.ocs__title em {
+  font-style: normal;
+  background: linear-gradient(95deg, #356dff 0%, #5b5be0 50%, #7950b5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ocs__lead {
+  max-width: 640px;
+  margin-inline: auto;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.7;
+  color: #58678a;
+}
+
+.ocs__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.ocs__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 50px;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--r-pill);
+  font-size: 0.97rem;
+  font-weight: 500;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.ocs__btn svg {
+  transition: transform 0.3s var(--ease);
+}
+.ocs__btn:hover svg {
+  transform: translateX(4px);
+}
+.ocs__btn--primary {
+  background: linear-gradient(95deg, #356dff, #7950b5);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(53, 109, 255, 0.3);
+}
+.ocs__btn--primary:hover {
+  box-shadow: 0 16px 34px rgba(53, 109, 255, 0.42);
+}
+.ocs__btn--ghost {
+  border: 1px solid rgba(17, 19, 68, 0.14);
+  background: #ffffff;
+  color: #111344;
+}
+.ocs__btn--ghost:hover {
+  border-color: rgba(121, 80, 181, 0.5);
+  background: #f5f7ff;
+}
+.ocs__btn:focus-visible {
+  outline: 2px solid #356dff;
+  outline-offset: 3px;
+}
+
+/* ----------------------------------------------------------- motion -- */
+
+@keyframes ocs-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ocs-edge {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.ocs.is-armed .ocs__in {
+  opacity: 0;
+}
+.ocs.is-in .ocs__in {
+  animation: ocs-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ocs__card::before {
+    animation: none;
+  }
+  .ocs__btn,
+  .ocs__btn svg {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 520px) {
+  .ocs__card {
+    border-radius: 22px;
+  }
+  .ocs__actions .ocs__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
