@@ -1,22 +1,28 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FiArrowRight, FiArrowUpRight, FiStar, FiZap } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight, FiBriefcase, FiCpu, FiStar, FiZap } from 'react-icons/fi'
 
 import DemoLink from '@/components/ui/DemoLink'
 import SplitHeading from '@/components/fx/SplitHeading'
 import CountUp from '@/components/fx/CountUp'
 import { CATEGORIES, SITE, STATS } from '@/data/site'
 import { legacyCategoryHref } from '@/data/courses-menu'
+import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /* ==========================================================================
    Hero — a split corporate banner. Headline and the prompt box on the left;
    on the right a layered collage of two photographs with a floating figure
    card. Under both runs a numbered index of the first four tracks, each with
    a rule that fills on hover.
+
+   Motion: aurora blobs drift behind everything, a soft spotlight follows the
+   pointer, the collage layers shift by depth with the pointer (through the
+   --px/--py custom properties, so they compose with the CSS float loops),
+   and the prompt's placeholder types out example goals.
    ========================================================================== */
 
 /** Words in the prompt that point at a course category. First match wins. */
@@ -29,6 +35,46 @@ const KEYWORDS: [slug: string, words: string[]][] = [
   ['full-stack', ['web', 'full', 'stack', 'react', 'node', 'java', 'python', 'mern', 'program', 'develop', 'code', 'app']],
 ]
 
+const PLACEHOLDERS = [
+  'I want to become a data analyst',
+  'I want to build AI agents',
+  'I want a job as a full-stack developer',
+  'I want to get into cybersecurity',
+]
+
+/** Types each example out, holds it, deletes it, moves to the next. */
+function useTypedPlaceholder(phrases: string[]) {
+  const [text, setText] = useState(phrases[0])
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    let phrase = 0
+    let chars = phrases[0].length
+    let deleting = true
+    let id: ReturnType<typeof setTimeout>
+
+    const step = () => {
+      const full = phrases[phrase]
+      chars += deleting ? -1 : 1
+      setText(full.slice(0, chars))
+      let wait = deleting ? 28 : 55
+      if (!deleting && chars === full.length) {
+        deleting = true
+        wait = 2200
+      } else if (deleting && chars === 0) {
+        deleting = false
+        phrase = (phrase + 1) % phrases.length
+        wait = 350
+      }
+      id = setTimeout(step, wait)
+    }
+    id = setTimeout(step, 2600)
+    return () => clearTimeout(id)
+  }, [phrases])
+
+  return `e.g. ${text}`
+}
+
 const SUGGESTIONS = [
   { label: 'AI & Machine Learning', href: '/courses/artificial-intelligence-ai' },
   { label: 'Full-Stack Development', href: '/courses/full-stack-web-development' },
@@ -39,6 +85,35 @@ export default function Hero() {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const lead = STATS[0]
+  const placeholder = useTypedPlaceholder(PLACEHOLDERS)
+  const hero = useRef<HTMLElement>(null)
+
+  /* pointer → spotlight position and eased parallax offsets (-1…1) */
+  useEffect(() => {
+    const el = hero.current
+    if (!el || prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) return
+    const p = { x: 0, y: 0 }
+    const toX = gsap.quickTo(p, 'x', { duration: 0.9, ease: 'power3.out', onUpdate: () => el.style.setProperty('--px', p.x.toFixed(3)) })
+    const toY = gsap.quickTo(p, 'y', { duration: 0.9, ease: 'power3.out', onUpdate: () => el.style.setProperty('--py', p.y.toFixed(3)) })
+
+    const move = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect()
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+      el.style.setProperty('--my', `${e.clientY - r.top}px`)
+      toX(((e.clientX - r.left) / r.width) * 2 - 1)
+      toY(((e.clientY - r.top) / r.height) * 2 - 1)
+    }
+    const leave = () => {
+      toX(0)
+      toY(0)
+    }
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerleave', leave)
+    return () => {
+      el.removeEventListener('pointermove', move)
+      el.removeEventListener('pointerleave', leave)
+    }
+  }, [])
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -49,8 +124,14 @@ export default function Hero() {
   }
 
   return (
-    <section className="cx-hero">
+    <section className="cx-hero" ref={hero}>
+      <div className="cx-hero__aurora" aria-hidden>
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="cx-hero__bg" aria-hidden />
+      <div className="cx-hero__spot" aria-hidden />
 
       <div className="shell cx-hero__grid">
         <div className="cx-hero__copy">
@@ -86,7 +167,7 @@ export default function Hero() {
                     e.currentTarget.form?.requestSubmit()
                   }
                 }}
-                placeholder="e.g. I want to become a data analyst"
+                placeholder={placeholder}
               />
               <button type="submit" className="btn btn--sm">
                 Find my course <FiArrowRight aria-hidden />
@@ -108,10 +189,14 @@ export default function Hero() {
         <div className="cx-hero__visual" aria-hidden>
           <div className="cx-hero__ring" />
           <div className="cx-hero__img cx-hero__img--main">
-            <Image src="/images/course/classroom.webp" alt="" fill priority sizes="(max-width: 960px) 90vw, 44vw" />
-          </div>
-          <div className="cx-hero__img cx-hero__img--side">
-            <Image src="/images/course/lab.webp" alt="" fill sizes="(max-width: 960px) 40vw, 18vw" />
+            <Image
+              src="/images/franchise/benefits.webp"
+              alt=""
+              fill
+              priority
+              quality={90}
+              sizes="(max-width: 960px) 92vw, 46vw"
+            />
           </div>
           <div className="cx-hero__figure">
             <b>
@@ -119,6 +204,12 @@ export default function Hero() {
             </b>
             <span>{lead.label}</span>
           </div>
+          <span className="cx-hero__chip cx-hero__chip--ai">
+            <FiCpu /> AI-first curriculum
+          </span>
+          <span className="cx-hero__chip cx-hero__chip--job">
+            <FiBriefcase /> Placement support
+          </span>
         </div>
       </div>
 

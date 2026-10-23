@@ -25,6 +25,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    /* 90 for the hero photographs, which are shown large */
+    qualities: [75, 90],
   },
   async redirects() {
     return [

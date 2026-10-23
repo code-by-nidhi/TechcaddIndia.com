@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import DemoModal from '@/components/layout/DemoModal'
 import MotionProvider from '@/components/fx/MotionProvider'
+import ScrollProgress from '@/components/fx/ScrollProgress'
 import { SITE } from '@/data/site'
 
 /* Order matters: tokens → shared UI → layout chrome → sections. */
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <MotionProvider>
+          <ScrollProgress />
           <Navbar />
           <main id="main">{children}</main>
           <Footer />

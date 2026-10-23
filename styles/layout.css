@@ -987,3 +987,17 @@ button.drawer__link {
 .drawer__sub .dcourses__more {
   color: var(--ink-2);
 }
+
+/* ------------------------------------------------------ scroll progress -- */
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 3px;
+  background: linear-gradient(90deg, var(--c-blue) 0%, #7243a7 60%, #9793d3 100%);
+  box-shadow: 0 0 10px rgba(46, 83, 225, 0.45);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
