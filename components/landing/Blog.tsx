@@ -12,8 +12,8 @@ const fmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', ye
 
 /** Posts carry no artwork of their own yet, so each tag borrows a photo. */
 const ART: Record<string, string> = {
-  Careers: '/images/course/campus1.webp',
-  Stories: '/images/course/classroom.webp',
+  Careers: '/images/gallery/placement-drive.webp',
+  Stories: '/images/gallery/techcadd-meet.webp',
   Data: '/images/categories/data-science.webp',
   AI: '/images/categories/ai.webp',
 }

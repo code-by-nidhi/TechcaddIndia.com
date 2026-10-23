@@ -3069,3 +3069,39 @@ main > section.mvh {
 .about-block {
   scroll-margin-top: calc(var(--nav-h) + 24px);
 }
+
+/* ------------------------------------------------------- campus wall -- */
+
+/* Infrastructure & Labs: a masonry wall, so portrait and square photos sit together */
+.campus-wall {
+  columns: 3 280px;
+  column-gap: clamp(0.75rem, 1.4vw, 1.25rem);
+}
+.campus-wall li {
+  break-inside: avoid;
+  margin-bottom: clamp(0.75rem, 1.4vw, 1.25rem);
+}
+.campus-wall figure {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+}
+.campus-wall img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.7s var(--ease);
+}
+.campus-wall figure:hover img {
+  transform: scale(1.04);
+}
+.campus-wall figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2.5rem 1rem 0.85rem;
+  background: linear-gradient(180deg, transparent, rgba(14, 10, 66, 0.8));
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 500;
+}

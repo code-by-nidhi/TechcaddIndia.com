@@ -79,6 +79,8 @@
 /* the Infosys `label-head`: a small indigo chip */
 .eyebrow {
   display: inline-flex;
+  /* hug the text even as a stretched grid or flex item */
+  width: fit-content;
   align-items: center;
   gap: 0.45rem;
   padding: 0.3rem 0.55rem;

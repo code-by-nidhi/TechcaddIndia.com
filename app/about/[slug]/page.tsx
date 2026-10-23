@@ -6,6 +6,7 @@ import Placeholder from '@/components/ui/Placeholder'
 import About from '@/components/home/About'
 import HowItWorks from '@/components/home/HowItWorks'
 import WhyZoom from '@/components/about/WhyZoom'
+import CampusGallery from '@/components/about/CampusGallery'
 import CTA from '@/components/home/CTA'
 import MissionVisionHero from '@/components/about/MissionVisionHero'
 import { ABOUT_PAGES, aboutHref, findAboutPage } from '@/data/about-pages'
@@ -51,6 +52,7 @@ export default async function AboutSubPage({ params }: Props) {
       {page.section === 'story' && <About />}
       {page.section === 'approach' && <HowItWorks />}
       {page.section === 'why' && <WhyZoom />}
+      {page.section === 'labs' && <CampusGallery />}
       {page.blocks && (
         <section className="section">
           <div className="shell page-stack">

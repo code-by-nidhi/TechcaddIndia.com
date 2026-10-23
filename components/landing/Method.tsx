@@ -2,17 +2,15 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { FiArrowRight } from 'react-icons/fi'
 
-import DemoLink from '@/components/ui/DemoLink'
-import { STEPS } from '@/data/site'
+import { JOURNEY } from '@/data/site'
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from '@/lib/gsap'
 
-/* The heading and its action stay pinned on the left while the four steps
-   scroll past on the right along a vertical rail. The rail fills with the
-   scroll, and each step lights up as it crosses the middle of the screen. */
-
-const PHOTOS = ['/images/how/counselling.webp', '/images/course/lab.webp', '/images/how/project.webp', '/images/how/placement.webp']
+/* Our journey. The heading and its actions stay pinned on the left while the
+   milestones, one per year, scroll past on the right along a vertical rail.
+   The rail fills with the scroll, and each year lights up as it crosses the
+   middle of the screen. */
 
 export default function Method() {
   const root = useRef<HTMLDivElement>(null)
@@ -37,18 +35,28 @@ export default function Method() {
   )
 
   return (
-    <section className="section cx-method" id="how-it-works">
+    <section className="section cx-method" id="journey">
       <div className="shell cx-method__grid">
         <div className="cx-method__copy">
-          <h2 className="cx-title" data-aos="fade-up">
-            From first call to <span className="cx-hl">first offer</span>
+          <span className="eyebrow" data-aos="fade-up">
+            Our journey
+          </span>
+          <h2 className="cx-title" data-aos="fade-up" data-aos-delay="80">
+            A decade of <span className="cx-hl">building careers</span>
           </h2>
-          <p data-aos="fade-up" data-aos-delay="100">
-            Starting after 12th, switching careers or adding AI to the skills you already have — the path is the same
-            four steps, in a techcadd centre or a live online batch.
+          <p data-aos="fade-up" data-aos-delay="120">
+            What began in 2016 has evolved into a technology-focused training ecosystem with an expanding portfolio of
+            courses and practical learning initiatives — and the focus keeps moving towards emerging areas such as
+            Artificial Intelligence, automation, cloud technologies, cybersecurity, data and modern software
+            development.
           </p>
-          <div data-aos="fade-up" data-aos-delay="200">
-            <DemoLink className="btn">Book a free demo</DemoLink>
+          <div className="cx-method__ctas" data-aos="fade-up" data-aos-delay="200">
+            <Link href="/franchises#apply" className="btn">
+              Write the next chapter with us <FiArrowRight aria-hidden />
+            </Link>
+            <Link href="/about/our-story" className="cta-link">
+              Our story
+            </Link>
           </div>
         </div>
 
@@ -57,21 +65,13 @@ export default function Method() {
             <span className="cx-steps__fill" />
           </span>
           <ol>
-            {STEPS.map((step, i) => (
-              <li key={step.title} className="cx-step">
-                <span className="cx-step__no" aria-hidden>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div className="cx-step__card">
-                  <div className="cx-step__img">
-                    <Image src={PHOTOS[i]} alt="" fill sizes="(max-width: 900px) 90vw, 260px" />
-                  </div>
+            {JOURNEY.map((m) => (
+              <li key={m.year} className="cx-step">
+                <span className="cx-step__no cx-step__no--year">{m.year}</span>
+                <div className="cx-step__card cx-step__card--text">
                   <div className="cx-step__body">
-                    <h3>{step.title}</h3>
-                    <p>{step.text}</p>
-                    <Link href="/about" className="cta-link">
-                      Learn more
-                    </Link>
+                    <h3>{m.title}</h3>
+                    <p>{m.text}</p>
                   </div>
                 </div>
               </li>
