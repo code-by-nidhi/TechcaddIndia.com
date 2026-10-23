@@ -71,8 +71,8 @@ export default function WhoWeAre() {
 
               <figure className="wwa__photo wwa__photo--wide wwa__in" style={{ ['--i' as string]: 3 }}>
                 <Image
-                  src="/images/franchise/img10.webp"
-                  alt="A techcadd seminar: a speaker addressing a hall of students"
+                  src="/images/gallery/auditorium-session.webp"
+                  alt="A techcadd trainer presenting to a full auditorium"
                   fill
                   sizes="(max-width: 900px) 92vw, 52vw"
                 />
@@ -82,8 +82,8 @@ export default function WhoWeAre() {
 
             <figure className="wwa__photo wwa__photo--tall wwa__in" style={{ ['--i' as string]: 4 }}>
               <Image
-                src="/images/course/campus1.webp"
-                alt="Learners working in a techcadd training hall"
+                src="/images/campus/college-workshop.webp"
+                alt="Learners with laptops at a techcadd hands-on workshop"
                 fill
                 sizes="(max-width: 900px) 92vw, 26vw"
               />

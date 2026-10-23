@@ -3042,3 +3042,633 @@ main > section.mvh {
   font-size: 0.88rem;
   font-weight: 500;
 }
+
+/* --------------------------------------------------- our story hero --
+   components/about/OurStoryHero.tsx, scoped under .osh. A white / light-lavender panel with
+   the same inset and radius as the other About heroes, sitting below the
+   navbar. The background selector carries `main >` because base.css bands
+   every direct <section> of <main> by position. The buttons reuse the
+   .mvh__btn styles from the Mission & Vision hero. */
+
+main > section.osh {
+  background:
+    radial-gradient(50% 55% at 50% 36%, rgba(53, 109, 255, 0.1), transparent 72%),
+    radial-gradient(40% 50% at 100% 0%, rgba(121, 80, 181, 0.13), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(53, 109, 255, 0.08), transparent 70%),
+    linear-gradient(180deg, #ffffff 0%, #eef0ff 100%);
+  background-color: #f5f7ff;
+}
+
+.osh {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* the home hero's structure: the panel is pulled up under the (transparent,
+     sticky) header so one background runs behind the navbar, and the header's
+     height is added back as top padding so the content stays where it was */
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding-block: calc(var(--nav-h) + clamp(3.5rem, 7vw, 6rem)) clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid rgba(121, 80, 181, 0.14);
+  border-radius: 15px;
+  color: #111344;
+  text-align: center;
+}
+
+/* faint grid, fading toward the edges, and a whisper of lavender at the corners */
+.osh::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(17, 19, 68, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(17, 19, 68, 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 80%);
+  pointer-events: none;
+}
+.osh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(90% 85% at 50% 45%, transparent 60%, rgba(121, 80, 181, 0.07) 100%);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------- abstract network -- */
+
+.osh__net {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+.osh__lines path {
+  fill: none;
+  stroke: rgba(121, 80, 181, 0.26);
+  stroke-width: 0.1;
+}
+.osh__node {
+  fill: #7950b5;
+  opacity: 0.55;
+  r: 0.45px;
+}
+.osh__node--glow {
+  fill: #356dff;
+  filter: drop-shadow(0 0 0.5px rgba(53, 109, 255, 0.5));
+  animation: osh-pulse 5.5s ease-in-out infinite;
+}
+.osh__node--glow:nth-of-type(6) {
+  animation-delay: 1.8s;
+}
+
+.osh__orb {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+.osh__orb--a {
+  left: -6%;
+  bottom: 8%;
+  width: 26vw;
+  max-width: 340px;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(121, 80, 181, 0.2), transparent);
+}
+.osh__orb--b {
+  right: -4%;
+  top: 14%;
+  width: 22vw;
+  max-width: 300px;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(53, 109, 255, 0.18), transparent);
+}
+
+/* ------------------------------------------------------------ copy -- */
+
+.osh__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.osh__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #7950b5;
+}
+
+.osh__titlewrap {
+  position: relative;
+  /* room above and below the headline for the floating labels */
+  padding-block: 3.4rem;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.osh__title {
+  font-size: clamp(2rem, 5.2vw, 4.6rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: #111344;
+}
+.osh__title span {
+  display: block;
+}
+@media (min-width: 701px) {
+  .osh__title span {
+    white-space: nowrap;
+  }
+}
+.osh__title em {
+  font-style: normal;
+  background: linear-gradient(95deg, #356dff 0%, #5b5be0 50%, #7950b5 100%) 100% 0 / 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* the gradient settles into place once, on load */
+  animation: osh-sheen 2.8s var(--ease) 0.8s both;
+}
+
+.osh__lead {
+  max-width: 740px;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.7;
+  color: #58678a;
+}
+
+.osh__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* ------------------------------------------------------ floating labels -- */
+
+.osh__labels {
+  list-style: none;
+}
+.osh__label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+  border: 1px solid rgba(53, 109, 255, 0.22);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 10px 24px rgba(17, 19, 68, 0.1), 0 1px 3px rgba(17, 19, 68, 0.05);
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #111344;
+  animation: osh-label-in 0.9s var(--ease) both, osh-float var(--fd, 7s) ease-in-out var(--fl, -2s) infinite;
+  animation-delay: calc(var(--i) * 140ms + 900ms), var(--fl, -2s);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .osh__label {
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+}
+.osh__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #356dff, #7950b5);
+  box-shadow: 0 0 6px rgba(53, 109, 255, 0.35);
+}
+/* in the padding above and below the two headline lines, never over them */
+.osh__label--0 {
+  top: 0.4rem;
+  left: 4%;
+  --fd: 7s;
+  --fl: -1s;
+}
+.osh__label--1 {
+  top: 0.9rem;
+  right: 3%;
+  --fd: 6s;
+  --fl: -3s;
+}
+.osh__label--2 {
+  bottom: 0.6rem;
+  left: 12%;
+  --fd: 8s;
+  --fl: -4s;
+}
+.osh__label--3 {
+  bottom: 0.2rem;
+  right: 10%;
+  --fd: 6.5s;
+  --fl: -2s;
+}
+
+/* ------------------------------------------------------ tech strip -- */
+
+.osh__tech {
+  width: 100%;
+  max-width: 1000px;
+  margin-top: clamp(2.25rem, 4.5vw, 3.5rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(17, 19, 68, 0.1);
+}
+.osh__tech-title {
+  margin-bottom: 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #58678a;
+}
+.osh__tech-list {
+  display: flex;
+  /* centred when it fits, scrolls inside itself (never the page) when it doesn't */
+  justify-content: safe center;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  list-style: none;
+}
+.osh__tech-list::-webkit-scrollbar {
+  display: none;
+}
+.osh__tech-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  padding-inline: clamp(0.9rem, 1.8vw, 1.5rem);
+  font-size: 0.92rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #3f4d73;
+}
+.osh__tech-list li + li {
+  border-left: 1px solid rgba(17, 19, 68, 0.14);
+}
+.osh__tech-list svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: #7950b5;
+}
+
+/* the secondary button on a light panel: white glass, lavender edge, navy text */
+.osh .mvh__btn--ghost {
+  border-color: rgba(121, 80, 181, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  color: #111344;
+}
+.osh .mvh__btn--ghost:hover {
+  border-color: rgba(121, 80, 181, 0.6);
+  background: #fff;
+}
+.osh .mvh__btn:focus-visible {
+  outline-color: #356dff;
+}
+
+/* ----------------------------------------------------------- motion -- */
+
+@keyframes osh-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.osh__in {
+  animation: osh-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+}
+@keyframes osh-label-in {
+  from {
+    opacity: 0;
+    margin-top: 12px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+/* out and back along a straight line; never a circle */
+@keyframes osh-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 3px -6px;
+  }
+}
+@keyframes osh-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes osh-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .osh__in,
+  .osh__label,
+  .osh__node--glow,
+  .osh__title em {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 1024px) {
+  .osh__label {
+    font-size: 0.76rem;
+  }
+}
+
+/* phones: the labels leave the headline's corners and become a calm row of
+   pills under it; the tech strip scrolls inside itself, never the page */
+@media (max-width: 700px) {
+  .osh__titlewrap {
+    padding-block: 1.5rem 0.5rem;
+  }
+  .osh__labels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 1.5rem;
+  }
+  .osh__label {
+    position: static;
+    animation: osh-label-in 0.9s var(--ease) both;
+    animation-delay: calc(var(--i) * 120ms + 700ms);
+    font-size: 0.74rem;
+    padding: 0.3rem 0.7rem 0.3rem 0.6rem;
+  }
+  .osh__tech-list {
+    justify-content: flex-start;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .osh__net {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 520px) {
+  .osh__actions .mvh__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------- journey timeline --
+   components/about/JourneyTimeline.tsx, scoped under .jt. Wrapped in a <div>
+   (not a bare <section>) so base.css's white / tint banding of <main>
+   sections is undisturbed. */
+
+.jt-wrap {
+  /* a direct child of <main>, so it is as wide as the page itself: no outer
+     margin, no frame */
+  width: 100%;
+  margin: 0;
+}
+
+.jt {
+  --jt-blue: #356dff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* tall enough for the whole story; grows if the content needs more */
+  min-height: max(560px, 100svh);
+  border-radius: 0;
+  background: #050914;
+  color: #fff;
+}
+
+/* ----------------------------------------------------------- photos -- */
+
+.jt__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.jt__img {
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.9s var(--ease), transform 1.6s var(--ease);
+}
+.jt__img.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* dark navy-to-black: heavy on the left where the words sit, and along the
+   foot where the years sit, light on the right so the photo still reads */
+.jt__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5, 9, 20, 0.9) 0%, rgba(5, 9, 20, 0.66) 42%, rgba(5, 9, 20, 0.28) 100%),
+    linear-gradient(180deg, rgba(5, 9, 20, 0.7) 0%, transparent 28%, transparent 55%, rgba(5, 9, 20, 0.9) 100%);
+}
+
+/* ---------------------------------------------------------- layout -- */
+
+.jt__inner {
+  display: flex;
+  flex-direction: column;
+  min-height: inherit;
+  padding-block: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.jt__label {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  background: var(--jt-blue);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+.jt__label span {
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.jt__title {
+  max-width: 760px;
+  margin-top: 1rem;
+  font-size: clamp(1.7rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+/* the story sits low on the left, just above the years */
+.jt__story {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+.jt__fade {
+  max-width: 560px;
+  animation: jt-in 0.7s var(--ease) both;
+}
+.jt__year {
+  font-family: var(--font-display);
+  font-size: clamp(4.2rem, 11vw, 9rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+.jt__heading {
+  margin-top: 1rem;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #fff;
+}
+.jt__text {
+  margin-top: 0.6rem;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ------------------------------------------------------------ years -- */
+
+.jt__rail {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+.jt__strip {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.jt__strip::-webkit-scrollbar {
+  display: none;
+}
+.jt__tabs {
+  position: relative;
+  display: flex;
+  min-width: 100%;
+  /* ten tabs share the width; below this the strip scrolls inside itself */
+  width: max(100%, 720px);
+}
+.jt__tab {
+  flex: 1 1 0;
+  min-height: 52px;
+  padding: 0.9rem 0.25rem 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  font-weight: 400;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s var(--ease);
+}
+.jt__tab:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+.jt__tab.is-active {
+  font-weight: 700;
+  color: #fff;
+}
+.jt__tab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  border-radius: 8px;
+}
+
+/* the active marker slides along the rail: a short bar centred under the year */
+.jt__mark {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 20%, var(--jt-blue) 50%, transparent 80%);
+  transition: transform 0.5s var(--ease);
+  pointer-events: none;
+}
+.jt__mark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  width: 22px;
+  height: 7px;
+  margin-left: -11px;
+  border-radius: 4px;
+  background: var(--jt-blue);
+  box-shadow: 0 0 12px rgba(53, 109, 255, 0.7);
+}
+
+/* ----------------------------------------------------------- motion -- */
+
+@keyframes jt-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jt__img,
+  .jt__fade,
+  .jt__tab,
+  .jt__mark {
+    transition: none;
+    animation: none;
+  }
+  .jt__img {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------ responsive -- */
+
+@media (max-width: 800px) {
+  .jt__shade {
+    background:
+      linear-gradient(180deg, rgba(5, 9, 20, 0.8) 0%, rgba(5, 9, 20, 0.55) 40%, rgba(5, 9, 20, 0.88) 100%);
+  }
+  .jt__tab {
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+}
