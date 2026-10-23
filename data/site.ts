@@ -7,8 +7,8 @@
    be confirmed before launch.
    ========================================================================== */
 
-import { INTERNSHIP_BASE } from '@/data/internships'
 import { ABOUT_MENU_LINKS } from '@/data/about-pages'
+import { getSection, sectionMenuLinks } from '@/data/nav-sections'
 
 export const SITE = {
   name: 'techcadd',
@@ -79,38 +79,85 @@ export const NAV: NavItem[] = [
     ],
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
-  { label: 'Courses', href: '/courses', coursesMenu: true },
+  {
+    label: 'Franchise',
+    href: '/franchises',
+    linksTitle: 'Franchise',
+    links: [
+      { label: 'Own a techcadd Franchise', href: '/franchises' },
+      { label: 'Why Partner with techcadd', href: '/franchises#benefits' },
+      { label: 'About the Network', href: '/franchises#about' },
+      { label: 'Franchise Journey', href: '/franchises#journey' },
+      { label: 'Who Can Partner', href: '/franchises#partners' },
+      { label: 'Events & Gallery', href: '/franchises#events' },
+      { label: 'Our Team', href: '/franchises#team' },
+      { label: 'Franchise Contact', href: '/franchises#contact' },
+    ],
+    featured: [
+      { title: 'Why Partner with Us', href: '/franchises#benefits', image: '/images/franchise/benefits.webp', tag: 'Benefits', meta: '120+ partners' },
+      { title: 'Franchise Journey', href: '/franchises#journey', image: '/images/franchise/img12.webp', tag: 'Process', meta: 'Enquiry to launch' },
+      { title: 'Events & Gallery', href: '/franchises#events', image: '/images/franchise/img17.webp', tag: 'Network', meta: 'Across India' },
+    ],
+    cta: { label: 'Become a Franchise Partner', href: '/franchises#apply' },
+  },
   {
     label: 'Training',
-    href: INTERNSHIP_BASE,
+    href: '/training',
+    linksTitle: 'Training',
+    links: sectionMenuLinks(getSection('training')),
+    featured: [
+      { title: 'Industrial Training', href: '/internship-training/industrial-training', image: '/images/course/lab.webp', tag: 'Students', meta: 'Live projects' },
+      { title: 'Corporate Training', href: '/training/corporate-training', image: '/images/course/classroom.webp', tag: 'Teams', meta: 'Upskill your staff' },
+      { title: 'Online Training', href: '/training/online-training', image: '/images/course/campus1.webp', tag: 'Anywhere', meta: 'Live batches' },
+    ],
+    cta: { label: 'All training programs', href: '/training' },
   },
-  { label: 'Careers', href: '/careers' },
+  {
+    label: 'Careers',
+    href: '/careers',
+    linksTitle: 'Careers',
+    links: sectionMenuLinks(getSection('careers')),
+    featured: [
+      { title: 'Internship Programs', href: '/internship-training/internship-programme', image: '/images/how/project.webp', tag: 'Experience', meta: 'Real client work' },
+      { title: 'Placement Assistance', href: '/careers/placement-assistance', image: '/images/how/placement.webp', tag: 'Jobs', meta: '500+ hiring partners' },
+      { title: 'Career Guidance', href: '/careers/career-guidance', image: '/images/how/counselling.webp', tag: 'Counselling', meta: 'Free one-to-one' },
+    ],
+    cta: { label: 'Talk to a counsellor', href: '/contact' },
+  },
   {
     label: 'IT Services',
     href: '/services',
-    children: [
-      { label: 'Services', href: '/services', note: 'Software, training and consulting' },
-      { label: 'Projects', href: '/projects', note: 'Work we have delivered' },
+    linksTitle: 'IT Services',
+    links: sectionMenuLinks(getSection('services')),
+    featured: [
+      { title: 'Website Development', href: '/services/website-development', image: '/images/categories/full-stack.webp', tag: 'Web', meta: 'Sites that convert' },
+      { title: 'AI Solutions & Automation', href: '/services/ai-solutions-automation', image: '/images/categories/ai.webp', tag: 'AI', meta: 'Agents and workflows' },
+      { title: 'Projects', href: '/projects', image: '/images/course/lab.webp', tag: 'Work', meta: 'What we have delivered' },
     ],
+    cta: { label: 'Corporate enquiry', href: '/contact/corporate-enquiry' },
   },
   {
     label: 'Resources',
-    href: '/blog',
-    linksTitle: 'Categories',
-    links: [
-      { label: 'Blog', href: '/blog' },
-      { label: 'AI at techcadd', href: '/ai' },
-      { label: 'After 12th', href: '/after-12th' },
-      { label: 'FAQ', href: '/#faq' },
-      { label: 'Reviews', href: '/#testimonials' },
-    ],
+    href: '/resources',
+    linksTitle: 'Resources',
+    links: sectionMenuLinks(getSection('resources')),
     featured: [
       { title: 'Blog', href: '/blog', image: '/images/course/classroom.webp', tag: 'Articles', meta: 'Latest' },
-      { title: 'FAQ', href: '/#faq', image: '/images/course/lab.webp', tag: 'Answers', meta: 'Admissions' },
+      { title: 'Course FAQs', href: '/resources/course-faqs', image: '/images/course/lab.webp', tag: 'Answers', meta: 'Admissions' },
       { title: 'AI at techcadd', href: '/ai', image: '/images/categories/ai.webp', tag: 'Guide', meta: 'GenAI, agents, RAG' },
     ],
   },
-  { label: 'Contact', href: '/contact' },
+  {
+    label: 'Contact',
+    href: '/contact',
+    linksTitle: 'Contact',
+    links: sectionMenuLinks(getSection('contact')),
+    featured: [
+      { title: 'Request a Callback', href: '/contact/request-a-callback', image: '/images/how/counselling.webp', tag: 'Call', meta: 'We call you back' },
+      { title: 'Course Enquiry', href: '/contact/course-enquiry', image: '/images/course/classroom.webp', tag: 'Admissions', meta: 'Fees and batches' },
+      { title: 'Our Branches', href: '/branches', image: '/images/course/campus1.webp', tag: 'Visit', meta: 'Find a centre' },
+    ],
+  },
 ]
 
 /* ------------------------------------------------------------- cities -- */

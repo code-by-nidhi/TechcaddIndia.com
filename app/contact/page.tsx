@@ -3,7 +3,9 @@ import { FiPhone, FiMail, FiClock } from 'react-icons/fi'
 
 import PageHero from '@/components/ui/PageHero'
 import CTA from '@/components/home/CTA'
+import { SectionLinks } from '@/components/ui/SectionPages'
 import { SITE } from '@/data/site'
+import { getSection } from '@/data/nav-sections'
 
 export const metadata: Metadata = { title: 'Contact' }
 
@@ -35,6 +37,7 @@ export default function ContactPage() {
           ))}
         </div>
       </section>
+      <SectionLinks section={getSection('contact')} />
       <CTA />
     </>
   )

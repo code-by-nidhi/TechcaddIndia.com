@@ -2,13 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiArrowUpRight } from 'react-icons/fi'
 
-import CountUp from '@/components/fx/CountUp'
-import { STATS, WHY } from '@/data/site'
+import { WHY } from '@/data/site'
 
 /* ==========================================================================
    About — the corporate "who we are" block. A statement headline beside the
-   story and its link; a bento of three photographs around an ink tile that
-   carries the numbers; then the four reasons to choose us as a ruled row of
+   story and its link; a bento of three photographs (the numbers live in
+   Results); then the four reasons to choose us as a ruled row of
    numbered columns.
    ========================================================================== */
 
@@ -40,18 +39,6 @@ export default function About() {
           <div className="cx-about__photo cx-about__photo--main" data-aos="fade-up">
             <Image src="/images/course/classroom.webp" alt="A full hall at a techcadd seminar" fill sizes="(max-width: 900px) 100vw, 45vw" />
           </div>
-
-          <dl className="cx-about__stats" data-aos="fade-up" data-aos-delay="100">
-            {STATS.map((s) => (
-              <div key={s.label}>
-                {/* label first for valid <dl>; CSS shows the number on top */}
-                <dt>{s.label}</dt>
-                <dd>
-                  <CountUp value={s.value} suffix={s.suffix} />
-                </dd>
-              </div>
-            ))}
-          </dl>
 
           <div className="cx-about__photo" data-aos="fade-up" data-aos-delay="150">
             <Image src="/images/course/campus1.webp" alt="Students at work in a techcadd classroom" fill sizes="(max-width: 900px) 50vw, 25vw" />

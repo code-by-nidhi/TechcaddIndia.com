@@ -231,7 +231,7 @@ export function FranchiseFounder() {
 /** Closing band: the call to bring a centre to your city, and how to reach the team. */
 export function FranchiseContact() {
   return (
-    <section className="section fr-contact">
+    <section className="section fr-contact" id="contact">
       <div className="shell fr-split">
         <div className="fr-photo fr-photo--plain" data-aos="fade-right">
           <Image src={FRANCHISE_CITY.image} alt="Illustration of a techcadd franchise centre" fill sizes="(max-width: 960px) 100vw, 620px" />
