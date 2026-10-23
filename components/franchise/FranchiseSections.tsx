@@ -153,9 +153,9 @@ export function FranchiseGallery() {
       {rails.map((rail, r) => (
         <div className={`fr-gallery__rail${r ? ' fr-gallery__rail--rev' : ''}`} key={r}>
           <ul>
-            {[...rail, ...rail].map((src, i) => (
+            {[...rail, ...rail].map((p, i) => (
               <li key={i} aria-hidden={i >= rail.length || undefined}>
-                <Image src={src} alt={i < rail.length ? `techcadd seminar ${r * 9 + i + 1}` : ''} fill sizes="(max-width: 700px) 70vw, 380px" />
+                <Image src={p.src} alt={i < rail.length ? p.alt : ''} fill sizes="(max-width: 700px) 70vw, 380px" />
               </li>
             ))}
           </ul>

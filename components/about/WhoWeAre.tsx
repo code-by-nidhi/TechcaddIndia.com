@@ -2,46 +2,37 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { FiMapPin } from 'react-icons/fi'
 
-import { ALL_MENU_COURSES } from '@/data/courses-menu'
+import { STATS } from '@/data/site'
 
-/* "Who we are" — a spatial company-profile band.
+/* "Who we are" — an enterprise-style company profile on a near-black navy band:
+   a large headline and description, a wide event photograph beside a tall
+   training photograph, and a row of five figures.
 
-   Left: the story as an editorial column (headline, one frosted panel holding
-   the two paragraphs, then the expertise grouped under hairlines, no cards).
-   Right: a stage of three real photographs at three depths. On a fine pointer
-   the layers drift 2–4px against each other; elsewhere the stage is static.
-   Nothing here is a figure or a claim: the facts are the ones already on the
-   site (a single classroom in Punjab grown into a national network, classroom
-   and live online batches, headquarters in Jalandhar). */
+   Every figure comes from data/site.ts (STATS) or is a plain fact from the
+   site's own copy; nothing here is invented. "10 Years" matches the 2016
+   founding recorded in data/franchise.ts.
 
-const GROUPS: { title: string; courses: string[] }[] = [
-  { title: 'AI & Data', courses: ['Artificial Intelligence (AI)', 'Generative AI', 'Data Science & Machine Learning'] },
-  {
-    title: 'Software Development',
-    courses: ['Python Programming', 'Java Programming', 'Full Stack Web Development', 'MERN Stack Development'],
-  },
-  { title: 'Cloud & Security', courses: ['AWS & Cloud Computing', 'Cybersecurity'] },
-  { title: 'Digital & Creative Skills', courses: ['Digital Marketing', 'UI/UX Design', 'AutoCAD'] },
+   The reveal runs once when the section scrolls into view; before the
+   component mounts, and with reduced motion, everything is simply shown. */
+
+const [students, partners, technologies, years] = STATS
+
+const FIGURES = [
+  { value: `${years.value}${years.suffix}`.replace(/^(\d+)\s*years$/, '$1 Years'), label: 'Years of training' },
+  { value: `${students.value.toLocaleString('en-IN')}${students.suffix}`, label: 'Students trained' },
+  { value: `${technologies.value}${technologies.suffix}`, label: 'Technologies taught' },
+  { value: `${partners.value}${partners.suffix}`, label: 'Hiring partners' },
+  { value: 'Live Projects', label: 'Career-focused training', text: true },
 ]
 
-/* resolved from the course catalogue so every pill links to its real page */
-const resolved = GROUPS.map((g) => ({
-  title: g.title,
-  courses: g.courses.map((label) => ALL_MENU_COURSES.find((c) => c.label === label)).filter((c) => c !== undefined),
-}))
-
 export default function WhoWeAre() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const stageRef = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
   const [armed, setArmed] = useState(false)
   const [seen, setSeen] = useState(false)
 
-  /* one-shot reveal when the section scrolls into view */
   useEffect(() => {
-    const el = sectionRef.current
+    const el = ref.current
     if (!el) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return
     setArmed(true)
@@ -51,123 +42,63 @@ export default function WhoWeAre() {
         setSeen(true)
         io.disconnect()
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     )
     io.observe(el)
     return () => io.disconnect()
   }, [])
 
-  /* pointer depth: mouse only, never touch, never with reduced motion. The
-     handler only writes two CSS variables; the layers do the moving. */
-  useEffect(() => {
-    const stage = stageRef.current
-    if (!stage) return
-    if (
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      !window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    )
-      return
-
-    let raf = 0
-    const set = (x: number, y: number) => {
-      stage.style.setProperty('--px', x.toFixed(3))
-      stage.style.setProperty('--py', y.toFixed(3))
-    }
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse') return
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(() => {
-        const r = stage.getBoundingClientRect()
-        set(((e.clientX - r.left) / r.width - 0.5) * 2, ((e.clientY - r.top) / r.height - 0.5) * 2)
-      })
-    }
-    const onLeave = () => {
-      cancelAnimationFrame(raf)
-      set(0, 0)
-    }
-    stage.addEventListener('pointermove', onMove)
-    stage.addEventListener('pointerleave', onLeave)
-    return () => {
-      cancelAnimationFrame(raf)
-      stage.removeEventListener('pointermove', onMove)
-      stage.removeEventListener('pointerleave', onLeave)
-    }
-  }, [])
-
   return (
     <div className="wwa-wrap">
-      <section
-        ref={sectionRef}
-        className={`wwa${armed ? ' is-armed' : ''}${seen ? ' is-in' : ''}`}
-        aria-labelledby="wwa-title"
-      >
-        <div className="shell wwa__grid">
-          <div className="wwa__copy">
-            <p className="wwa__eyebrow wwa__in" style={{ ['--i' as string]: 0 }}>
-              Who we are
-            </p>
-            <h2 id="wwa-title" className="wwa__title wwa__in" style={{ ['--i' as string]: 1 }}>
-              <span>Empowering Talent.</span>
-              <span>Accelerating Innovation.</span>
-              <span className="wwa__accent">Transforming Futures.</span>
-            </h2>
-
-            <div className="wwa__panel wwa__in" style={{ ['--i' as string]: 2 }}>
-              <p className="wwa__lead">
-                techcadd began as a single classroom in Punjab and has grown into a national training network. The method has
-                stayed the same: learn by building, be mentored by working practitioners, and leave with projects you can
-                show.
+      <section ref={ref} className={`wwa${armed ? ' is-armed' : ''}${seen ? ' is-in' : ''}`} aria-labelledby="wwa-title">
+        <div className="shell">
+          <div className="wwa__grid">
+            <div className="wwa__main">
+              <p className="wwa__eyebrow wwa__in" style={{ ['--i' as string]: 0 }}>
+                Who we are
               </p>
-              <p>
-                We train across software, AI, data, cloud, cybersecurity and design — in classrooms at our centres and in live
-                online batches.
+              <h2 id="wwa-title" className="wwa__title wwa__in" style={{ ['--i' as string]: 1 }}>
+                <span>We Build Skills.</span>
+                <span>
+                  We Shape <em>Digital Futures.</em>
+                </span>
+              </h2>
+              <p className="wwa__lead wwa__in" style={{ ['--i' as string]: 2 }}>
+                Techcadd is a technology training and skill-development organization focused on bridging the gap between
+                education and industry. Through practical learning, hands-on projects, and industry-relevant technologies, we
+                help learners develop the skills and confidence needed to pursue careers in the digital economy.
               </p>
-            </div>
 
-            <div className="wwa__expertise wwa__in" style={{ ['--i' as string]: 6 }}>
-              <h3 className="wwa__sub">What we teach</h3>
-              <div className="wwa__groups">
-                {resolved.map((g) => (
-                  <section key={g.title} className="wwa__group" aria-label={g.title}>
-                    <h4>{g.title}</h4>
-                    <ul>
-                      {g.courses.map((c) => (
-                        <li key={c.slug}>
-                          <Link href={c.href}>{c.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                ))}
-              </div>
-              <p className="wwa__hq">
-                <FiMapPin aria-hidden /> Headquartered in Jalandhar, Punjab
-              </p>
-            </div>
-          </div>
-
-          <div ref={stageRef} className="wwa__stage" style={{ ['--px' as string]: 0, ['--py' as string]: 0 }}>
-            <div className="wwa__layer wwa__layer--main wwa__in" style={{ ['--i' as string]: 3 }}>
-              <div className="wwa__frame" style={{ ['--d' as string]: '-2px' }}>
+              <figure className="wwa__photo wwa__photo--wide wwa__in" style={{ ['--i' as string]: 3 }}>
                 <Image
-                  src="/images/course/campus1.webp"
-                  alt="Learners and trainers in a techcadd training hall"
+                  src="/images/gallery/auditorium-session.webp"
+                  alt="A techcadd trainer presenting to a full auditorium"
                   fill
-                  sizes="(max-width: 900px) 84vw, 42vw"
+                  sizes="(max-width: 900px) 92vw, 52vw"
                 />
-              </div>
+                <figcaption>Seminars &amp; events</figcaption>
+              </figure>
             </div>
-            <div className="wwa__layer wwa__layer--a wwa__in" style={{ ['--i' as string]: 4 }}>
-              <div className="wwa__frame" style={{ ['--d' as string]: '4px' }}>
-                <Image src="/images/course/classroom.webp" alt="A full hall at a techcadd seminar" fill sizes="(max-width: 900px) 38vw, 18vw" />
-              </div>
-            </div>
-            <div className="wwa__layer wwa__layer--b wwa__in" style={{ ['--i' as string]: 5 }}>
-              <div className="wwa__frame" style={{ ['--d' as string]: '3px' }}>
-                <Image src="/images/course/lab.webp" alt="A hands-on lab session at techcadd" fill sizes="(max-width: 900px) 38vw, 18vw" />
-              </div>
-            </div>
+
+            <figure className="wwa__photo wwa__photo--tall wwa__in" style={{ ['--i' as string]: 4 }}>
+              <Image
+                src="/images/campus/college-workshop.webp"
+                alt="Learners with laptops at a techcadd hands-on workshop"
+                fill
+                sizes="(max-width: 900px) 92vw, 26vw"
+              />
+              <figcaption>Hands-on training</figcaption>
+            </figure>
           </div>
+
+          <ul className="wwa__stats">
+            {FIGURES.map((f, i) => (
+              <li key={f.label} className="wwa__stat wwa__in" style={{ ['--i' as string]: 5 + i * 0.6 }}>
+                <strong className={f.text ? 'is-text' : undefined}>{f.value}</strong>
+                <span>{f.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

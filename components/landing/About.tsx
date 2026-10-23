@@ -2,11 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiArrowUpRight } from 'react-icons/fi'
 
+import AboutSlideshow from '@/components/landing/AboutSlideshow'
 import { WHY } from '@/data/site'
 
 /* ==========================================================================
    About — the corporate "who we are" block. A statement headline beside the
-   story and its link; a bento of three photographs (the numbers live in
+   story and its link; a bento of three photographs, the large one a slideshow (the numbers live in
    Results); then the four reasons to choose us as a ruled row of
    numbered columns.
    ========================================================================== */
@@ -37,14 +38,14 @@ export default function About() {
 
         <div className="cx-about__bento">
           <div className="cx-about__photo cx-about__photo--main" data-aos="fade-up">
-            <Image src="/images/course/classroom.webp" alt="A full hall at a techcadd seminar" fill sizes="(max-width: 900px) 100vw, 45vw" />
+            <AboutSlideshow />
           </div>
 
           <div className="cx-about__photo" data-aos="fade-up" data-aos-delay="150">
-            <Image src="/images/course/campus1.webp" alt="Students at work in a techcadd classroom" fill sizes="(max-width: 900px) 50vw, 25vw" />
+            <Image src="/images/gallery/keynote-stage.webp" alt="A techcadd keynote with the robot dog on stage" fill sizes="(max-width: 900px) 50vw, 28vw" />
           </div>
           <div className="cx-about__photo" data-aos="fade-up" data-aos-delay="200">
-            <Image src="/images/course/lab.webp" alt="Hands-on lab session" fill sizes="(max-width: 900px) 50vw, 25vw" />
+            <Image src="/images/gallery/robotics-stage-demo.webp" alt="A live robotics demo at a techcadd event" fill sizes="(max-width: 900px) 50vw, 28vw" />
           </div>
         </div>
 

@@ -24,12 +24,12 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variabl
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: 'techcadd — AI & Software Engineering Training Institute in India',
+    default: 'techcadd — Empowering Minds. Building Businesses.',
     template: '%s | techcadd India',
   },
   description:
-    'Job-ready training in AI, Full-Stack Development, Data Science, Cybersecurity, Cloud and Digital Marketing. Classroom centres in Punjab and live online batches across India.',
-  keywords: ['AI course India', 'full stack development course', 'data science training', 'techcadd', 'IT training institute India'],
+    'For 20 years techcadd has turned learning into livelihoods. Partner with India’s trusted technology education network and grow a techcadd franchise in your city.',
+  keywords: ['techcadd', 'techcadd franchise', 'education franchise India', 'IT training franchise', 'computer institute franchise'],
   openGraph: { type: 'website', siteName: 'techcadd', locale: 'en_IN' },
   icons: {
     icon: [

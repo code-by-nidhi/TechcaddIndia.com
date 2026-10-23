@@ -1,7 +1,10 @@
 /* ==========================================================================
    Franchise page content — copy, numbers, team and photos as published on
-   the techcadd franchise site. Photos live in /public/images/franchise.
+   the techcadd franchise site. Photos live in /public/images/franchise;
+   event photos come from data/gallery.ts.
    ========================================================================== */
+
+import { EVENT_PHOTOS } from '@/data/gallery'
 
 const img = (name: string) => `/images/franchise/${name}.webp`
 
@@ -25,10 +28,10 @@ export const FRANCHISE_HERO = {
 
 /** The four picture tiles beside the enquiry form. */
 export const FRANCHISE_STATS = [
-  { value: '120+', label: 'Franchise Partners', image: img('img17') },
-  { value: '25,000+', label: 'Student Enrollments', image: img('img3') },
-  { value: '248%', label: 'Revenue Growth', image: img('img12') },
-  { value: '24/7', label: 'Partner Support', image: img('img5') },
+  { value: '120+', label: 'Franchise Partners', image: '/images/gallery/techcadd-meet.webp' },
+  { value: '25,000+', label: 'Student Enrollments', image: '/images/gallery/auditorium-crowd.webp' },
+  { value: '248%', label: 'Revenue Growth', image: '/images/gallery/award-ceremony.webp' },
+  { value: '24/7', label: 'Partner Support', image: '/images/gallery/robotics-team.webp' },
 ]
 
 /* ---------------------------------------------------------------- form -- */
@@ -231,7 +234,7 @@ export const FRANCHISE_PARTNERS = {
 
 export const FRANCHISE_GALLERY = {
   lead: 'A glimpse into our seminars, workshops, and campus drives that create real impact across communities.',
-  images: Array.from({ length: 18 }, (_, i) => img(`img${i + 1}`)),
+  images: EVENT_PHOTOS.slice(0, 18),
 }
 
 export const FRANCHISE_TEAM = {

@@ -3,11 +3,14 @@ import { notFound } from 'next/navigation'
 
 import PageHero from '@/components/ui/PageHero'
 import Placeholder from '@/components/ui/Placeholder'
-import About from '@/components/home/About'
 import HowItWorks from '@/components/home/HowItWorks'
 import WhyZoom from '@/components/about/WhyZoom'
+import CampusGallery from '@/components/about/CampusGallery'
 import CTA from '@/components/home/CTA'
 import MissionVisionHero from '@/components/about/MissionVisionHero'
+import OurStoryHero from '@/components/about/OurStoryHero'
+import JourneyTimeline from '@/components/about/JourneyTimeline'
+import OurStoryCTA from '@/components/about/OurStoryCTA'
 import { ABOUT_PAGES, aboutHref, findAboutPage } from '@/data/about-pages'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -40,6 +43,8 @@ export default async function AboutSubPage({ params }: Props) {
     <>
       {slug === 'mission-vision' ? (
         <MissionVisionHero />
+      ) : slug === 'our-story' ? (
+        <OurStoryHero />
       ) : (
         <PageHero
           eyebrow="About techcadd"
@@ -48,9 +53,11 @@ export default async function AboutSubPage({ params }: Props) {
           crumbs={[{ label: 'About', href: '/about' }, { label: page.label }]}
         />
       )}
-      {page.section === 'story' && <About />}
+      {page.section === 'story' && <JourneyTimeline />}
+      {page.section === 'story' && <OurStoryCTA />}
       {page.section === 'approach' && <HowItWorks />}
       {page.section === 'why' && <WhyZoom />}
+      {page.section === 'labs' && <CampusGallery />}
       {page.blocks && (
         <section className="section">
           <div className="shell page-stack">
@@ -62,7 +69,7 @@ export default async function AboutSubPage({ params }: Props) {
           </div>
         </section>
       )}
-      <CTA />
+      {page.section !== 'story' && <CTA />}
     </>
   )
 }

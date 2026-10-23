@@ -13,7 +13,7 @@ import { getSection, sectionMenuLinks } from '@/data/nav-sections'
 export const SITE = {
   name: 'techcadd',
   legalName: 'techcadd Computer Education',
-  tagline: 'AI & Software Engineering training, across India',
+  tagline: 'Empowering minds. Building businesses.',
   url: 'https://techcaddindia.com', // TODO: confirm production domain
   phone: '+91 98881 22254',
   phoneHref: 'tel:+919888122254',
@@ -73,9 +73,9 @@ export const NAV: NavItem[] = [
     linksTitle: 'About',
     links: ABOUT_MENU_LINKS,
     featured: [
-      { title: 'About techcadd', href: '/about', image: '/images/course/campus1.webp', tag: 'Story', meta: '20 years of training' },
-      { title: 'How We Train', href: '/about#how-it-works', image: '/images/course/classroom.webp', tag: 'Method', meta: 'Classroom to placement' },
-      { title: 'Why techcadd', href: '/about#why-techcadd', image: '/images/course/lab.webp', tag: 'Purpose', meta: 'What sets us apart' },
+      { title: 'About techcadd', href: '/about', image: '/images/gallery/techcadd-meet.webp', tag: 'Story', meta: '20 years of training' },
+      { title: 'How We Train', href: '/about#how-it-works', image: '/images/gallery/auditorium-session.webp', tag: 'Method', meta: 'Classroom to placement' },
+      { title: 'Why techcadd', href: '/about#why-techcadd', image: '/images/gallery/award-ceremony.webp', tag: 'Purpose', meta: 'What sets us apart' },
     ],
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
@@ -95,8 +95,8 @@ export const NAV: NavItem[] = [
     ],
     featured: [
       { title: 'Why Partner with Us', href: '/franchises#benefits', image: '/images/franchise/benefits.webp', tag: 'Benefits', meta: '120+ partners' },
-      { title: 'Franchise Journey', href: '/franchises#journey', image: '/images/franchise/img12.webp', tag: 'Process', meta: 'Enquiry to launch' },
-      { title: 'Events & Gallery', href: '/franchises#events', image: '/images/franchise/img17.webp', tag: 'Network', meta: 'Across India' },
+      { title: 'Franchise Journey', href: '/franchises#journey', image: '/images/gallery/placement-drive.webp', tag: 'Process', meta: 'Enquiry to launch' },
+      { title: 'Events & Gallery', href: '/franchises#events', image: '/images/gallery/auditorium-talk.webp', tag: 'Network', meta: 'Across India' },
     ],
     cta: { label: 'Become a Franchise Partner', href: '/franchises#apply' },
   },
@@ -106,9 +106,9 @@ export const NAV: NavItem[] = [
     linksTitle: 'Training',
     links: sectionMenuLinks(getSection('training')),
     featured: [
-      { title: 'Industrial Training', href: '/internship-training/industrial-training', image: '/images/course/lab.webp', tag: 'Students', meta: 'Live projects' },
-      { title: 'Corporate Training', href: '/training/corporate-training', image: '/images/course/classroom.webp', tag: 'Teams', meta: 'Upskill your staff' },
-      { title: 'Online Training', href: '/training/online-training', image: '/images/course/campus1.webp', tag: 'Anywhere', meta: 'Live batches' },
+      { title: 'Industrial Training', href: '/internship-training/industrial-training', image: '/images/gallery/keynote-talk.webp', tag: 'Students', meta: 'Live projects' },
+      { title: 'Corporate Training', href: '/training/corporate-training', image: '/images/gallery/auditorium-talk.webp', tag: 'Teams', meta: 'Upskill your staff' },
+      { title: 'Online Training', href: '/training/online-training', image: '/images/gallery/ai-robotics-show.webp', tag: 'Anywhere', meta: 'Live batches' },
     ],
     cta: { label: 'All training programs', href: '/training' },
   },
@@ -118,9 +118,9 @@ export const NAV: NavItem[] = [
     linksTitle: 'Careers',
     links: sectionMenuLinks(getSection('careers')),
     featured: [
-      { title: 'Internship Programs', href: '/internship-training/internship-programme', image: '/images/how/project.webp', tag: 'Experience', meta: 'Real client work' },
-      { title: 'Placement Assistance', href: '/careers/placement-assistance', image: '/images/how/placement.webp', tag: 'Jobs', meta: '500+ hiring partners' },
-      { title: 'Career Guidance', href: '/careers/career-guidance', image: '/images/how/counselling.webp', tag: 'Counselling', meta: 'Free one-to-one' },
+      { title: 'Internship Programs', href: '/internship-training/internship-programme', image: '/images/gallery/robotics-team.webp', tag: 'Experience', meta: 'Real client work' },
+      { title: 'Placement Assistance', href: '/careers/placement-assistance', image: '/images/gallery/placement-drive.webp', tag: 'Jobs', meta: '500+ hiring partners' },
+      { title: 'Career Guidance', href: '/careers/career-guidance', image: '/images/gallery/campus-talk.webp', tag: 'Counselling', meta: 'Free one-to-one' },
     ],
     cta: { label: 'Talk to a counsellor', href: '/contact' },
   },
@@ -132,7 +132,7 @@ export const NAV: NavItem[] = [
     featured: [
       { title: 'Website Development', href: '/services/website-development', image: '/images/categories/full-stack.webp', tag: 'Web', meta: 'Sites that convert' },
       { title: 'AI Solutions & Automation', href: '/services/ai-solutions-automation', image: '/images/categories/ai.webp', tag: 'AI', meta: 'Agents and workflows' },
-      { title: 'Projects', href: '/projects', image: '/images/course/lab.webp', tag: 'Work', meta: 'What we have delivered' },
+      { title: 'Projects', href: '/projects', image: '/images/gallery/robotics-stage-demo.webp', tag: 'Work', meta: 'What we have delivered' },
     ],
     cta: { label: 'Corporate enquiry', href: '/contact/corporate-enquiry' },
   },
@@ -142,8 +142,8 @@ export const NAV: NavItem[] = [
     linksTitle: 'Resources',
     links: sectionMenuLinks(getSection('resources')),
     featured: [
-      { title: 'Blog', href: '/blog', image: '/images/course/classroom.webp', tag: 'Articles', meta: 'Latest' },
-      { title: 'Course FAQs', href: '/resources/course-faqs', image: '/images/course/lab.webp', tag: 'Answers', meta: 'Admissions' },
+      { title: 'Blog', href: '/blog', image: '/images/gallery/keynote-stage.webp', tag: 'Articles', meta: 'Latest' },
+      { title: 'Course FAQs', href: '/resources/course-faqs', image: '/images/gallery/auditorium-crowd.webp', tag: 'Answers', meta: 'Admissions' },
       { title: 'AI at techcadd', href: '/ai', image: '/images/categories/ai.webp', tag: 'Guide', meta: 'GenAI, agents, RAG' },
     ],
   },
@@ -153,9 +153,9 @@ export const NAV: NavItem[] = [
     linksTitle: 'Contact',
     links: sectionMenuLinks(getSection('contact')),
     featured: [
-      { title: 'Request a Callback', href: '/contact/request-a-callback', image: '/images/how/counselling.webp', tag: 'Call', meta: 'We call you back' },
-      { title: 'Course Enquiry', href: '/contact/course-enquiry', image: '/images/course/classroom.webp', tag: 'Admissions', meta: 'Fees and batches' },
-      { title: 'Our Branches', href: '/branches', image: '/images/course/campus1.webp', tag: 'Visit', meta: 'Find a centre' },
+      { title: 'Request a Callback', href: '/contact/request-a-callback', image: '/images/gallery/guest-welcome.webp', tag: 'Call', meta: 'We call you back' },
+      { title: 'Course Enquiry', href: '/contact/course-enquiry', image: '/images/gallery/cgc-landran.webp', tag: 'Admissions', meta: 'Fees and batches' },
+      { title: 'Our Branches', href: '/branches', image: '/images/gallery/techcadd-meet.webp', tag: 'Visit', meta: 'Find a centre' },
     ],
   },
 ]
@@ -278,6 +278,23 @@ export const STEPS = [
   { title: 'Classroom & Lab', text: 'Small batches, daily practicals and mentor-led labs. Join at a centre or in a live online batch.' },
   { title: 'Live Project & Internship', text: 'Ship real client work with a team, and graduate with an internship letter and a portfolio.' },
   { title: 'Placement Drives', text: 'Mock interviews, resume reviews and drives with 500+ hiring partners nationwide.' },
+]
+
+/* ------------------------------------------------------------ journey -- */
+
+/** Milestones, as published on techcaddjalandhar.com/about ("Our journey"). */
+export const JOURNEY = [
+  { year: 2016, title: 'techcadd is founded', text: 'Mr. Gourav Gupta starts techcadd in Jalandhar, to close the gap between academic learning and industry needs.' },
+  { year: 2017, title: 'Industrial training at scale', text: 'Six-week, 45-day and six-month tracks become full programmes.' },
+  { year: 2018, title: 'A placement cell', text: "Hiring support becomes its own team rather than a trainer's side task." },
+  { year: 2019, title: 'Colleges come on board', text: 'Formal training partnerships begin with universities across Punjab.' },
+  { year: 2020, title: 'Teaching through lockdown', text: 'Live online batches launch in weeks, and no cohort loses a term.' },
+  { year: 2021, title: 'Data on the syllabus', text: 'Analytics and data science join the catalogue as full tracks.' },
+  { year: 2022, title: 'Cloud and DevOps', text: 'AWS, Docker and CI pipelines are added to the developer paths.' },
+  { year: 2023, title: 'After-12th pathways', text: 'Career tracks built for school leavers, not just graduates.' },
+  { year: 2024, title: 'AI on the syllabus', text: 'Generative and agentic AI arrive, taught on real projects.' },
+  { year: 2025, title: 'Ten thousand alumni', text: 'The trained-student count passes five figures across all tracks.' },
+  { year: 2026, title: 'Today and beyond', text: 'New labs, new tracks, and the same rule: you learn it by building it.' },
 ]
 
 /* -------------------------------------------------------- why techcadd -- */

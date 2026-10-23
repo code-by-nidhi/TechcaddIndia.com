@@ -12,7 +12,7 @@ export type AboutPage = {
   title: string
   lead: string
   /** Existing section component to render, or the placeholder blocks below. */
-  section?: 'story' | 'approach' | 'why'
+  section?: 'story' | 'approach' | 'why' | 'labs'
   /** `id` is an anchor on the page, used by the Mission & Vision hero buttons */
   blocks?: { title: string; items: string[]; id?: string }[]
 }
@@ -57,11 +57,7 @@ export const ABOUT_PAGES: AboutPage[] = [
     label: 'Infrastructure & Labs',
     title: 'Infrastructure & Labs',
     lead: 'The classrooms and labs where practical training happens.',
-    blocks: [
-      { title: 'Classrooms', items: ['Photos and capacity per centre'] },
-      { title: 'Labs', items: ['Hardware, software and tooling available to learners'] },
-      { title: 'Online learning setup', items: ['Live-batch platform and recordings'] },
-    ],
+    section: 'labs',
   },
   {
     slug: 'industry-partnerships',
