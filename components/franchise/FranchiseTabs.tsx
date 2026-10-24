@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, type KeyboardEvent } from 'react'
+import { useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { FiCheck, FiPlus } from 'react-icons/fi'
 
 import SectionHeading from '@/components/ui/SectionHeading'
+import FranchiseWhy from '@/components/franchise/FranchiseWhy'
 import { FRANCHISE_FAQS, FRANCHISE_SCOPE, FRANCHISE_SUPPORT, FRANCHISE_WHY } from '@/data/franchise'
 
 const TABS = [
@@ -68,15 +69,7 @@ export default function FranchiseTabs() {
               <p key={p}>{p}</p>
             ))}
           </div>
-          <ul className="fr-cards fr-cards--4">
-            {FRANCHISE_WHY.points.map((p, i) => (
-              <li className="glass" key={p.title}>
-                <span className="fr-cards__num">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-              </li>
-            ))}
-          </ul>
+          <FranchiseWhy points={FRANCHISE_WHY.points} />
         </div>
 
         <div {...panel(1)}>
@@ -84,22 +77,27 @@ export default function FranchiseTabs() {
             <h3>{FRANCHISE_SUPPORT.title}</h3>
             <p>{FRANCHISE_SUPPORT.lead}</p>
           </div>
-          <ul className="fr-cards fr-cards--3">
+          {/* the three phases on a timeline whose line fills as the panel opens */}
+          <ol className="fs-line" key={tab === 1 ? 'on' : 'off'}>
             {FRANCHISE_SUPPORT.phases.map((s, i) => (
-              <li className="glass" key={s.title}>
-                <span className="fr-cards__num">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{s.title}</h3>
-                <ul className="fr-checks">
-                  {s.items.map((item) => (
-                    <li key={item}>
-                      <FiCheck aria-hidden />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <li key={s.title} style={{ '--i': i } as CSSProperties}>
+                <span className="fs-line__node" aria-hidden>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="fs-line__card">
+                  <h3>{s.title}</h3>
+                  <ul className="fs-line__items">
+                    {s.items.map((item) => (
+                      <li key={item}>
+                        <FiCheck aria-hidden />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
 
         <div {...panel(2)}>

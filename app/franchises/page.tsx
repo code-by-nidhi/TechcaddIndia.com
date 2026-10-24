@@ -15,6 +15,8 @@ import {
 } from '@/components/franchise/FranchiseSections'
 import { FRANCHISE_CONTACT, FRANCHISE_HERO } from '@/data/franchise'
 
+import '@/styles/franchise.css'
+
 export const metadata: Metadata = {
   title: 'Own a techcadd Franchise',
   description: FRANCHISE_HERO.lead[0],

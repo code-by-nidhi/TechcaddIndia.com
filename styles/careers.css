@@ -1,0 +1,827 @@
+/* ==========================================================================
+   Careers — the /careers landing page: a split hero with an isometric 3D
+   staircase and an aiming reticle, then the three-stage journey rail with
+   lock-on cards. Colours come from the base tokens (indigo ink, bright
+   blue, violet).
+   ========================================================================== */
+
+/* --------------------------------------------------------------- hero -- */
+
+/* a rounded lilac panel the floating header rides over, like the home hero */
+.ch-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding: calc(var(--nav-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(2.5rem, 5vw, 4rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(50% 60% at 6% 0%, rgba(46, 83, 225, 0.14), transparent 70%),
+    radial-gradient(45% 55% at 96% 15%, rgba(114, 67, 167, 0.16), transparent 70%),
+    linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 55%, #ffffff 100%);
+}
+/* faint concentric rings behind the copy: the "aim" motif */
+.ch-hero::before {
+  content: '';
+  position: absolute;
+  left: -12%;
+  top: 30%;
+  z-index: -1;
+  width: 60vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 46px, rgba(14, 10, 66, 0.05) 46px 47px);
+  -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+  mask-image: radial-gradient(closest-side, #000, transparent);
+}
+
+.ch-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.ch-hero__eyebrow {
+  margin-top: 1.4rem;
+}
+.ch-hero .ch-hero__title {
+  margin-block: 1.1rem 1.25rem;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.ch-hero__title .split-word {
+  padding: 0.06em 0.06em 0.16em;
+  margin: -0.06em -0.06em -0.16em;
+}
+.ch-hero__em {
+  background: linear-gradient(100deg, #7243a7 0%, var(--c-blue) 45%, #7cb0fb 60%, #7243a7 100%) 0 center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 7s linear infinite reverse;
+}
+.ch-hero__lead {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--ink-3);
+}
+
+.ch-hero__checks {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+}
+.ch-hero__checks li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  animation: ch-slide 0.7s var(--ease) both;
+}
+.ch-hero__checks li:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.ch-hero__checks li:nth-child(3) {
+  animation-delay: 0.24s;
+}
+.ch-hero__checks svg {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #ffffff;
+}
+
+.ch-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.8rem;
+}
+
+/* ------------------------------------------------ the staircase stage -- */
+
+.ch-scene {
+  --k: 1; /* scales the whole staircase on small screens */
+  position: relative;
+  height: clamp(360px, 36vw, 480px);
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(60% 55% at 70% 25%, rgba(114, 67, 167, 0.45), transparent 70%),
+    radial-gradient(60% 60% at 25% 90%, rgba(50, 98, 250, 0.35), transparent 70%),
+    var(--c-ink);
+  box-shadow:
+    var(--sh-xl),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  perspective: 1200px;
+  animation: ch-pop 0.9s var(--ease) 0.15s both;
+}
+/* a slow diagonal sweep of light across the stage */
+.ch-scene__beam {
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(115deg, transparent 42%, rgba(124, 176, 251, 0.12) 50%, transparent 58%);
+  animation: ch-beam 7s ease-in-out infinite;
+}
+
+.ch-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg));
+}
+
+/* the isometric plane everything stands on */
+.ch-iso {
+  position: absolute;
+  left: 50%;
+  top: 71%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: scale(var(--k)) rotateX(58deg) rotateZ(-40deg);
+}
+.ch-iso__floor {
+  position: absolute;
+  left: -300px;
+  top: -300px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(rgba(124, 150, 255, 0.55) 1.2px, transparent 1.6px) 0 0 / 30px 30px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent);
+}
+
+/* a step is its top face, with a front face and a riser hanging to the floor */
+.ch-step {
+  --s: 78px;
+  --h: calc((var(--i) + 1) * 24px);
+  position: absolute;
+  left: calc(var(--i) * 66px - 171px);
+  top: calc(var(--s) / -2);
+  width: var(--s);
+  height: var(--s);
+  border: 1px solid rgba(170, 190, 255, 0.45);
+  background: linear-gradient(135deg, #4b6df5, #5a49c2);
+  transform: translateZ(var(--h));
+  transform-style: preserve-3d;
+  animation: ch-rise 0.8s var(--ease) backwards; /* no fill afterwards: a held animation flattens the 3D */
+  animation-delay: calc(0.3s + var(--i) * 0.12s);
+}
+.ch-step::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 100%;
+  width: calc(100% + 2px);
+  height: var(--h);
+  background: linear-gradient(180deg, #2c2a96, #1a1460);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+}
+.ch-step::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: var(--h);
+  height: calc(100% + 2px);
+  background: linear-gradient(90deg, #1e1870, #120d48);
+  transform-origin: left;
+  transform: rotateY(90deg);
+}
+.ch-step--goal {
+  background: linear-gradient(135deg, #7cb0fb, #7243a7);
+  box-shadow: 0 0 40px rgba(124, 176, 251, 0.6);
+}
+
+/* labels and the orb are billboarded: the plane's rotation undone */
+.ch-step__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 18px rgba(5, 3, 30, 0.4);
+  font-size: 0.74rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ink);
+  transform: translateZ(22px) rotateZ(40deg) rotateX(-58deg) translate(-50%, -100%);
+}
+.ch-step__label b {
+  font-weight: 600;
+  color: var(--c-blue);
+}
+.ch-step--goal .ch-step__label {
+  background: var(--grad);
+  color: #ffffff;
+}
+.ch-step--goal .ch-step__label b {
+  color: #cfe0ff;
+}
+
+/* the orb hopping up the steps */
+.ch-orb {
+  position: absolute;
+  left: -11px;
+  top: -11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff, #7cb0fb 45%, #2e53e1 100%);
+  box-shadow: 0 0 22px 6px rgba(124, 176, 251, 0.7);
+  animation: ch-climb 6s ease-in-out 1.2s infinite both;
+}
+
+/* the reticle over the goal */
+.ch-reticle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 116px;
+  height: 116px;
+  transform: translate3d(132px, 0, 185px) rotateZ(40deg) rotateX(-58deg) translate(-50%, -50%);
+  animation: ch-fade 0.8s var(--ease) 1s backwards;
+}
+.ch-reticle > span {
+  position: absolute;
+  border-radius: 50%;
+}
+.ch-reticle__ring {
+  inset: 14px;
+  border: 1.5px solid rgba(124, 176, 251, 0.85);
+  box-shadow:
+    0 0 14px rgba(124, 176, 251, 0.45),
+    inset 0 0 14px rgba(124, 176, 251, 0.25);
+}
+.ch-reticle__ring--dash {
+  inset: 0;
+  border: 1.5px dashed rgba(178, 150, 240, 0.8);
+  box-shadow: none;
+  animation: ch-spin 9s linear infinite;
+}
+/* the crosshair, with a gap at the centre */
+.ch-reticle__cross {
+  inset: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(rgba(124, 176, 251, 0.9), rgba(124, 176, 251, 0.9)) 50% 0 / 1.5px 34% no-repeat,
+    linear-gradient(rgba(124, 176, 251, 0.9), rgba(124, 176, 251, 0.9)) 50% 100% / 1.5px 34% no-repeat,
+    linear-gradient(rgba(124, 176, 251, 0.9), rgba(124, 176, 251, 0.9)) 0 50% / 34% 1.5px no-repeat,
+    linear-gradient(rgba(124, 176, 251, 0.9), rgba(124, 176, 251, 0.9)) 100% 50% / 34% 1.5px no-repeat;
+  animation: ch-lock 3s var(--ease) infinite;
+}
+.ch-reticle__dot {
+  left: calc(50% - 4px);
+  top: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  box-shadow: 0 0 12px 3px rgba(124, 176, 251, 0.9);
+}
+.ch-reticle__ping {
+  inset: 14px;
+  border: 1px solid rgba(124, 176, 251, 0.8);
+  animation: ch-ping 2.4s ease-out infinite;
+}
+
+.ch-scene__tag {
+  position: absolute;
+  left: 1.1rem;
+  bottom: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+.ch-scene__tag b {
+  font-weight: 600;
+  color: #ffffff;
+}
+.ch-scene__tag i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
+  animation: ch-blink 1.6s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------ journey -- */
+
+.cj {
+  overflow: hidden;
+  background: var(--c-grey-200);
+}
+.cj__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 35% at 100% 10%, rgba(114, 67, 167, 0.1), transparent 70%),
+    radial-gradient(40% 40% at 0% 90%, rgba(46, 83, 225, 0.1), transparent 70%);
+}
+.cj .shell {
+  position: relative;
+}
+
+.cj__head {
+  display: grid;
+  gap: 1rem;
+  max-width: 640px;
+  margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+}
+.cj__title {
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.cj__hl {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cj__head > p {
+  color: var(--ink-3);
+}
+
+.cj__track {
+  --rail-x: 1.5rem; /* the rail's centre line */
+  position: relative;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 3.75rem);
+  padding-left: 4.75rem;
+}
+.cj__rail {
+  position: absolute;
+  left: calc(var(--rail-x) - 1px);
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--c-grey-400);
+}
+.cj__fill {
+  position: absolute;
+  inset: 0;
+  /* runs through the three stage colours */
+  background: linear-gradient(180deg, #2e53e1 0%, #7243a7 50%, #0f9f8f 100%);
+  transform-origin: top;
+}
+/* a pulse of light travelling down the rail */
+.cj__rail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: linear-gradient(180deg, transparent, #ffffff, transparent);
+  opacity: 0.8;
+  animation: cj-pulse 3.2s ease-in-out infinite;
+}
+
+/* every stage has its own accent pair; the node, cards and icons take it */
+.cj-stage {
+  --ac: #2e53e1;
+  --ac2: #7cb0fb;
+}
+.cj-stage--build {
+  --ac: #7243a7;
+  --ac2: #b296f0;
+}
+.cj-stage--hired {
+  --ac: #0f9f8f;
+  --ac2: #4fd6c4;
+}
+
+.cj-stage__mark {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 0 0 1.4rem -4.75rem;
+}
+.cj-stage__node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--c-grey-400);
+  border-radius: 50%;
+  background: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--c-grey-600);
+  transition:
+    background 0.5s var(--ease),
+    color 0.5s var(--ease),
+    border-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+.cj-stage.is-on .cj-stage__node {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  color: #ffffff;
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--ac) 16%, transparent),
+    0 10px 22px color-mix(in srgb, var(--ac) 35%, transparent);
+}
+.cj-stage.is-on .cj-stage__node::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--ac);
+  animation: ch-ping 2.4s ease-out infinite;
+}
+.cj-stage__mark h3 {
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  letter-spacing: -0.02em;
+}
+.cj-stage__mark p {
+  width: fit-content;
+  margin-top: 0.3rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--ac) 12%, transparent);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ac);
+}
+
+.cj-stage__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 1rem;
+}
+/* armed: cards wait off to the right, then wipe in when their stage is on */
+.cj.is-armed .cj-stage__cards > li {
+  opacity: 0;
+  transform: translateX(40px);
+  clip-path: inset(0 0 0 100% round 16px);
+}
+.cj.is-armed .cj-stage.is-on .cj-stage__cards > li {
+  animation: cj-in 0.85s var(--ease) both;
+  animation-delay: calc(0.15s + var(--i) * 90ms);
+}
+
+/* the card */
+.cj-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+  padding: 1.5rem 1.4rem 1.25rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: 16px;
+  /* the stage colour as a top edge, a wash fading down and a corner glow */
+  background:
+    radial-gradient(140px circle at 100% 0%, color-mix(in srgb, var(--ac2) 28%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--ac) 7%, #ffffff), #ffffff 55%);
+  box-shadow: inset 0 3px 0 var(--ac);
+  color: var(--ink);
+  transition:
+    transform 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    border-color 0.45s var(--ease);
+}
+.cj-card:hover {
+  border-color: color-mix(in srgb, var(--ac) 30%, transparent);
+  box-shadow:
+    inset 0 3px 0 var(--ac),
+    0 22px 40px color-mix(in srgb, var(--ac) 24%, transparent);
+  transform: translateY(-5px);
+}
+.cj-card:focus-visible {
+  outline: 2px solid var(--c-blue);
+  outline-offset: 3px;
+}
+/* a spotlight round the border that follows the pointer */
+.cj-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--x, 50%) var(--y, 50%), var(--ac), var(--ac2) 45%, transparent 70%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+/* and a faint wash inside it */
+.cj-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(280px circle at var(--x, 50%) var(--y, 50%), color-mix(in srgb, var(--ac) 9%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+.cj-card:hover::before,
+.cj-card:hover::after {
+  opacity: 1;
+}
+
+/* the sight: four corner brackets that close in on hover */
+.cj-card__lock i {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ac);
+  opacity: 0;
+  transition:
+    translate 0.4s var(--ease),
+    opacity 0.3s var(--ease);
+}
+.cj-card__lock i:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: 4px;
+  translate: -10px -10px;
+}
+.cj-card__lock i:nth-child(2) {
+  top: 8px;
+  right: 8px;
+  border-left: 0;
+  border-bottom: 0;
+  border-top-right-radius: 4px;
+  translate: 10px -10px;
+}
+.cj-card__lock i:nth-child(3) {
+  bottom: 8px;
+  left: 8px;
+  border-right: 0;
+  border-top: 0;
+  border-bottom-left-radius: 4px;
+  translate: -10px 10px;
+}
+.cj-card__lock i:nth-child(4) {
+  bottom: 8px;
+  right: 8px;
+  border-left: 0;
+  border-top: 0;
+  border-bottom-right-radius: 4px;
+  translate: 10px 10px;
+}
+.cj-card:hover .cj-card__lock i,
+.cj-card:focus-visible .cj-card__lock i {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* the icon, inside a slowly turning sight ring */
+.cj-card__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  margin: 0.35rem 0 0.4rem 0.35rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--ac) 35%, transparent);
+  font-size: 1.2rem;
+  color: #ffffff;
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+.cj-card__icon::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 1.5px dashed color-mix(in srgb, var(--ac) 50%, transparent);
+  border-radius: 50%;
+  animation: ch-spin 14s linear infinite;
+  animation-delay: calc(var(--i) * -2s);
+}
+.cj-card:hover .cj-card__icon {
+  transform: scale(1.08);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--ac) 45%, transparent);
+}
+.cj-card:hover .cj-card__icon::before {
+  border-color: var(--ac);
+  animation-duration: 3s;
+}
+
+.cj-card h4 {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+.cj-card p {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--ink-3);
+}
+.cj-card__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ac);
+}
+.cj-card__go svg {
+  transition: transform var(--t-fast);
+}
+.cj-card:hover .cj-card__go svg {
+  transform: translate(3px, -3px);
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 960px) {
+  .ch-hero__grid {
+    grid-template-columns: 1fr;
+  }
+  .ch-scene {
+    height: clamp(320px, 75vw, 440px);
+  }
+}
+@media (max-width: 560px) {
+  .ch-scene {
+    --k: 0.72;
+  }
+  .cj__track {
+    --rail-x: 1.1rem;
+    padding-left: 3.25rem;
+  }
+  .cj-stage__mark {
+    margin-left: -3.25rem;
+  }
+  .cj-stage__node {
+    width: 2.3rem;
+    height: 2.3rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ------------------------------------------------------- reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-stage {
+    transform: none;
+  }
+  .ch-orb {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------- keyframes -- */
+
+/* opacity and the `scale` property only, so it never fights a transform */
+@keyframes ch-pop {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+@keyframes ch-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ch-slide {
+  from {
+    opacity: 0;
+    translate: -14px 0;
+  }
+}
+@keyframes ch-rise {
+  from {
+    transform: translateZ(0);
+  }
+}
+@keyframes ch-beam {
+  0%,
+  100% {
+    transform: translateX(-30%);
+  }
+  50% {
+    transform: translateX(30%);
+  }
+}
+@keyframes ch-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes ch-ping {
+  0% {
+    opacity: 0.8;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.7;
+  }
+}
+@keyframes ch-lock {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.88;
+  }
+}
+@keyframes ch-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+/* step centres: x = -132 + 66i, z = 24(i + 1) + 16; a higher midpoint for each hop */
+@keyframes ch-climb {
+  0% {
+    opacity: 0;
+    transform: translate3d(-132px, 0, 40px) rotateZ(40deg) rotateX(-58deg);
+  }
+  5%,
+  14% {
+    opacity: 1;
+    transform: translate3d(-132px, 0, 40px) rotateZ(40deg) rotateX(-58deg);
+  }
+  20% {
+    transform: translate3d(-99px, 0, 92px) rotateZ(40deg) rotateX(-58deg);
+  }
+  26%,
+  35% {
+    transform: translate3d(-66px, 0, 64px) rotateZ(40deg) rotateX(-58deg);
+  }
+  41% {
+    transform: translate3d(-33px, 0, 116px) rotateZ(40deg) rotateX(-58deg);
+  }
+  47%,
+  56% {
+    transform: translate3d(0, 0, 88px) rotateZ(40deg) rotateX(-58deg);
+  }
+  62% {
+    transform: translate3d(33px, 0, 140px) rotateZ(40deg) rotateX(-58deg);
+  }
+  68%,
+  77% {
+    transform: translate3d(66px, 0, 112px) rotateZ(40deg) rotateX(-58deg);
+  }
+  83% {
+    transform: translate3d(99px, 0, 164px) rotateZ(40deg) rotateX(-58deg);
+  }
+  89%,
+  96% {
+    opacity: 1;
+    transform: translate3d(132px, 0, 136px) rotateZ(40deg) rotateX(-58deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(132px, 0, 136px) rotateZ(40deg) rotateX(-58deg);
+  }
+}
+@keyframes cj-pulse {
+  from {
+    top: -90px;
+  }
+  to {
+    top: 100%;
+  }
+}
+@keyframes cj-in {
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(-40px -40px -40px -40px round 16px);
+  }
+}

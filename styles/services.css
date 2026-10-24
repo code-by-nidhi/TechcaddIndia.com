@@ -1,0 +1,858 @@
+/* ==========================================================================
+   IT Services — the /services landing page: a split hero with an exploded
+   3D stack of the service layers, then the bento grid of service cards with
+   live mini illustrations. Four group colours: Build (blue), AI (violet),
+   Growth (rose), Cloud (teal).
+   ========================================================================== */
+
+/* --------------------------------------------------------------- hero -- */
+
+/* a rounded lilac panel the floating header rides over, like the home hero */
+.sv-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding: calc(var(--nav-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(2.5rem, 5vw, 4rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(45% 55% at 4% 5%, rgba(15, 159, 143, 0.12), transparent 70%),
+    radial-gradient(45% 55% at 96% 10%, rgba(214, 51, 108, 0.1), transparent 70%),
+    linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 55%, #ffffff 100%);
+}
+/* a faint circuit-board grid behind the copy */
+.sv-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(rgba(14, 10, 66, 0.12) 1.2px, transparent 1.6px) 0 0 / 28px 28px;
+  -webkit-mask-image: radial-gradient(60% 70% at 25% 40%, #000, transparent 75%);
+  mask-image: radial-gradient(60% 70% at 25% 40%, #000, transparent 75%);
+}
+
+.sv-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.sv-hero__eyebrow {
+  margin-top: 1.4rem;
+}
+.sv-hero .sv-hero__title {
+  margin-block: 1.1rem 1.25rem;
+  font-size: clamp(2.2rem, 4.2vw, 3.9rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.sv-hero__title .split-word {
+  padding: 0.06em 0.06em 0.16em;
+  margin: -0.06em -0.06em -0.16em;
+}
+.sv-hero__em {
+  background: linear-gradient(100deg, #2e53e1 0%, #7243a7 35%, #d6336c 65%, #0f9f8f 100%) 0 center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite alternate;
+}
+.sv-hero__lead {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--ink-3);
+}
+
+.sv-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.sv-hero__chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--ac) 30%, transparent);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--ac) 8%, #ffffff);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  animation: sv-pop 0.6s var(--ease) both;
+}
+.sv-hero__chips li:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.sv-hero__chips li:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.sv-hero__chips li:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.sv-hero__chips svg {
+  color: var(--ac);
+}
+
+.sv-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.8rem;
+}
+
+/* ------------------------------------------------- the layered stage -- */
+
+.sv-scene {
+  position: relative;
+  height: clamp(380px, 37vw, 490px);
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(55% 50% at 40% 60%, rgba(50, 98, 250, 0.3), transparent 70%),
+    radial-gradient(45% 45% at 90% 10%, rgba(214, 51, 108, 0.25), transparent 70%),
+    radial-gradient(45% 45% at 10% 95%, rgba(15, 159, 143, 0.28), transparent 70%),
+    var(--c-ink);
+  box-shadow:
+    var(--sh-xl),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  perspective: 1200px;
+  animation: sv-pop 0.9s var(--ease) 0.15s both;
+}
+.sv-scene__glow {
+  position: absolute;
+  left: 42%;
+  top: 55%;
+  width: 55%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(124, 176, 251, 0.35), transparent);
+  filter: blur(24px);
+}
+
+.sv-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg));
+}
+
+/* the isometric plane the layers float above */
+.sv-iso {
+  --k: 1;
+  position: absolute;
+  left: 42%;
+  top: 70%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: scale(var(--k)) rotateX(60deg) rotateZ(-45deg);
+}
+
+/* a layer: a glass plate with a circuit grid, breathing apart from the rest */
+.sv-layer {
+  position: absolute;
+  left: -95px;
+  top: -95px;
+  width: 190px;
+  height: 190px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--ac2) 75%, transparent);
+  border-radius: 18px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 19px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 19px),
+    linear-gradient(135deg, color-mix(in srgb, var(--ac) 70%, transparent), color-mix(in srgb, var(--ac2) 35%, transparent));
+  box-shadow:
+    0 0 40px color-mix(in srgb, var(--ac) 50%, transparent),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  transform: translateZ(calc(var(--i) * 46px));
+  transform-style: preserve-3d;
+  animation: sv-explode 6s ease-in-out infinite;
+}
+.sv-layer__icon {
+  font-size: 2.6rem;
+  color: rgba(255, 255, 255, 0.85);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ac2) 80%, transparent));
+}
+/* billboarded: the plane's rotation undone, so the label faces the viewer */
+.sv-layer__label {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  padding: 0.3rem 0.7rem;
+  border-left: 3px solid var(--ac2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 18px rgba(5, 3, 30, 0.4);
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+  transform-origin: 0 0;
+  transform: rotateZ(45deg) rotateX(-60deg) translate(6px, -50%);
+}
+
+/* packets of light rising through the stack */
+.sv-packet {
+  position: absolute;
+  left: calc(-55px + var(--n) * 50px);
+  top: calc(-35px + var(--n) * 28px);
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 14px 4px rgba(124, 176, 251, 0.85);
+  animation: sv-rise 3s linear infinite;
+  animation-delay: calc(var(--n) * -1s);
+}
+
+/* the terminal typing a deploy */
+.sv-term {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: min(250px, 60%);
+  padding: 0 0 0.7rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(6, 4, 34, 0.78);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  color: #cfe0ff;
+  animation: sv-pop 0.8s var(--ease) 0.6s both;
+}
+.sv-term__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.55rem;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+.sv-term__bar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f87171;
+}
+.sv-term__bar i:nth-child(2) {
+  background: #fbbf24;
+}
+.sv-term__bar i:nth-child(3) {
+  background: #4ade80;
+}
+.sv-term__bar span {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.45);
+}
+.sv-term__line {
+  min-height: 1.5em;
+  padding-inline: 0.8rem;
+  line-height: 1.5;
+}
+.sv-term__line span {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: nowrap;
+  animation: 9s steps(26, end) infinite;
+}
+.sv-term__line--1 span {
+  animation-name: sv-t1;
+}
+.sv-term__line--2 span {
+  animation-name: sv-t2;
+  color: #a5f3c9;
+}
+.sv-term__line--3 span {
+  animation-name: sv-t3;
+  color: #4ade80;
+}
+
+/* ----------------------------------------------------------- the bento -- */
+
+.sv {
+  overflow: hidden;
+  background: var(--c-grey-200);
+}
+.sv__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(35% 30% at 0% 15%, rgba(46, 83, 225, 0.1), transparent 70%),
+    radial-gradient(35% 35% at 100% 45%, rgba(214, 51, 108, 0.08), transparent 70%),
+    radial-gradient(35% 35% at 20% 100%, rgba(15, 159, 143, 0.1), transparent 70%);
+}
+.sv .shell {
+  position: relative;
+}
+
+.sv__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.sv__title {
+  max-width: 600px;
+  margin-top: 1rem;
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.sv__hl {
+  background: linear-gradient(100deg, #7243a7, #d6336c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* the legend: one key per group */
+.sv__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.sv__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: var(--r-pill);
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast),
+    box-shadow var(--t-fast);
+}
+.sv__key i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 18%, transparent);
+}
+.sv__key small {
+  min-width: 1.4rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: var(--r-pill);
+  background: var(--c-grey-300);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+}
+.sv__key[data-on] {
+  border-color: var(--ac);
+  background: color-mix(in srgb, var(--ac) 9%, #ffffff);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--ac) 22%, transparent);
+}
+.sv__key[aria-pressed='true'] small {
+  background: var(--ac);
+  color: #ffffff;
+}
+.sv__key:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.sv__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+.sv__grid > li {
+  transition:
+    opacity 0.4s var(--ease),
+    filter 0.4s var(--ease),
+    scale 0.4s var(--ease);
+}
+.sv__grid > li.is-wide {
+  grid-column: span 2;
+}
+/* a focused group: the rest step back */
+.sv__grid > li.is-dim {
+  opacity: 0.35;
+  filter: grayscale(0.7);
+  scale: 0.98;
+}
+
+/* armed: cards wait, then blur and scale in (no fill afterwards, so hover
+   and focus styles stay free to move them) */
+.sv.is-armed:not(.is-in) .sv-card {
+  opacity: 0;
+}
+.sv.is-in .sv-card {
+  animation: sv-in 0.8s var(--ease) backwards;
+  animation-delay: calc(var(--i) * 65ms);
+}
+
+/* the card */
+.sv-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: 18px;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, var(--c-grey-400), var(--c-grey-400)) border-box;
+  color: var(--ink);
+  transition:
+    transform 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    border-color 0.45s var(--ease),
+    background 0.45s var(--ease);
+}
+.sv-card:hover {
+  border-color: transparent;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, var(--ac), var(--ac2)) border-box;
+  box-shadow: 0 24px 44px color-mix(in srgb, var(--ac) 22%, transparent);
+  transform: translateY(-6px);
+}
+.sv-card:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 3px;
+}
+
+/* the illustration panel, tinted with the group colour */
+.sv-card__viz {
+  position: relative;
+  height: 118px;
+  border-radius: 13px;
+  background:
+    radial-gradient(color-mix(in srgb, var(--ac) 22%, transparent) 1px, transparent 1.4px) 0 0 / 14px 14px,
+    linear-gradient(135deg, color-mix(in srgb, var(--ac) 10%, #ffffff), color-mix(in srgb, var(--ac2) 18%, #ffffff));
+}
+.sv-card__icon {
+  position: absolute;
+  left: 0.9rem;
+  bottom: -1.2rem;
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 3px solid #ffffff;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--ac) 35%, transparent);
+  font-size: 1.2rem;
+  color: #ffffff;
+  transition: transform 0.45s var(--ease);
+}
+.sv-card:hover .sv-card__icon {
+  transform: rotate(-6deg) scale(1.08);
+}
+
+.sv-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.75rem 0.9rem 0.8rem;
+}
+.sv-card__body em {
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ac);
+}
+.sv-card h3 {
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+}
+.sv-card p {
+  flex: 1;
+  max-width: 46ch;
+  font-size: 0.9rem;
+  color: var(--ink-3);
+}
+.sv-card__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ac);
+}
+.sv-card__go svg {
+  transition: transform var(--t-fast);
+}
+.sv-card:hover .sv-card__go svg {
+  transform: translate(3px, -3px);
+}
+
+/* ------------------------------------------------- mini illustrations -- */
+
+.sv-viz {
+  position: absolute;
+  inset: 0;
+}
+
+/* build: a code window typing */
+.sv-viz--build {
+  inset: 14px 14px auto auto;
+  width: min(62%, 230px);
+  height: 88px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--ac) 18%, transparent);
+}
+.sv-viz__dots {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 9px;
+}
+.sv-viz__dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-grey-400);
+}
+.sv-viz__code {
+  display: grid;
+  gap: 6px;
+}
+.sv-viz__code i {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--ac), var(--ac2));
+  transform-origin: left;
+  animation: sv-code 4s var(--ease) infinite;
+}
+.sv-viz__code i:nth-child(1) {
+  width: 45%;
+}
+.sv-viz__code i:nth-child(2) {
+  width: 80%;
+  margin-left: 12%;
+  background: var(--c-grey-400);
+  animation-delay: 0.25s;
+}
+.sv-viz__code i:nth-child(3) {
+  width: 60%;
+  margin-left: 12%;
+  animation-delay: 0.5s;
+}
+.sv-viz__code i:nth-child(4) {
+  width: 30%;
+  background: var(--c-grey-400);
+  animation-delay: 0.75s;
+}
+
+/* ai: a node with rings pulsing out and a satellite orbiting */
+.sv-viz--ai {
+  inset: 50% 2.2rem auto auto;
+  width: 84px;
+  height: 84px;
+  translate: 0 -50%;
+}
+.sv-viz--ai i {
+  position: absolute;
+  inset: 22px;
+  border: 1.5px solid var(--ac);
+  border-radius: 50%;
+  animation: sv-ring 3s ease-out infinite;
+}
+.sv-viz--ai i:nth-child(2) {
+  animation-delay: 1s;
+}
+.sv-viz--ai i:nth-child(3) {
+  animation-delay: 2s;
+}
+.sv-viz--ai b {
+  position: absolute;
+  inset: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--ac) 60%, transparent);
+}
+.sv-viz--ai em {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed color-mix(in srgb, var(--ac) 45%, transparent);
+  border-radius: 50%;
+  animation: sv-spin 6s linear infinite;
+}
+.sv-viz--ai em::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ac2);
+  box-shadow: 0 0 8px var(--ac2);
+}
+
+/* growth: a bar chart that keeps climbing */
+.sv-viz--growth {
+  inset: auto 1.4rem 16px auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  height: 84px;
+}
+.sv-viz--growth i {
+  width: 13px;
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(180deg, var(--ac2), var(--ac));
+  transform-origin: bottom;
+  animation: sv-bar 3.2s var(--ease) infinite;
+}
+.sv-viz--growth i:nth-child(1) {
+  height: 30%;
+}
+.sv-viz--growth i:nth-child(2) {
+  height: 48%;
+  animation-delay: 0.15s;
+}
+.sv-viz--growth i:nth-child(3) {
+  height: 40%;
+  animation-delay: 0.3s;
+}
+.sv-viz--growth i:nth-child(4) {
+  height: 70%;
+  animation-delay: 0.45s;
+}
+.sv-viz--growth i:nth-child(5) {
+  height: 95%;
+  animation-delay: 0.6s;
+}
+
+/* cloud: three servers passing a packet along */
+.sv-viz--cloud {
+  inset: 50% 1.4rem auto auto;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  translate: 0 -50%;
+}
+.sv-viz--cloud::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  border-top: 2px dashed color-mix(in srgb, var(--ac) 45%, transparent);
+}
+.sv-viz--cloud i {
+  position: relative;
+  width: 26px;
+  height: 32px;
+  border-radius: 6px;
+  background:
+    linear-gradient(#ffffff, #ffffff) 50% 30% / 60% 2px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 60% / 60% 2px no-repeat,
+    linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--ac) 30%, transparent);
+}
+.sv-viz--cloud b {
+  position: absolute;
+  left: 9px;
+  top: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ac2);
+  box-shadow: 0 0 10px 2px var(--ac2);
+  animation: sv-hop 2.6s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 1100px) {
+  .sv__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 960px) {
+  .sv-hero__grid {
+    grid-template-columns: 1fr;
+  }
+  .sv-scene {
+    height: clamp(360px, 80vw, 460px);
+  }
+}
+@media (max-width: 640px) {
+  .sv__grid {
+    grid-template-columns: 1fr;
+  }
+  .sv__grid > li.is-wide {
+    grid-column: auto;
+  }
+  .sv-iso {
+    --k: 0.74;
+  }
+  .sv-term {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------- reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-stage {
+    transform: none;
+  }
+  .sv-packet {
+    display: none;
+  }
+  .sv-term__line span {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------- keyframes -- */
+
+/* opacity and the `scale` property only, so it never fights a transform */
+@keyframes sv-pop {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+@keyframes sv-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(24px) scale(0.95);
+  }
+}
+@keyframes sv-explode {
+  0%,
+  100% {
+    transform: translateZ(calc(var(--i) * 46px));
+  }
+  50% {
+    transform: translateZ(calc(var(--i) * 72px));
+  }
+}
+@keyframes sv-rise {
+  0% {
+    opacity: 0;
+    transform: translateZ(0) rotateZ(45deg) rotateX(-60deg);
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(250px) rotateZ(45deg) rotateX(-60deg);
+  }
+}
+@keyframes sv-t1 {
+  0% {
+    width: 0;
+  }
+  22%,
+  88% {
+    width: 26ch;
+  }
+  100% {
+    width: 0;
+  }
+}
+@keyframes sv-t2 {
+  0%,
+  30% {
+    width: 0;
+  }
+  50%,
+  88% {
+    width: 26ch;
+  }
+  100% {
+    width: 0;
+  }
+}
+@keyframes sv-t3 {
+  0%,
+  58% {
+    width: 0;
+  }
+  72%,
+  88% {
+    width: 26ch;
+  }
+  100% {
+    width: 0;
+  }
+}
+@keyframes sv-code {
+  0% {
+    transform: scaleX(0);
+  }
+  35%,
+  80% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+@keyframes sv-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+@keyframes sv-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes sv-bar {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes sv-hop {
+  0% {
+    left: 9px;
+  }
+  50% {
+    left: calc(50% - 4px);
+  }
+  100% {
+    left: calc(100% - 17px);
+  }
+}

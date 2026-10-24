@@ -1,0 +1,766 @@
+/* ==========================================================================
+   Contact — the /contact page: a split hero with the ways to reach us and a
+   CSS 3D wireframe globe with a chat, then the help desk. Kept to the site
+   palette: indigo ink, bright blue, violet.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- hero -- */
+
+/* a rounded lilac panel the floating header rides over, like the home hero */
+.ct-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding: calc(var(--nav-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(2.5rem, 5vw, 4rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(45% 55% at 5% 5%, rgba(46, 83, 225, 0.12), transparent 70%),
+    radial-gradient(45% 55% at 96% 10%, rgba(114, 67, 167, 0.14), transparent 70%),
+    linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 55%, #ffffff 100%);
+}
+/* signal waves spreading from behind the copy */
+.ct-hero::before {
+  content: '';
+  position: absolute;
+  left: -10%;
+  bottom: -40%;
+  z-index: -1;
+  width: 70vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 38px, rgba(46, 83, 225, 0.06) 38px 39px);
+  -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+  mask-image: radial-gradient(closest-side, #000, transparent);
+}
+
+.ct-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.ct-hero__eyebrow {
+  margin-top: 1.4rem;
+}
+.ct-hero .ct-hero__title {
+  margin-block: 1.1rem 1.1rem;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.ct-hero__title .split-word {
+  padding: 0.06em 0.06em 0.16em;
+  margin: -0.06em -0.06em -0.16em;
+}
+.ct-hero__em {
+  background: linear-gradient(100deg, var(--c-blue) 0%, #7243a7 45%, #9793d3 60%, var(--c-blue) 100%) 0 center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 7s linear infinite reverse;
+}
+.ct-hero__lead {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--ink-3);
+}
+
+/* the three ways to reach us */
+.ct-ways {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 520px;
+  margin-top: 1.6rem;
+}
+.ct-ways li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--sh-xs);
+  animation: ct-slide 0.7s var(--ease) both;
+  animation-delay: calc(0.25s + var(--i) * 0.12s);
+  transition:
+    border-color var(--t-fast),
+    box-shadow var(--t-fast);
+}
+.ct-ways li:hover {
+  border-color: rgba(46, 83, 225, 0.35);
+  box-shadow: 0 10px 24px rgba(118, 95, 184, 0.16);
+}
+.ct-ways__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  background: var(--grad);
+  box-shadow: 0 6px 14px rgba(46, 83, 225, 0.3);
+  color: #ffffff;
+}
+.ct-ways__text {
+  display: grid;
+  min-width: 0;
+}
+.ct-ways__text small {
+  font-size: 0.74rem;
+  color: var(--ink-3);
+}
+.ct-ways__text a,
+.ct-ways__text span {
+  overflow: hidden;
+  font-size: 0.98rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.ct-ways__text a:hover {
+  color: var(--c-blue);
+}
+.ct-ways__act {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(46, 83, 225, 0.35);
+  border-radius: var(--r-pill);
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--c-blue);
+  cursor: pointer;
+  transition:
+    background var(--t-fast),
+    color var(--t-fast);
+}
+.ct-ways__act:hover {
+  background: var(--c-blue);
+  color: #ffffff;
+}
+.ct-ways__status {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--r-pill);
+  background: var(--c-grey-300);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.ct-ways__status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-grey-600);
+}
+.ct-ways__status.is-open {
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
+}
+.ct-ways__status.is-open i {
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  animation: ct-live 1.8s ease-out infinite;
+}
+
+/* ------------------------------------------------- the photo stage -- */
+
+/* the counselling photograph in a rounded frame, with badges floating off
+   its edges and the chat over its lower half */
+.ct-scene {
+  position: relative;
+  height: clamp(380px, 37vw, 490px);
+  perspective: 1200px;
+  animation: ct-pop 0.9s var(--ease) 0.15s both;
+}
+/* a soft gradient ring peeking out behind the frame */
+.ct-scene__ring {
+  position: absolute;
+  right: -6%;
+  top: -10%;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, rgba(46, 83, 225, 0.35), rgba(114, 67, 167, 0.35), transparent 60%);
+  filter: blur(2px);
+  animation: ct-turn 18s linear infinite;
+}
+.ct-photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: var(--sh-xl);
+  transform: rotateX(calc(var(--py, 0) * -4deg)) rotateY(calc(var(--px, 0) * 6deg));
+  transition: transform 0.2s linear;
+}
+.ct-photo img {
+  object-fit: cover;
+  object-position: 40% center;
+  animation: ct-zoom 2s var(--ease) both;
+}
+/* an indigo shade along the bottom so the chat reads against the photo */
+.ct-photo::after {
+  content: '';
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(14, 10, 66, 0.75));
+}
+
+.ct-badge {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--sh-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.ct-badge svg {
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0.35rem;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #ffffff;
+}
+.ct-badge b {
+  font-weight: 600;
+}
+.ct-badge--help {
+  top: 1.2rem;
+  left: -1.2rem;
+  animation:
+    ct-pop 0.7s var(--ease) 0.8s both,
+    ct-float 6s ease-in-out 1.5s infinite;
+}
+.ct-badge--rating {
+  top: 38%;
+  right: -1.2rem;
+  animation:
+    ct-pop 0.7s var(--ease) 1s both,
+    ct-float 7s ease-in-out 1.7s infinite reverse;
+}
+.ct-badge--rating svg {
+  background: linear-gradient(135deg, #7243a7, #9793d3);
+}
+
+/* the chat playing out at the bottom of the stage */
+.ct-chat {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+.ct-chat__msg {
+  max-width: min(78%, 300px);
+  padding: 0.6rem 0.85rem;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
+}
+.ct-chat__msg--me {
+  justify-self: start;
+  border-bottom-left-radius: 4px;
+  background: #ffffff;
+  color: var(--ink);
+  animation: ct-me 10s var(--ease) infinite both;
+}
+.ct-chat__msg--us {
+  justify-self: end;
+  border-bottom-right-radius: 4px;
+  background: linear-gradient(135deg, var(--c-blue), #7243a7);
+  color: #ffffff;
+  animation: ct-us 10s var(--ease) infinite both;
+}
+.ct-chat__typing {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 4px;
+  padding: 0.65rem 0.8rem;
+  border-radius: 14px 14px 4px 14px;
+  background: rgba(255, 255, 255, 0.14);
+  animation: ct-typing 10s linear infinite both;
+}
+.ct-chat__typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: ct-dot 1s ease-in-out infinite;
+}
+.ct-chat__typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.ct-chat__typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* -------------------------------------------------------- help desk -- */
+
+.ct-desk {
+  overflow: hidden;
+  background: var(--c-grey-200);
+}
+.ct-desk__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(35% 35% at 100% 10%, rgba(114, 67, 167, 0.1), transparent 70%),
+    radial-gradient(40% 40% at 0% 90%, rgba(46, 83, 225, 0.1), transparent 70%);
+}
+.ct-desk .shell {
+  position: relative;
+}
+
+.ct-desk__head {
+  display: grid;
+  gap: 1rem;
+  max-width: 620px;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.ct-desk__title {
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.ct-desk__hl {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ct-desk__head > p {
+  color: var(--ink-3);
+}
+
+.ct-desk__body {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: start;
+}
+
+/* the tabs, with a white highlight that slides to the chosen one */
+.ct-tabs {
+  position: relative;
+  display: grid;
+  grid-auto-rows: 4.6rem;
+  padding: 0.4rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.ct-tabs__bar {
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  top: 0.4rem;
+  height: 4.6rem;
+  border-radius: 13px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(118, 95, 184, 0.18);
+  transform: translateY(calc(var(--idx) * 100%));
+  transition: transform 0.5s var(--ease);
+}
+.ct-tabs__bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--c-blue), #7243a7);
+}
+.ct-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.ct-tab:focus-visible {
+  outline: 2px solid var(--c-blue);
+  outline-offset: -2px;
+}
+.ct-tab__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  background: var(--c-blue-soft);
+  font-size: 1.05rem;
+  color: var(--c-blue);
+  transition:
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+.ct-tab__text {
+  display: grid;
+}
+.ct-tab__text b {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.ct-tab__text small {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+.ct-tab[aria-selected='true'] .ct-tab__icon {
+  background: var(--grad);
+  box-shadow: 0 6px 14px rgba(46, 83, 225, 0.3);
+  color: #ffffff;
+}
+.ct-tab:hover:not([aria-selected='true']) .ct-tab__icon {
+  background: #d4defd;
+}
+
+/* the panel */
+.ct-panel {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  border: 1px solid var(--c-grey-400);
+  border-radius: 20px;
+  background:
+    radial-gradient(280px circle at 100% 0%, rgba(114, 67, 167, 0.1), transparent 70%),
+    radial-gradient(260px circle at 0% 100%, rgba(46, 83, 225, 0.08), transparent 70%),
+    #ffffff;
+  box-shadow: 0 24px 48px rgba(118, 95, 184, 0.16);
+}
+.ct-panel__top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ct-panel__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 10px 22px rgba(46, 83, 225, 0.35);
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+.ct-panel__icon i {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--c-blue);
+  border-radius: 50%;
+  animation: ct-ping 2.6s ease-out infinite;
+}
+.ct-panel__icon i:nth-child(2) {
+  animation-delay: 1.3s;
+}
+.ct-panel__top em {
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--r-pill);
+  background: var(--c-blue-soft);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--c-blue);
+}
+.ct-panel h3 {
+  margin-top: 1.2rem;
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  letter-spacing: -0.02em;
+}
+.ct-panel__blurb {
+  max-width: 52ch;
+  margin-top: 0.5rem;
+  color: var(--ink-3);
+}
+.ct-panel__label {
+  margin-top: 1.5rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.ct-panel__ready {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+}
+.ct-panel__ready li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink-2);
+  animation: ct-tick 0.5s var(--ease) backwards;
+  animation-delay: calc(0.25s + var(--i) * 0.12s);
+}
+.ct-panel__ready span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--c-blue-soft);
+  font-size: 0.8rem;
+  color: var(--c-blue);
+}
+.ct-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  margin-top: 1.8rem;
+}
+.ct-panel__call {
+  font-size: 0.92rem;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.ct-panel__call:hover {
+  color: var(--c-blue);
+}
+
+/* armed: the columns wait, then slide in; the panel flips in on every tab */
+.ct-desk.is-armed:not(.is-in) .ct-tabs,
+.ct-desk.is-armed:not(.is-in) .ct-panel {
+  opacity: 0;
+}
+.ct-desk.is-in .ct-tabs {
+  animation: ct-left 0.8s var(--ease) backwards;
+}
+.ct-desk.is-in .ct-panel {
+  animation: ct-flip 0.65s var(--ease) backwards;
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 960px) {
+  .ct-hero__grid {
+    grid-template-columns: 1fr;
+  }
+  .ct-scene {
+    height: clamp(360px, 80vw, 460px);
+  }
+}
+@media (max-width: 860px) {
+  .ct-desk__body {
+    grid-template-columns: 1fr;
+  }
+  .ct-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 0.3rem;
+  }
+  .ct-tabs__bar {
+    display: none;
+  }
+  .ct-tab {
+    padding: 0.7rem;
+  }
+  .ct-tab[aria-selected='true'] {
+    background: #ffffff;
+    box-shadow: 0 8px 18px rgba(118, 95, 184, 0.16);
+  }
+}
+@media (max-width: 480px) {
+  .ct-tabs {
+    grid-template-columns: 1fr;
+  }
+  .ct-badge--help {
+    left: 0.8rem;
+  }
+  .ct-badge--rating {
+    right: 0.8rem;
+  }
+  .ct-ways__act {
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+/* ------------------------------------------------------- reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-photo {
+    transform: none;
+  }
+  /* show the whole conversation at once */
+  .ct-chat__msg {
+    animation: none;
+  }
+  .ct-chat__typing {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------- keyframes -- */
+
+/* opacity and the `scale` property only, so it never fights a transform */
+@keyframes ct-pop {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+@keyframes ct-slide {
+  from {
+    opacity: 0;
+    translate: -18px 0;
+  }
+}
+@keyframes ct-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes ct-zoom {
+  from {
+    transform: scale(1.12);
+  }
+}
+@keyframes ct-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+@keyframes ct-ping {
+  0% {
+    opacity: 0.9;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 2.4;
+  }
+}
+@keyframes ct-live {
+  70% {
+    box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+/* the chat: question, typing, answer, hold, then start over */
+@keyframes ct-me {
+  0% {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  6%,
+  92% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ct-typing {
+  0%,
+  14% {
+    opacity: 0;
+  }
+  18%,
+  34% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ct-us {
+  0%,
+  36% {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  42%,
+  92% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ct-dot {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0.5;
+  }
+  50% {
+    translate: 0 -4px;
+    opacity: 1;
+  }
+}
+@keyframes ct-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+@keyframes ct-flip {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-14deg) translateX(24px);
+  }
+}
+@keyframes ct-tick {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}

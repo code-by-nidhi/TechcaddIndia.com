@@ -1,0 +1,649 @@
+/* ==========================================================================
+   Resources — the /resources landing page: a split hero with a CSS 3D open
+   book and the shared search, then the library shelf of book cards. Every
+   collection has its own accent pair (--ac/--ac2).
+   ========================================================================== */
+
+/* --------------------------------------------------------------- hero -- */
+
+/* a rounded lilac panel the floating header rides over, like the home hero */
+.rs-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
+  padding: calc(var(--nav-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(2.5rem, 5vw, 4rem);
+  border-radius: 15px;
+  background:
+    radial-gradient(45% 55% at 5% 5%, rgba(217, 119, 6, 0.1), transparent 70%),
+    radial-gradient(45% 55% at 96% 10%, rgba(114, 67, 167, 0.14), transparent 70%),
+    linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 55%, #ffffff 100%);
+}
+/* faint ruled lines behind the copy, like a notebook */
+.rs-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: repeating-linear-gradient(180deg, transparent 0 31px, rgba(14, 10, 66, 0.05) 31px 32px);
+  -webkit-mask-image: radial-gradient(60% 70% at 25% 45%, #000, transparent 75%);
+  mask-image: radial-gradient(60% 70% at 25% 45%, #000, transparent 75%);
+}
+
+.rs-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.rs-hero__eyebrow {
+  margin-top: 1.4rem;
+}
+.rs-hero .rs-hero__title {
+  margin-block: 1.1rem 1.25rem;
+  font-size: clamp(2.3rem, 4.6vw, 4.3rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.rs-hero__title .split-word {
+  padding: 0.06em 0.06em 0.16em;
+  margin: -0.06em -0.06em -0.16em;
+}
+.rs-hero__em {
+  background: linear-gradient(100deg, #7243a7 0%, #d97706 40%, #d6336c 60%, #7243a7 100%) 0 center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite reverse;
+}
+.rs-hero__lead {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--ink-3);
+}
+.rs-hero .rs-search {
+  max-width: 500px;
+  margin-top: 1.6rem;
+  box-shadow: 0 18px 36px rgba(118, 95, 184, 0.18);
+  animation: rs-pop 0.7s var(--ease) 0.3s both;
+}
+
+.rs-hero__topics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+.rs-hero__topics button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.8);
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--t-fast),
+    color var(--t-fast),
+    background var(--t-fast);
+}
+.rs-hero__topics button:hover {
+  border-color: #7243a7;
+  background: #ffffff;
+  color: #7243a7;
+}
+
+/* ------------------------------------------------------------ search -- */
+
+.rs-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem 0.35rem 1rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: var(--r-pill);
+  background: #ffffff;
+  transition:
+    border-color var(--t-fast),
+    box-shadow var(--t-fast);
+}
+.rs-search:focus-within {
+  border-color: #7243a7;
+  box-shadow: 0 0 0 4px rgba(114, 67, 167, 0.14);
+}
+.rs-search__icon {
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  color: #7243a7;
+}
+.rs-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--ink);
+}
+.rs-search input::placeholder {
+  color: var(--c-grey-600);
+}
+/* the browser's own clear button doubles ours */
+.rs-search input::-webkit-search-cancel-button {
+  display: none;
+}
+.rs-search__clear {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--c-grey-300);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.rs-search__clear:hover {
+  background: var(--c-grey-400);
+}
+
+/* -------------------------------------------------------- the stage -- */
+
+.rs-scene {
+  position: relative;
+  height: clamp(380px, 37vw, 490px);
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(55% 50% at 50% 62%, rgba(251, 191, 36, 0.22), transparent 70%),
+    radial-gradient(45% 45% at 90% 8%, rgba(114, 67, 167, 0.45), transparent 70%),
+    radial-gradient(45% 45% at 5% 95%, rgba(50, 98, 250, 0.3), transparent 70%),
+    var(--c-ink);
+  box-shadow:
+    var(--sh-xl),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  perspective: 1100px;
+  animation: rs-pop 0.9s var(--ease) 0.15s both;
+}
+.rs-scene__glow {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 60%;
+  height: 30%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 191, 36, 0.4), transparent);
+  filter: blur(22px);
+  animation: rs-breathe 5s ease-in-out infinite;
+}
+
+.rs-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--py, 0) * -8deg)) rotateY(calc(var(--px, 0) * 14deg));
+}
+
+/* the open book, laid back on its cover */
+.rs-book {
+  --k: 1;
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: scale(var(--k)) rotateX(56deg) rotateZ(-10deg);
+}
+/* the cover, peeking out round the pages */
+.rs-book::before {
+  content: '';
+  position: absolute;
+  left: -160px;
+  top: -108px;
+  width: 320px;
+  height: 216px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7243a7, #4338ca);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  transform: translateZ(-6px);
+}
+.rs-book__side,
+.rs-book__page {
+  position: absolute;
+  top: -100px;
+  width: 150px;
+  height: 200px;
+  padding: 26px 18px;
+  background:
+    repeating-linear-gradient(180deg, rgba(67, 56, 202, 0.2) 0 3px, transparent 3px 15px) content-box,
+    linear-gradient(90deg, #e9eaf8, #ffffff 18%) border-box;
+}
+/* the two halves lift toward the spine, so the book opens in a shallow V */
+.rs-book__side--l {
+  left: -150px;
+  border-radius: 6px 2px 2px 6px;
+  background:
+    repeating-linear-gradient(180deg, rgba(67, 56, 202, 0.2) 0 3px, transparent 3px 15px) content-box,
+    linear-gradient(270deg, #e9eaf8, #ffffff 18%) border-box;
+  transform-origin: right center;
+  transform: rotateY(12deg);
+}
+.rs-book__side--r {
+  left: 0;
+  border-radius: 2px 6px 6px 2px;
+  transform-origin: left center;
+  transform: rotateY(-12deg);
+}
+/* a page turning from the right half to the left */
+.rs-book__page {
+  left: 0;
+  border-radius: 2px 6px 6px 2px;
+  transform-origin: left center;
+  transform: rotateY(-12deg);
+  animation: rs-flip 6s ease-in-out infinite;
+  animation-delay: calc(var(--n) * 2s);
+}
+
+/* topic tags floating at different depths */
+.rs-float {
+  position: absolute;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #ffffff;
+  transform: translateZ(var(--z));
+  animation: rs-bob 7s ease-in-out infinite;
+  animation-delay: var(--d);
+}
+.rs-float:nth-of-type(odd) {
+  color: #fde68a;
+}
+
+/* two article cards drifting past */
+.rs-doc {
+  position: absolute;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  width: 112px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+  animation: rs-bob 8s ease-in-out infinite;
+}
+.rs-doc b {
+  height: 34px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #d97706, #fbbf24);
+}
+.rs-doc i {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--c-grey-400);
+}
+.rs-doc i:last-child {
+  width: 60%;
+}
+.rs-doc--a {
+  left: 7%;
+  top: 30%;
+  transform: translateZ(90px) rotate(-9deg);
+}
+.rs-doc--b {
+  right: 7%;
+  top: 26%;
+  transform: translateZ(50px) rotate(8deg);
+  animation-delay: -3s;
+}
+.rs-doc--b b {
+  background: linear-gradient(135deg, #2e53e1, #7cb0fb);
+}
+
+.rs-scene__tag {
+  position: absolute;
+  left: 1.1rem;
+  bottom: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.rs-scene__tag svg {
+  color: #fbbf24;
+}
+
+/* ------------------------------------------------------------ library -- */
+
+.rs {
+  overflow: hidden;
+  background: var(--c-grey-200);
+}
+.rs__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(35% 30% at 100% 5%, rgba(46, 83, 225, 0.09), transparent 70%),
+    radial-gradient(40% 40% at 0% 60%, rgba(114, 67, 167, 0.1), transparent 70%);
+}
+.rs .shell {
+  position: relative;
+}
+
+.rs__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.rs__title {
+  max-width: 560px;
+  margin-top: 1rem;
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.rs__hl {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.rs__tools {
+  display: grid;
+  gap: 0.5rem;
+  width: min(100%, 340px);
+}
+.rs__count {
+  padding-inline: 1rem;
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+.rs__count b {
+  color: var(--ink);
+}
+
+.rs__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.6rem 1.4rem;
+}
+.rs__grid > li {
+  position: relative;
+  perspective: 1200px;
+}
+/* armed: books wait, then drop onto the shelf (no fill afterwards) */
+.rs.is-armed:not(.is-in) .rs__grid > li {
+  opacity: 0;
+}
+.rs.is-in .rs__grid > li {
+  animation: rs-drop 0.8s var(--ease) backwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+/* the page edges behind the cover */
+.rs-sheets {
+  position: absolute;
+  inset: 4px 6px 4px 10px;
+  border-radius: 4px 12px 12px 4px;
+  background: #ffffff;
+  box-shadow:
+    4px 3px 0 -1px #ffffff,
+    4px 3px 0 0 var(--c-grey-400),
+    8px 6px 0 -1px #ffffff,
+    8px 6px 0 0 var(--c-grey-400);
+}
+
+/* the cover: swings open on its spine */
+.rs-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+  padding: 1.5rem 1.4rem 1.3rem 2.1rem;
+  border: 1px solid var(--c-grey-400);
+  border-radius: 6px 4px 16px 6px;
+  background:
+    radial-gradient(150px circle at 100% 100%, color-mix(in srgb, var(--ac2) 22%, transparent), transparent 70%),
+    linear-gradient(160deg, color-mix(in srgb, var(--ac) 9%, #ffffff), #ffffff 55%);
+  color: var(--ink);
+  transform-origin: left center;
+  transition:
+    transform 0.6s var(--ease),
+    box-shadow 0.6s var(--ease);
+}
+.rs-card:hover {
+  transform: rotateY(-16deg);
+  box-shadow: 22px 18px 38px color-mix(in srgb, var(--ac) 22%, transparent);
+}
+.rs-card:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 3px;
+}
+
+.rs-card__spine {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  width: 14px;
+  border-radius: 6px 0 0 6px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)) 0 16px / 100% 2px no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)) 0 calc(100% - 16px) / 100% 2px no-repeat,
+    linear-gradient(180deg, var(--ac), var(--ac2));
+  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.18);
+}
+
+/* a folded corner that turns further on hover */
+.rs-card__fold {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 26px;
+  height: 26px;
+  border-bottom-left-radius: 6px;
+  background: linear-gradient(225deg, var(--c-grey-200) 50%, color-mix(in srgb, var(--ac2) 60%, #ffffff) 50%);
+  box-shadow: -2px 2px 4px rgba(14, 10, 66, 0.1);
+  transition:
+    width 0.45s var(--ease),
+    height 0.45s var(--ease);
+}
+.rs-card:hover .rs-card__fold {
+  width: 40px;
+  height: 40px;
+}
+
+.rs-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-right: 1.4rem;
+}
+.rs-card__icon {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ac), var(--ac2));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--ac) 32%, transparent);
+  font-size: 1.2rem;
+  color: #ffffff;
+  transition: transform 0.45s var(--ease);
+}
+.rs-card:hover .rs-card__icon {
+  transform: translateY(-3px) rotate(-6deg);
+}
+.rs-card__top em {
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--ac) 12%, transparent);
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ac);
+}
+.rs-card h3 {
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+.rs-card p {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--ink-3);
+}
+.rs-card mark {
+  padding: 0 0.1em;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ac2) 45%, transparent);
+  color: inherit;
+}
+.rs-card__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ac);
+}
+.rs-card__go svg {
+  transition: transform var(--t-fast);
+}
+.rs-card:hover .rs-card__go svg {
+  transform: translate(3px, -3px);
+}
+
+.rs__empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: clamp(2.5rem, 6vw, 4rem) 1rem;
+  border: 2px dashed var(--c-grey-400);
+  border-radius: 18px;
+  background: #ffffff;
+  text-align: center;
+  color: var(--ink-3);
+}
+.rs__empty > svg {
+  font-size: 1.8rem;
+  color: #7243a7;
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 960px) {
+  .rs-hero__grid {
+    grid-template-columns: 1fr;
+  }
+  .rs-scene {
+    height: clamp(340px, 78vw, 450px);
+  }
+  .rs__tools {
+    width: 100%;
+  }
+}
+@media (max-width: 560px) {
+  .rs-book {
+    --k: 0.74;
+  }
+  .rs-float:nth-of-type(n + 5),
+  .rs-doc {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------- reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-stage {
+    transform: none;
+  }
+  .rs-book__page {
+    display: none;
+  }
+  .rs-card:hover {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------- keyframes -- */
+
+/* opacity and the `scale` property only, so it never fights a transform */
+@keyframes rs-pop {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+@keyframes rs-flip {
+  0% {
+    opacity: 0;
+    transform: rotateY(-12deg);
+  }
+  6% {
+    opacity: 1;
+  }
+  45%,
+  90% {
+    opacity: 1;
+    transform: rotateY(-168deg);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateY(-168deg);
+  }
+}
+@keyframes rs-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -12px;
+  }
+}
+@keyframes rs-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes rs-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) rotateX(24deg);
+  }
+}
