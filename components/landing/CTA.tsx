@@ -21,7 +21,7 @@ export default function CTA() {
   }
 
   return (
-    <section className="section sq-cta" id="demo">
+    <section className="section sq-cta" id="demo" data-fx="band">
       <div className="shell sq-cta__inner">
         <div className="sq-cta__copy">
           <SplitHeading parts={['Ready to', { text: 'get started?', className: 'gold-text' }]} className="sq-cta__title" />

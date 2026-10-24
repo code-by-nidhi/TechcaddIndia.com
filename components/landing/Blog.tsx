@@ -26,7 +26,7 @@ export default function Blog() {
       <div className="shell">
         <div className="cx-head">
           <div className="cx-head__text">
-            <h2 className="cx-title" data-aos="fade-up">
+            <h2 className="cx-title" data-fx="words">
               Guides, Stories &amp; Career Advice
             </h2>
             <p data-aos="fade-up" data-aos-delay="100">
@@ -39,11 +39,11 @@ export default function Blog() {
         </div>
 
         <div className="cx-news__grid">
-          <article className="cx-lead" data-aos="fade-up">
-            <div className="cx-lead__img">
+          <article className="cx-lead">
+            <div className="cx-lead__img" data-fx="img parallax">
               <Image src={ART[lead.tag] ?? ART.Careers} alt="" fill sizes="(max-width: 900px) 100vw, 55vw" />
             </div>
-            <div className="cx-lead__body">
+            <div className="cx-lead__body" data-fx="reveal" data-fx-delay="0.3">
               <span className="eyebrow">{lead.tag}</span>
               <h3>
                 <Link href={`/blog/${lead.slug}`}>{lead.title}</Link>
@@ -55,9 +55,9 @@ export default function Blog() {
             </div>
           </article>
 
-          <ul className="cx-news__list">
-            {rest.map((p, i) => (
-              <li key={p.slug} data-aos="fade-up" data-aos-delay={100 + i * 90}>
+          <ul className="cx-news__list" data-fx="stagger" data-fx-delay="0.2">
+            {rest.map((p) => (
+              <li key={p.slug}>
                 <article className="cx-row">
                   <div className="cx-row__img">
                     <Image src={ART[p.tag] ?? ART.Careers} alt="" fill sizes="140px" />

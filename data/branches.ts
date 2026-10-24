@@ -42,7 +42,7 @@ export const BRANCHES: Branch[] = [
     timings: 'Mon–Sat, 9 AM – 6 PM', // TODO: confirm timings
     courses: ['AI & ML', 'Full-Stack', 'Data Science', 'Digital Marketing'], // TODO: courses taught here
     studentsTrained: 10000, // TODO
-    yearsRunning: 20, // TODO
+    yearsRunning: 10, // TODO
     mapsUrl: maps('techcadd Jalandhar'), // TODO: replace with the exact Google Maps link
   },
   {

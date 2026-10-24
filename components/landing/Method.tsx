@@ -41,7 +41,7 @@ export default function Method() {
           <span className="eyebrow" data-aos="fade-up">
             Our journey
           </span>
-          <h2 className="cx-title" data-aos="fade-up" data-aos-delay="80">
+          <h2 className="cx-title" data-fx="words">
             A decade of <span className="cx-hl">building careers</span>
           </h2>
           <p data-aos="fade-up" data-aos-delay="120">

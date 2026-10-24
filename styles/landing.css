@@ -29,6 +29,16 @@
   background: var(--c-grey-300);
 }
 
+/* every section after the hero fills at least one screen, its content
+   centred in the band; taller sections (the journey, the questions) just
+   grow, so nothing is clipped and their sticky columns still work */
+.sq > section:not(.cx-hero) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+}
+
 /* ----------------------------------------------------- shared pieces -- */
 
 .sq h1,
@@ -197,133 +207,346 @@
 /* --------------------------------------------------------------- hero -- */
 
 /* A rounded panel set 10px in from the page edge that the floating header
-   rides over: a lilac-to-white wash under a faint blueprint grid, the copy on
-   the left and a photo collage on the right. */
+   rides over: a soft lilac-to-white wash, the headline across the top and a
+   board of three photo tiles under a hairline. */
 .sq > .cx-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   margin: calc(var(--nav-h) * -1 + 10px) 10px 0;
-  padding: calc(var(--nav-h) + clamp(1.5rem, 3.5vw, 3rem)) 0 clamp(1rem, 2vw, 1.5rem);
+  padding: calc(var(--nav-h) + clamp(1.5rem, 3.5vw, 3rem)) 0 clamp(1.5rem, 3vw, 2.5rem);
   border-radius: 15px;
-  background: linear-gradient(180deg, #dbdbf3 0%, var(--c-grey-200) 48%, #ffffff 100%);
-}
-.cx-hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(14, 10, 66, 0.055) 1px, transparent 1px) 0 0 / 64px 64px,
-    linear-gradient(90deg, rgba(14, 10, 66, 0.055) 1px, transparent 1px) 0 0 / 64px 64px;
-  -webkit-mask-image: radial-gradient(75% 65% at 70% 30%, #000 0%, transparent 78%);
-  mask-image: radial-gradient(75% 65% at 70% 30%, #000 0%, transparent 78%);
-}
-.cx-hero__bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--grad-mesh);
+  background: linear-gradient(180deg, #e4e3f7 0%, var(--c-grey-200) 55%, #ffffff 100%);
 }
 
-/* three soft colour fields drifting slowly under the grid */
-.cx-hero__aurora {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
-  filter: blur(70px);
-  pointer-events: none;
-}
-.cx-hero__aurora span {
-  position: absolute;
-  width: 42vw;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: 0.4;
-  animation: cx-aurora 22s ease-in-out infinite alternate;
-}
-.cx-hero__aurora span:nth-child(1) {
-  top: -18%;
-  left: -8%;
-  background: #8fa6ff;
-}
-.cx-hero__aurora span:nth-child(2) {
-  top: -10%;
-  right: -10%;
-  background: #b9a4f0;
-  animation-duration: 26s;
-  animation-delay: -8s;
-}
-.cx-hero__aurora span:nth-child(3) {
-  bottom: -30%;
-  left: 35%;
-  width: 34vw;
-  background: #9fd0ff;
-  opacity: 0.3;
-  animation-duration: 30s;
-  animation-delay: -14s;
-}
-
-/* the pointer spotlight: a glow plus the grid redrawn in blue, both masked
-   to a circle under the cursor */
-.cx-hero__spot {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-  background: radial-gradient(460px circle at var(--mx, 70%) var(--my, 30%), rgba(46, 83, 225, 0.12), transparent 70%);
-}
-.cx-hero__spot::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(46, 83, 225, 0.28) 1px, transparent 1px) 0 0 / 64px 64px,
-    linear-gradient(90deg, rgba(46, 83, 225, 0.28) 1px, transparent 1px) 0 0 / 64px 64px;
-  -webkit-mask-image: radial-gradient(220px circle at var(--mx, 70%) var(--my, 30%), #000, transparent 75%);
-  mask-image: radial-gradient(220px circle at var(--mx, 70%) var(--my, 30%), #000, transparent 75%);
-}
-.cx-hero:hover .cx-hero__spot {
-  opacity: 1;
-}
-
-.cx-hero__grid {
+/* one heavy word, the rest light; a rule runs off the end of line one and
+   into the start of line two */
+.sq .cx-hero__title {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-}
-
-.cx-hero__kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
-  border: 1px solid var(--c-grey-400);
-  border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-size: 0.92rem;
+  gap: 0.08em;
+  padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  border-bottom: 1px solid var(--c-grey-500);
+  font-size: clamp(2.6rem, 7.4vw, 7rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
   color: var(--ink);
 }
-.cx-hero__kicker svg {
-  fill: var(--c-blue);
-  color: var(--c-blue);
+.cx-hero__title strong {
+  font-weight: 700;
+  letter-spacing: -0.05em;
 }
-.cx-hero__kicker strong {
-  font-weight: 600;
+.cx-hero__line {
+  display: flex;
+  align-items: center;
+  gap: 0.22em;
+  white-space: nowrap;
+  animation: cx-rise 0.9s var(--ease) both;
 }
-.cx-hero__dot {
+.cx-hero__line--2 {
+  animation-delay: 0.12s;
+}
+.cx-hero__rule {
+  flex: 1;
+  min-width: 0.6em;
+  height: max(2px, 0.035em);
+  margin-top: 0.08em;
+  background: var(--ink);
+  transform-origin: left;
+  animation: cx-draw 1.1s var(--ease) 0.35s both;
+}
+.cx-hero__line--2 .cx-hero__rule {
+  flex: 0 0 auto;
+  width: clamp(2.5rem, 12vw, 11rem);
+  transform-origin: right;
+}
+
+/* abstract shapes. Behind everything: a slow blue-violet glow top right, a
+   faint orbit ring off the left edge with a dot travelling round it, and a
+   patch of dots under the header. */
+.cx-hero__bgshapes {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cx-hero__bgshapes > span {
+  position: absolute;
+  border-radius: 50%;
+}
+.cx-hero__glow {
+  top: -22%;
+  right: -12%;
+  width: 48vw;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(50, 98, 250, 0.26) 0%, rgba(118, 95, 184, 0.14) 42%, transparent 68%);
+  animation: cx-drift 18s ease-in-out infinite alternate;
+}
+.cx-hero__orbit {
+  top: 26%;
+  left: -16vw;
+  width: 38vw;
+  aspect-ratio: 1;
+  border: 1px solid rgba(14, 10, 66, 0.09);
+  animation: cx-spin 50s linear infinite;
+}
+.cx-hero__orbit::before,
+.cx-hero__orbit::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+.cx-hero__orbit::before {
+  inset: 14%;
+  border: 1px dashed rgba(46, 83, 225, 0.16);
+}
+.cx-hero__orbit::after {
+  top: -6px;
+  left: calc(50% - 6px);
+  width: 12px;
+  height: 12px;
+  background: var(--c-blue);
+  box-shadow: 0 0 0 6px rgba(46, 83, 225, 0.14);
+}
+.cx-hero__dots {
+  top: calc(var(--nav-h) + 0.5rem);
+  right: 4%;
+  width: 220px;
+  height: 120px;
+  border-radius: 0 !important;
+  background: radial-gradient(rgba(46, 83, 225, 0.4) 1.5px, transparent 1.8px) 0 0 / 18px 18px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 60%);
+  mask-image: linear-gradient(90deg, transparent, #000 60%);
+}
+
+/* wide tile + team | tall tile | short tile + the franchise card */
+.cx-hero__board {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+}
+.cx-hero__col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.6vw, 1.25rem);
+  min-width: 0;
+}
+.cx-hero__board > * {
+  animation: cx-rise 0.9s var(--ease) both;
+}
+.cx-hero__board > :nth-child(1) {
+  animation-delay: 0.25s;
+}
+.cx-hero__board > :nth-child(2) {
+  animation-delay: 0.35s;
+}
+.cx-hero__board > :nth-child(3) {
+  animation-delay: 0.45s;
+}
+
+.cx-hero__tile {
   position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: clamp(20px, 2.4vw, 32px);
+  background: var(--c-grey-300);
+}
+.cx-hero__tile img {
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+.cx-hero__tile:hover img {
+  transform: scale(1.04);
+}
+.cx-hero__tile--wide {
+  aspect-ratio: 16 / 10;
+}
+.cx-hero__tile--tall {
+  min-height: 420px;
+}
+.cx-hero__tile--short {
+  aspect-ratio: 4 / 3;
+}
+
+/* the tape: a white strip laid across the photo at an angle, its label
+   sliding along it */
+.cx-hero__tape {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: 22%;
+  z-index: 1;
+  overflow: hidden;
+  padding-block: 0.4rem;
+  border-block: 1px solid rgba(14, 10, 66, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6px 16px rgba(14, 10, 66, 0.18);
+  transform: rotate(-9deg);
+}
+/* each strip is placed clear of the faces and logos in its photo */
+.cx-hero__tile--wide .cx-hero__tape {
+  bottom: auto;
+  top: 14%;
+  transform: rotate(-6deg);
+}
+.cx-hero__tile--tall .cx-hero__tape {
+  bottom: auto;
+  top: 18%;
+  transform: rotate(-14deg);
+}
+.cx-hero__tile--short .cx-hero__tape {
+  bottom: 4%;
+  transform: rotate(6deg);
+}
+.cx-hero__tape > span {
+  display: flex;
+  width: max-content;
+  animation: cx-tape 18s linear infinite;
+}
+.cx-hero__tile--short .cx-hero__tape > span {
+  animation-direction: reverse;
+}
+.cx-hero__tape > span > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-inline: 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cx-hero__tape i {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--c-blue);
 }
-.cx-hero__dot::after {
+
+.cx-hero__team h2 {
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cx-hero__team ul {
+  display: flex;
+}
+.cx-hero__team li {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--c-grey-300);
+  transition: transform var(--t-fast);
+}
+.cx-hero__team li + li {
+  margin-left: -10px;
+}
+.cx-hero__team li:hover {
+  transform: translateY(-3px);
+}
+.cx-hero__team img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cx-hero__more-team {
+  background: var(--c-blue) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+.cx-hero__intro {
+  max-width: 36ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.cx-hero__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.cx-hero__rating svg {
+  fill: var(--c-blue);
+  color: var(--c-blue);
+}
+.cx-hero__rating strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* the franchise card: indigo with a blue glow in the corner, a live tag,
+   the offer, the partner figures and an apply line whose arrow turns on hover */
+.cx-hero__franchise {
+  container-type: inline-size;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 210px;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  border-radius: clamp(20px, 2.4vw, 32px);
+  background: var(--c-ink);
+  box-shadow: 0 18px 36px rgba(14, 10, 66, 0.26);
+  color: #ffffff;
+  transition: transform var(--t-mid), box-shadow var(--t-mid);
+}
+.cx-hero__franchise::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  z-index: -1;
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(50, 98, 250, 0.75), transparent 68%);
+  transition: transform 0.8s var(--ease);
+}
+.cx-hero__franchise:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 48px rgba(46, 83, 225, 0.34);
+}
+.cx-hero__franchise:hover::before {
+  transform: scale(1.25);
+}
+.cx-hero__franchise-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--r-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+.cx-hero__franchise-tag i {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+}
+.cx-hero__franchise-tag i::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -331,295 +554,196 @@
   background: inherit;
   animation: pulse-ring 2.2s var(--ease) infinite;
 }
-
-.sq .cx-hero__title {
-  margin-top: 1.25rem;
-  font-size: clamp(2.25rem, 5.4vw, 5.6rem);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.045em;
-}
-.cx-hero__em {
-  background: linear-gradient(100deg, #7243a7 0%, #7243a7 30%, #9793d3 50%, #7243a7 70%, #7243a7 100%) 0 center / 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 6s linear infinite reverse;
-}
-/* room for descenders inside each word's mask */
-.cx-hero__title .split-word {
-  padding: 0.06em 0.06em 0.16em;
-  margin: -0.06em -0.06em -0.16em;
-}
-
-/* one photograph shown whole at its own proportions, a slowly turning dashed
-   ring behind it, and a frosted figure card and badges on its edges */
-.cx-hero__visual {
-  position: relative;
-}
-.cx-hero__img {
-  position: absolute;
-  overflow: hidden;
-  border-radius: 20px;
-  box-shadow: var(--sh-xl);
-}
-.cx-hero__img img {
-  object-fit: cover;
-}
-/* each layer shifts with the pointer by its own depth; `translate` stacks on
-   top of the transform the float loops animate */
-.cx-hero__visual > * {
-  --depth: 12px;
-  translate: calc(var(--px, 0) * var(--depth)) calc(var(--py, 0) * var(--depth));
-}
-.cx-hero__img--main {
-  --depth: -10px;
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1132 / 992; /* the photograph's own, so nothing is cropped */
-  animation: cx-in 0.8s var(--ease) both;
-}
-.cx-hero__img--main img {
-  animation: cx-zoom 1.8s var(--ease) both;
-}
-/* a soft indigo shade along the bottom so the figure card reads against it */
-.cx-hero__img--main::before {
-  content: '';
-  position: absolute;
-  inset: 60% 0 0;
-  z-index: 1;
-  background: linear-gradient(180deg, transparent, rgba(14, 10, 66, 0.22));
-  pointer-events: none;
-}
-/* an indigo curtain that wipes off the photograph on load */
-.cx-hero__img--main::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--grad-deep);
-  transform-origin: right;
-  animation: cx-curtain 1.1s cubic-bezier(0.77, 0, 0.18, 1) 0.25s both;
-}
-.cx-hero__ring {
-  --depth: -28px;
-  position: absolute;
-  top: -14%;
-  right: -16%;
-  width: 70%;
-  aspect-ratio: 1;
-  border: 1px dashed rgba(46, 83, 225, 0.35);
-  border-radius: 50%;
-  animation: cx-spin 60s linear infinite;
-}
-/* a glowing bead that travels round the ring */
-.cx-hero__ring::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--c-blue);
-  box-shadow:
-    0 0 0 4px rgba(46, 83, 225, 0.18),
-    0 0 18px 4px rgba(46, 83, 225, 0.55);
-}
-
-/* frosted badges floating over the collage */
-.cx-hero__chip {
-  --depth: 34px;
-  position: absolute;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.55rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: var(--sh-md);
-  font-size: 0.85rem;
-  font-weight: 500;
+/* sized by the card's own width (cqi), so the title always fits one line */
+.cx-hero__franchise-title {
   white-space: nowrap;
-  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 7.6cqi, 1.95rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
-.cx-hero__chip svg {
-  display: grid;
-  width: 1.6rem;
-  height: 1.6rem;
-  padding: 0.35rem;
-  border-radius: 50%;
-  background: var(--grad);
+.cx-hero__franchise-title b {
+  font-weight: 600;
+}
+.cx-hero__franchise-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.cx-hero__franchise-stats b {
+  font-weight: 600;
   color: #ffffff;
 }
-/* both overhang the photo's edges over bare wall and monitors, clear of
-   faces and the wall lettering */
-.cx-hero__chip--ai {
-  top: 58%;
-  left: -5%;
-  animation:
-    cx-pop 0.8s var(--ease) 1.1s both,
-    float-y 6s ease-in-out 1.9s infinite;
-}
-.cx-hero__chip--job {
-  --depth: -24px;
-  top: -4%;
-  left: 42%;
-  animation:
-    cx-pop 0.8s var(--ease) 1.3s both,
-    float-y 7.5s ease-in-out 2.1s infinite reverse;
-}
-.cx-hero__figure {
-  --depth: 30px;
-  position: absolute;
-  right: -4%;
-  bottom: -6%;
-  display: grid;
-  gap: 0.15rem;
-  padding: 1rem 1.3rem;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: var(--sh-md);
-  animation:
-    cx-pop 0.9s var(--ease) 0.9s both,
-    float-y 8s ease-in-out 1.8s infinite reverse;
-}
-.cx-hero__figure b {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+.cx-hero__franchise-go {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
 }
-.cx-hero__figure > span {
-  font-size: 0.85rem;
-  color: var(--c-slate);
+.cx-hero__franchise-arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--c-blue);
+  font-size: 1.2rem;
+  transition: background var(--t-mid), color var(--t-mid), transform var(--t-mid);
+}
+.cx-hero__franchise:hover .cx-hero__franchise-arrow {
+  background: #ffffff;
+  color: var(--c-ink);
+  transform: rotate(45deg);
 }
 
-/* four tracks as a numbered index along the bottom */
-.cx-hero__index {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  border-top: 1px solid var(--c-grey-400);
+@keyframes cx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
-.cx-hero__index li + li {
-  border-left: 1px solid var(--c-grey-400);
+@keyframes cx-draw {
+  from {
+    transform: scaleX(0);
+  }
 }
-.cx-hero__index a {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  height: 100%;
-  padding: 1.4rem 1.25rem 1rem;
-  transition: background var(--t-mid);
+@keyframes cx-tape {
+  to {
+    transform: translateX(-50%);
+  }
 }
-.cx-hero__index a::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--c-blue);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--t-mid);
+@keyframes cx-drift {
+  to {
+    transform: translate3d(-6%, 8%, 0) scale(1.1);
+  }
 }
-.cx-hero__index a:hover {
-  background: rgba(255, 255, 255, 0.7);
+@media (prefers-reduced-motion: reduce) {
+  .cx-hero__line,
+  .cx-hero__rule,
+  .cx-hero__board > *,
+  .cx-hero__tape > span,
+  .cx-hero__bgshapes > span {
+    animation: none;
+  }
 }
-.cx-hero__index a:hover::before {
-  transform: scaleX(1);
+
+/* on desktop the panel is exactly one screen tall (less the 10px inset):
+   the headline scales with the viewport height too, and the photo tiles
+   stretch or shrink to fill whatever height is left */
+@media (min-width: 961px) {
+  .sq > .cx-hero {
+    display: flex;
+    flex-direction: column;
+    height: calc(100svh - 10px);
+    min-height: 620px;
+  }
+  .cx-hero > .shell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .sq .cx-hero__title {
+    font-size: clamp(2.6rem, min(7.4vw, 11vh), 7rem);
+  }
+  .cx-hero__board {
+    flex: 1;
+    min-height: 0;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .cx-hero__col {
+    min-height: 0;
+  }
+  .cx-hero__tile--wide,
+  .cx-hero__tile--short {
+    flex: 1;
+    min-height: 120px;
+    aspect-ratio: auto;
+  }
+  .cx-hero__tile--tall {
+    min-height: 0;
+  }
+  .cx-hero__franchise {
+    flex: none;
+    min-height: 0;
+  }
 }
-.cx-hero__no {
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--c-blue);
-}
-.cx-hero__index h2 {
-  font-size: 1.3rem;
-  letter-spacing: -0.01em;
-}
-.cx-hero__index p {
-  flex: 1;
-  font-size: 0.9rem;
-  color: var(--c-slate);
-}
-.cx-hero__more {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink);
-  transition: color var(--t-fast);
-}
-.cx-hero__more svg {
-  transition: transform var(--t-fast);
-}
-.cx-hero__index a:hover .cx-hero__more {
-  color: var(--c-blue);
-}
-.cx-hero__index a:hover .cx-hero__more svg {
-  transform: translate(2px, -2px);
+/* short laptop screens (768px and so on): a smaller headline, tighter gaps
+   and no rating line, so the photos keep a usable height */
+@media (min-width: 961px) and (max-height: 840px) {
+  .sq > .cx-hero {
+    padding-top: calc(var(--nav-h) + 0.75rem);
+    padding-bottom: 1rem;
+  }
+  .sq .cx-hero__title {
+    padding-bottom: 0.9rem;
+    font-size: clamp(2.4rem, min(6.4vw, 9.5vh), 6rem);
+  }
+  .cx-hero__board {
+    margin-top: 1rem;
+  }
+  .cx-hero__col {
+    gap: 0.75rem;
+  }
+  .cx-hero__team h2 {
+    margin-bottom: 0.4rem;
+  }
+  .cx-hero__rating {
+    display: none;
+  }
+  .cx-hero__franchise {
+    gap: 0.55rem;
+    padding: 1.1rem 1.3rem;
+  }
+  .cx-hero__franchise-go {
+    padding-top: 0.6rem;
+  }
+  .cx-hero__franchise-arrow {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 @media (max-width: 960px) {
-  .cx-hero__grid {
-    grid-template-columns: 1fr;
+  .cx-hero__board {
+    grid-template-columns: 1fr 1fr;
   }
-  .sq .cx-hero__title {
-    font-size: clamp(2.25rem, 9vw, 5rem);
+  .cx-hero__board > :first-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: start;
+    column-gap: 1.25rem;
   }
-  /* room for the badges and card that overhang the photograph */
-  .cx-hero__visual {
-    margin: 0.5rem 4% 1.5rem;
+  .cx-hero__board > :first-child .cx-hero__tile {
+    grid-row: span 3;
   }
-  .cx-hero__index {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .cx-hero__index li:nth-child(3) {
-    border-left: 0;
-  }
-  .cx-hero__index li:nth-child(n + 3) {
-    border-top: 1px solid var(--c-grey-400);
+  .cx-hero__tile--tall {
+    min-height: 360px;
   }
 }
 @media (max-width: 560px) {
-  .cx-hero__index {
+  .cx-hero__dots {
+    display: none;
+  }
+  .cx-hero__board,
+  .cx-hero__board > :first-child {
     grid-template-columns: 1fr;
   }
-  .cx-hero__index li + li {
-    border-left: 0;
-    border-top: 1px solid var(--c-grey-400);
+  .cx-hero__board > :first-child .cx-hero__tile {
+    grid-row: auto;
   }
-  .cx-hero__index a {
-    padding-inline: 0.25rem;
-  }
-  .cx-hero__chip {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.7rem;
-  }
-  .cx-hero__chip--job {
-    left: auto;
-    right: 3%;
-  }
-  .cx-hero__figure {
-    padding: 0.7rem 0.95rem;
-  }
-  .cx-hero__figure {
-    right: 3%;
-    padding: 0.75rem 1rem;
+  .cx-hero__tile--tall {
+    min-height: 0;
+    aspect-ratio: 4 / 5;
   }
 }
 
@@ -814,6 +938,64 @@
   }
 }
 
+/* ------------------------------------------------------------ marquee -- */
+
+/* two rows of oversized company statements between hairlines: solid grey on
+   top, outlined below, running opposite ways (Marquee.tsx drives them).
+   A div, not a section, so it keeps its own height. */
+.cx-marquee {
+  display: grid;
+  gap: clamp(0.25rem, 1vw, 0.75rem);
+  overflow: hidden;
+  padding-block: clamp(1.5rem, 3.5vw, 3rem);
+  border-block: 1px solid var(--c-grey-400);
+  background: #ffffff;
+}
+.cx-marquee__row {
+  overflow: hidden;
+}
+.cx-marquee__track {
+  display: flex;
+  width: max-content;
+  margin: 0;
+  will-change: transform;
+}
+.cx-marquee__set {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+.cx-marquee__phrase {
+  padding-inline: clamp(0.75rem, 2vw, 1.75rem);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7.5vw, 7.25rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: #8a8a8a;
+  transition: color var(--t-mid);
+}
+.cx-marquee__row--outline .cx-marquee__phrase {
+  -webkit-text-stroke: 1.5px #9a9a9a;
+  color: transparent;
+}
+.cx-marquee__phrase:hover {
+  color: var(--ink);
+}
+.cx-marquee__row--outline .cx-marquee__phrase:hover {
+  -webkit-text-stroke-color: var(--c-blue);
+  color: transparent;
+}
+.cx-marquee__mark {
+  flex: none;
+  height: clamp(1.7rem, 4.6vw, 4.4rem);
+  fill: var(--c-blue);
+}
+.cx-marquee__row--outline .cx-marquee__mark {
+  fill: #9793d3;
+}
+
 /* ------------------------------------------------------------ results -- */
 
 /* the counter row: five ruled columns on the ink band */
@@ -974,6 +1156,126 @@
   font-weight: 500;
 }
 
+/* the cute tooltip trailing the mouse over the photos (Gallery.tsx): a white
+   pill with a tail, a bouncing magnifier and a twinkling spark. It springs
+   in, sways a little, and glides after the pointer. */
+.cx-gal__tip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.95rem 0.4rem 0.4rem;
+  border-radius: var(--r-pill);
+  background: #ffffff;
+  box-shadow:
+    0 12px 28px rgba(14, 10, 66, 0.25),
+    0 0 0 1px rgba(14, 10, 66, 0.06);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+  pointer-events: none;
+  translate: calc(var(--x, 0px) - 50%) calc(var(--y, 0px) - 100% - 20px);
+  transform-origin: 50% 130%;
+  opacity: 0;
+  scale: 0.3;
+  transition:
+    opacity 0.2s ease,
+    scale 0.45s cubic-bezier(0.34, 1.7, 0.64, 1);
+}
+.cx-gal__tip.is-on {
+  opacity: 1;
+  scale: 1;
+  animation: cx-tip-sway 2.8s ease-in-out infinite alternate;
+  transition:
+    opacity 0.2s ease,
+    scale 0.45s cubic-bezier(0.34, 1.7, 0.64, 1),
+    translate 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* the tail, pointing down at the cursor */
+.cx-gal__tip::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 6px);
+  bottom: -5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 0 0 3px 0;
+  background: #ffffff;
+  box-shadow: 3px 3px 6px rgba(14, 10, 66, 0.08);
+  rotate: 45deg;
+}
+.cx-gal__tip-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--grad);
+  font-size: 0.95rem;
+  color: #ffffff;
+  animation: cx-tip-bounce 1.4s ease-in-out infinite;
+}
+.cx-gal__tip-spark {
+  position: absolute;
+  top: -8px;
+  right: -2px;
+  font-size: 0.85rem;
+  color: #9b7be0;
+  animation: cx-tip-twinkle 1.8s ease-in-out infinite;
+}
+@keyframes cx-tip-sway {
+  from {
+    rotate: -3deg;
+  }
+  to {
+    rotate: 3deg;
+  }
+}
+@keyframes cx-tip-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  30% {
+    transform: translateY(-3px) rotate(-12deg);
+  }
+  60% {
+    transform: translateY(0) rotate(10deg) scale(1.08);
+  }
+}
+@keyframes cx-tip-twinkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.7) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(45deg);
+  }
+}
+@media (hover: none) {
+  .cx-gal__tip {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-gal__tip,
+  .cx-gal__tip.is-on {
+    scale: 1;
+    animation: none;
+    transition: opacity 0.2s ease;
+  }
+  .cx-gal__tip-icon,
+  .cx-gal__tip-spark {
+    animation: none;
+  }
+}
+
 /* the seminar posters on an endless rail, paused on hover */
 .cx-gal__rail {
   overflow: hidden;
@@ -1040,6 +1342,40 @@
 .cx-lightbox__img img {
   object-fit: contain;
   border-radius: var(--r-md);
+  animation: cx-in 0.35s var(--ease) both;
+  transition: opacity 0.25s var(--ease);
+}
+/* while the next photo loads: the current one dims under a spinner */
+.cx-lightbox__spinner {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease) 0.15s;
+  animation: cx-spin 0.8s linear infinite;
+  pointer-events: none;
+}
+.cx-lightbox .is-loading img {
+  opacity: 0.45;
+}
+.cx-lightbox .is-loading .cx-lightbox__spinner {
+  opacity: 1;
+}
+/* the photos loading ahead: on the page, so the browser fetches them, but unseen */
+.cx-lightbox__ahead {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 .cx-lightbox figcaption {
   display: flex;
@@ -1102,6 +1438,622 @@
     top: auto;
     bottom: 1rem;
     transform: none;
+  }
+}
+
+/* -------------------------------------------------------- credentials -- */
+
+/* a deep indigo band: a deck of drawn certificates on the left, the list of
+   what each one means on the right, a ticker of chips along the bottom */
+.sq > .cx-cred {
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(160deg, #15105a 0%, var(--c-ink) 55%, #08062e 100%);
+  color: #ffffff;
+}
+.cx-cred__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 18% 62%, rgba(50, 98, 250, 0.32), transparent 70%),
+    radial-gradient(35% 45% at 88% 12%, rgba(118, 95, 184, 0.3), transparent 70%);
+}
+.cx-cred .cx-title {
+  color: #ffffff;
+}
+.cx-cred .cx-hl {
+  background: linear-gradient(90deg, #7cb0fb, #b9a4f0);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.cx-cred .eyebrow {
+  background: rgba(124, 176, 251, 0.15);
+  color: var(--on-dark);
+}
+.cx-cred .cx-head > p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cx-cred__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* the deck: three certificates in 3D, tilting towards the pointer */
+.cx-cred__stage {
+  perspective: 1600px;
+}
+.cx-deck {
+  --tx: 0;
+  --ty: 0;
+  position: relative;
+  width: 84%;
+  margin: 4% auto 7%;
+  aspect-ratio: 1.414;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--ty) * -7deg)) rotateY(calc(var(--tx) * 9deg));
+  transition: transform 0.5s var(--ease);
+}
+.cx-cert {
+  container-type: inline-size;
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    0 2px 0 rgba(255, 255, 255, 0.4) inset;
+  text-align: center;
+  /* stacked until the deck first comes into view */
+  transform: translate3d(0, calc(var(--i) * 6px), 0) scale(0.94);
+  transition:
+    transform 0.9s var(--ease),
+    filter 0.9s var(--ease);
+}
+.cx-cert[data-slot='0'] {
+  z-index: 3;
+}
+.cx-cert[data-slot='1'] {
+  z-index: 2;
+}
+.cx-cert[data-slot='-1'] {
+  z-index: 1;
+}
+.cx-deck.is-fanned .cx-cert[data-slot='0'] {
+  transform: translate3d(0, 0, 70px) rotate(-1.5deg);
+}
+.cx-deck.is-fanned .cx-cert[data-slot='1'] {
+  transform: translate3d(17%, -8%, 0) rotate(7deg) scale(0.84);
+  filter: brightness(0.78);
+}
+.cx-deck.is-fanned .cx-cert[data-slot='-1'] {
+  transform: translate3d(-17%, 6%, -20px) rotate(-8deg) scale(0.82);
+  filter: brightness(0.66);
+}
+.cx-deck.is-fanned .cx-cert[data-slot='1']:hover,
+.cx-deck.is-fanned .cx-cert[data-slot='1']:focus-visible {
+  transform: translate3d(20%, -11%, 0) rotate(9deg) scale(0.86);
+  filter: brightness(0.95);
+}
+.cx-deck.is-fanned .cx-cert[data-slot='-1']:hover,
+.cx-deck.is-fanned .cx-cert[data-slot='-1']:focus-visible {
+  transform: translate3d(-20%, 8%, -20px) rotate(-10deg) scale(0.84);
+  filter: brightness(0.9);
+}
+.cx-cert:not([data-slot='0']) {
+  cursor: pointer;
+}
+
+/* the paper, laid out like techcadd's own certificates: the statement on
+   the left, a side panel (motto, QR, id, date) on the right, the company
+   line and logo boxes along the foot over a navy bar. Every size is in cqi
+   (a percentage of the card's width), so the whole sheet scales as one. */
+.cx-cert__paper {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24%;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: hidden;
+  border-radius: inherit;
+  background: linear-gradient(160deg, #ffffff, #f7f8fc);
+  text-align: left;
+  color: var(--c-ink);
+}
+.cx-cert__paper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.71cqi;
+  background: var(--c-ink);
+}
+.cx-cert__main,
+.cx-cert__side,
+.cx-cert__foot {
+  position: relative;
+  z-index: 1;
+}
+
+.cx-cert__main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 3.88cqi 3.42cqi 0 5.24cqi;
+}
+.cx-cert__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 2.28cqi;
+  width: 100%;
+  font-size: 1.31cqi;
+  font-weight: 600;
+  color: var(--c-slate);
+}
+.cx-cert__top span + span {
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cx-cert__logo {
+  width: 27.36cqi;
+  height: auto;
+  margin-top: 1.82cqi;
+}
+.cx-cert__kind {
+  margin-top: 2.05cqi;
+  font-size: 1.65cqi;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-slate);
+}
+.cx-cert__big {
+  font-family: var(--font-display);
+  font-size: 6.16cqi;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.cx-cert__big::after {
+  content: '';
+  display: block;
+  width: 6.84cqi;
+  height: 0.32cqi;
+  margin-top: 1.37cqi;
+  background: var(--c-ink);
+}
+.cx-cert__intro {
+  margin-top: 1.6cqi;
+  font-size: 1.77cqi;
+  color: var(--c-slate);
+}
+.cx-cert__name {
+  font-family: var(--font-display);
+  font-size: 4.22cqi;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.cx-cert__line {
+  max-width: 94%;
+  font-size: 1.48cqi;
+  line-height: 1.45;
+  color: var(--c-slate);
+}
+.cx-cert__title {
+  margin-top: 1.03cqi;
+  font-family: var(--font-display);
+  font-size: 2.62cqi;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cx-cert__facts {
+  display: flex;
+  gap: 2.51cqi;
+  margin-top: 2.05cqi;
+}
+.cx-cert__facts > span {
+  display: flex;
+  align-items: center;
+  gap: 1.03cqi;
+}
+.cx-cert__facts > span + span {
+  padding-left: 2.51cqi;
+  border-left: 1px solid rgba(14, 10, 66, 0.15);
+}
+.cx-cert__facts svg {
+  flex: none;
+  font-size: 2.74cqi;
+}
+.cx-cert__facts > span > span {
+  display: grid;
+  font-size: 1.2cqi;
+  color: var(--c-slate);
+}
+.cx-cert__facts b {
+  font-size: 1.42cqi;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.cx-cert__signs {
+  display: flex;
+  gap: 7.98cqi;
+  margin-top: 1.37cqi;
+}
+.cx-cert__signs > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 21.66cqi;
+}
+.cx-cert__signs svg {
+  width: 15.96cqi;
+  fill: none;
+  stroke: #1b2a7a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cx-cert__signs i {
+  align-self: stretch;
+  padding-top: 0.57cqi;
+  border-top: 1px solid rgba(14, 10, 66, 0.5);
+  font-size: 1.25cqi;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* the side panel */
+.cx-cert__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.48cqi;
+  margin: 3.88cqi 0 1.14cqi;
+  padding: 2.28cqi 1.82cqi;
+  border-left: 1px solid rgba(14, 10, 66, 0.12);
+  text-align: center;
+}
+.cx-cert__motto {
+  font-size: 1.37cqi;
+  line-height: 1.9;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.cx-cert__qr {
+  width: 11.97cqi;
+  margin-top: 1.6cqi;
+  fill: var(--c-ink);
+}
+.cx-cert__scan {
+  font-size: 1.2cqi;
+  color: var(--c-slate);
+}
+.cx-cert__meta {
+  display: grid;
+  gap: 0.46cqi;
+  width: 100%;
+  padding-top: 1.37cqi;
+  border-top: 1px solid rgba(14, 10, 66, 0.1);
+  font-size: 1.2cqi;
+  color: var(--c-slate);
+}
+.cx-cert__meta b {
+  font-size: 1.31cqi;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+/* the foot: company line on the left, placeholder logo boxes on the right */
+.cx-cert__foot {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2.28cqi;
+  padding: 1.6cqi 3.42cqi 3.42cqi 5.24cqi;
+  font-size: 1.48cqi;
+}
+.cx-cert__foot small {
+  display: block;
+  margin-top: 0.34cqi;
+  font-size: 1.08cqi;
+  color: var(--c-slate);
+}
+.cx-cert__logos {
+  display: flex;
+  gap: 1.14cqi;
+}
+.cx-cert__logos span {
+  display: grid;
+  place-items: center;
+  width: 8.44cqi;
+  height: 4.56cqi;
+  border: 1px dashed rgba(14, 10, 66, 0.28);
+  border-radius: 0.68cqi;
+  font-size: 0.97cqi;
+  color: var(--c-slate);
+}
+
+/* behind the text: a faint seal whose ring of text turns, its core
+   stamping down each time the certificate comes to the front */
+.cx-seal {
+  position: absolute;
+  left: 36%;
+  top: 20%;
+  width: 38cqi;
+  aspect-ratio: 1;
+  opacity: 0.16;
+}
+.cx-seal svg {
+  width: 100%;
+  height: 100%;
+  animation: cx-spin 40s linear infinite;
+}
+.cx-seal text {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  fill: var(--c-blue);
+}
+.cx-seal__core {
+  position: absolute;
+  inset: 22%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--c-blue);
+  font-size: 13cqi;
+  color: #ffffff;
+}
+.cx-cert[data-slot='0'] .cx-seal__core {
+  animation: cx-stamp 0.7s var(--ease) 0.35s both;
+}
+/* the SAMPLE stamp across the sheet */
+.cx-cert__sample {
+  position: absolute;
+  left: 9%;
+  top: 40%;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 13cqi;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(110, 112, 128, 0.2);
+  transform: rotate(-28deg);
+  pointer-events: none;
+}
+
+/* a band of light sweeping across the front certificate */
+.cx-cert__shine {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.75) 50%, transparent 62%);
+  translate: -120% 0;
+  pointer-events: none;
+}
+.cx-cert[data-slot='0'] .cx-cert__shine {
+  animation: cx-shine 5s var(--ease) 1s infinite;
+}
+
+.cx-cred__note {
+  font-size: 0.8rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* the list: the open item shows what the credential means */
+.cx-cred__list > li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.cx-cred__list > li > button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.15rem 0.25rem;
+  text-align: left;
+  color: #ffffff;
+}
+.cx-cred__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1.35rem;
+  color: var(--on-dark);
+  transition: background var(--t-mid), color var(--t-mid), transform var(--t-mid);
+}
+.cx-cred__list > li > button:hover .cx-cred__icon {
+  transform: rotate(-8deg);
+}
+.is-open .cx-cred__icon {
+  background: var(--grad);
+  box-shadow: 0 10px 24px rgba(46, 83, 225, 0.45);
+  color: #ffffff;
+}
+.cx-cred__title b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.cx-cred__title span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+/* the autoplay timer: its end opens the next credential (Credentials.tsx).
+   It is kept invisible — the animation still runs and still advances the
+   deck, there is just no line on screen. */
+.cx-cred__bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.is-open .cx-cred__bar {
+  animation: cx-bar 7s linear forwards;
+}
+.cx-cred__grid:hover .cx-cred__bar,
+.cx-cred__grid:has(:focus-visible) .cx-cred__bar {
+  animation-play-state: paused;
+}
+.cx-cred__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s var(--ease);
+}
+.is-open .cx-cred__body {
+  grid-template-rows: 1fr;
+}
+.cx-cred__body > div {
+  overflow: hidden;
+  padding-left: calc(48px + 1rem);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+.cx-cred__body > div > :last-child {
+  margin-bottom: 1.4rem;
+}
+.cx-cred__issuer {
+  margin-bottom: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--on-dark);
+}
+.cx-cred__body ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+.cx-cred__body ul li {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.85);
+}
+.cx-cred__body ul svg {
+  flex: none;
+  margin-top: 0.15em;
+  color: #4ade80;
+}
+
+/* the ticker of chips */
+.cx-cred__ticker {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  overflow: hidden;
+  border-block: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.cx-cred__ticker > div {
+  display: flex;
+  width: max-content;
+  animation: cx-tape 32s linear infinite;
+}
+.cx-cred__ticker span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 1.1rem 1.75rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.78);
+}
+.cx-cred__ticker svg {
+  color: var(--on-dark);
+}
+
+@keyframes cx-stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.8) rotate(-25deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.9) rotate(4deg);
+  }
+}
+@keyframes cx-shine {
+  0%,
+  55% {
+    translate: -120% 0;
+  }
+  100% {
+    translate: 120% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-deck,
+  .cx-cert,
+  .cx-cred__body {
+    transition: none;
+  }
+  .cx-seal svg,
+  .cx-cert__shine,
+  .cx-seal__core,
+  .cx-cred__ticker > div {
+    animation: none !important;
+  }
+  .cx-cred__bar {
+    display: none;
+  }
+}
+@media (max-width: 960px) {
+  .cx-cred__grid {
+    grid-template-columns: 1fr;
+  }
+  .cx-deck {
+    width: 74%;
+  }
+}
+@media (max-width: 560px) {
+  /* nearly full width, with a tighter fan so the cards behind stay on screen */
+  .cx-deck {
+    width: 94%;
+  }
+  .cx-deck.is-fanned .cx-cert[data-slot='1'] {
+    transform: translate3d(5%, -9%, 0) rotate(4deg) scale(0.9);
+  }
+  .cx-deck.is-fanned .cx-cert[data-slot='-1'] {
+    transform: translate3d(-5%, 7%, -20px) rotate(-4deg) scale(0.88);
+  }
+  .cx-cred__body > div {
+    padding-left: 0;
+  }
+  .cx-cred__body ul {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1586,23 +2538,61 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-.cx-stories__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: stretch;
+/* the slider: every story as a card on a track that moves one card at a
+   time — two in view on desktop, one below 960px (Stories.tsx reads the same
+   breakpoint); the cards entering and leaving fade as they move */
+.cx-reviews {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+.cx-slider {
+  overflow: hidden;
+  margin-inline: -0.75rem;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.cx-slider:active {
+  cursor: grabbing;
+}
+.cx-slider__track {
+  display: flex;
+  transition: transform 0.85s var(--ease);
+}
+.cx-slide {
+  display: flex;
+  flex: 0 0 50%;
+  min-width: 0;
+  padding-inline: 0.75rem;
+  opacity: 0.25;
+  user-select: none;
+  transition: opacity 0.85s var(--ease);
+}
+.cx-slide.is-active {
+  opacity: 1;
+}
+.cx-slide blockquote {
+  translate: 0 12px;
+  transition: translate 0.9s var(--ease) 0.15s;
+}
+.cx-slide.is-active blockquote {
+  translate: 0 0;
 }
 
 .cx-spot {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.75rem;
-  padding: clamp(1.5rem, 3.5vw, 3rem);
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.75rem);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
-  animation: cx-fade 0.6s var(--ease) both;
+  transition: border-color var(--t-mid), background var(--t-mid);
+}
+.cx-slide.is-active .cx-spot:hover {
+  border-color: rgba(124, 176, 251, 0.4);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
 }
 .cx-spot .eyebrow {
   align-self: flex-start;
@@ -1611,9 +2601,9 @@
 }
 .cx-spot blockquote {
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2.7vw, 2.35rem);
+  font-size: clamp(1.3rem, 2vw, 1.85rem);
   font-weight: 300;
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   color: #ffffff;
 }
@@ -1629,15 +2619,6 @@
   font-size: 1.02rem;
   font-weight: 500;
   color: #ffffff;
-}
-.cx-spot__foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .sq .cx-btn-light {
   --btn-bg: #ffffff;
@@ -1658,86 +2639,82 @@
   color: #ffffff;
 }
 
-.cx-voices {
-  display: grid;
-  align-content: center;
-  gap: 0.4rem;
-}
-.cx-voices button {
+/* under the cards: the autoplay timer as a hairline, then the demo button,
+   the dots and the arrows */
+.cx-reviews__foot {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.9rem;
-  width: 100%;
-  padding: 0.85rem 1rem;
-  overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 14px;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.65);
-  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
 }
-.cx-voices button:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-.cx-voices button.is-active {
-  border-color: rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-.cx-voices .cx-avatar {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 0.8rem;
-}
-.cx-voices .is-active .cx-avatar {
-  background: linear-gradient(135deg, var(--c-blue), var(--c-violet));
-}
-.cx-voices__who {
-  font-size: 0.85rem;
-}
-.cx-voices__who b {
-  display: block;
-  font-size: 0.98rem;
-  font-weight: 500;
-  color: #ffffff;
-}
-/* the autoplay timer: its end moves to the next story (Stories.tsx) */
-.cx-voices__bar {
+.cx-reviews__timer {
   position: absolute;
+  top: 0;
   left: 0;
-  bottom: 0;
-  width: 100%;
+  right: 0;
   height: 2px;
-  background: var(--on-dark);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+/* its end moves the slider on (Stories.tsx) */
+.cx-reviews__timer > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--on-dark), #b9a4f0);
   transform: scaleX(0);
   transform-origin: left;
+  animation: cx-bar 6s linear forwards;
 }
-.cx-voices .is-active .cx-voices__bar {
-  animation: cx-bar 7s linear forwards;
-}
-.cx-stories__grid:hover .cx-voices__bar,
-.cx-stories__grid:has(:focus-visible) .cx-voices__bar {
+.cx-reviews:hover .cx-reviews__timer > span,
+.cx-reviews:has(:focus-visible) .cx-reviews__timer > span {
   animation-play-state: paused;
 }
+
+.cx-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.cx-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.25);
+  transition: width var(--t-mid), background var(--t-mid);
+}
+.cx-dots button:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+.cx-dots button.is-active {
+  width: 26px;
+  background: var(--on-dark);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cx-voices .cx-voices__bar {
+  .cx-slider__track,
+  .cx-slide,
+  .cx-slide blockquote {
+    transition: none;
+  }
+  /* no timer, so no autoplay: the dots and arrows still work */
+  .cx-reviews__timer > span {
     display: none;
-    animation: none !important;
   }
 }
 @media (max-width: 960px) {
-  .cx-stories__grid {
-    grid-template-columns: 1fr;
-  }
-  .cx-voices {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .cx-slide {
+    flex-basis: 100%;
   }
 }
 @media (max-width: 560px) {
-  .cx-voices {
-    grid-template-columns: 1fr;
+  .cx-dots {
+    order: -1;
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -2560,16 +3537,5 @@
   from {
     opacity: 0;
     scale: 0.85;
-  }
-}
-@keyframes cx-aurora {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(8%, 10%, 0) scale(1.15);
-  }
-  100% {
-    transform: translate3d(-6%, 4%, 0) scale(0.95);
   }
 }

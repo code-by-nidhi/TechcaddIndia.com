@@ -21,7 +21,7 @@ export default function About() {
             <span className="eyebrow" data-aos="fade-up">
               About techcadd
             </span>
-            <h2 className="cx-title" data-aos="fade-up" data-aos-delay="80">
+            <h2 className="cx-title" data-fx="words">
               We teach, build, <span className="cx-hl">place, repeat</span>
             </h2>
           </div>
@@ -37,21 +37,21 @@ export default function About() {
         </div>
 
         <div className="cx-about__bento">
-          <div className="cx-about__photo cx-about__photo--main" data-aos="fade-up">
+          <div className="cx-about__photo cx-about__photo--main" data-fx="img">
             <AboutSlideshow />
           </div>
 
-          <div className="cx-about__photo" data-aos="fade-up" data-aos-delay="150">
+          <div className="cx-about__photo" data-fx="img parallax" data-fx-delay="0.15">
             <Image src="/images/gallery/keynote-stage.webp" alt="A techcadd keynote with the robot dog on stage" fill sizes="(max-width: 900px) 50vw, 28vw" />
           </div>
-          <div className="cx-about__photo" data-aos="fade-up" data-aos-delay="200">
+          <div className="cx-about__photo" data-fx="img parallax" data-fx-delay="0.3">
             <Image src="/images/gallery/robotics-stage-demo.webp" alt="A live robotics demo at a techcadd event" fill sizes="(max-width: 900px) 50vw, 28vw" />
           </div>
         </div>
 
-        <ul className="cx-about__why">
+        <ul className="cx-about__why" data-fx="stagger">
           {WHY.map((w, i) => (
-            <li key={w.title} data-aos="fade-up" data-aos-delay={i * 80}>
+            <li key={w.title}>
               <span className="cx-about__no" aria-hidden>
                 {String(i + 1).padStart(2, '0')}
               </span>

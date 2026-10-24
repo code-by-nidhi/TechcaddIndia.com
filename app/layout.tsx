@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer'
 import DemoModal from '@/components/layout/DemoModal'
 import MotionProvider from '@/components/fx/MotionProvider'
 import ScrollProgress from '@/components/fx/ScrollProgress'
+import ScrollFx from '@/components/fx/ScrollFx'
 import { SITE } from '@/data/site'
 
 /* Order matters: tokens → shared UI → layout chrome → sections. */
@@ -17,6 +18,7 @@ import '@/styles/home.css'
 import '@/styles/pages.css'
 import '@/styles/internship.css'
 import '@/styles/demo-modal.css'
+import '@/styles/fx.css'
 
 const geist = Geist({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-geist', display: 'swap' })
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' })
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
     template: '%s | techcadd India',
   },
   description:
-    'For 20 years techcadd has turned learning into livelihoods. Partner with India’s trusted technology education network and grow a techcadd franchise in your city.',
+    'For a decade techcadd has turned learning into livelihoods. Partner with India’s trusted technology education network and grow a techcadd franchise in your city.',
   keywords: ['techcadd', 'techcadd franchise', 'education franchise India', 'IT training franchise', 'computer institute franchise'],
   openGraph: { type: 'website', siteName: 'techcadd', locale: 'en_IN' },
   icons: {
@@ -61,6 +63,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <main id="main">{children}</main>
           <Footer />
           <DemoModal />
+          <ScrollFx />
         </MotionProvider>
       </body>
     </html>

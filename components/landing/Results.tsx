@@ -17,17 +17,17 @@ export default function Results() {
             <span className="eyebrow" data-aos="fade-up">
               Results that speak
             </span>
-            <h2 className="cx-title" data-aos="fade-up" data-aos-delay="80">
+            <h2 className="cx-title" data-fx="words">
               Trusted by learners, <span className="cx-hl">backed by numbers</span>
             </h2>
           </div>
           <p data-aos="fade-up" data-aos-delay="160">
-            Two decades of training, a nationwide network of centres and hundreds of hiring partners — the track record
+            A decade of training, a nationwide network of centres and hundreds of hiring partners — the track record
             every techcadd franchise is built on.
           </p>
         </div>
 
-        <dl className="cx-results__counters" data-aos="fade-up">
+        <dl className="cx-results__counters" data-fx="stagger">
           {COUNTERS.map((s) => (
             <div key={s.label}>
               {/* label first for valid <dl>; CSS shows the number on top */}

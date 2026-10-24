@@ -73,7 +73,7 @@ export const NAV: NavItem[] = [
     linksTitle: 'About',
     links: ABOUT_MENU_LINKS,
     featured: [
-      { title: 'About techcadd', href: '/about', image: '/images/gallery/techcadd-meet.webp', tag: 'Story', meta: '20 years of training' },
+      { title: 'About techcadd', href: '/about', image: '/images/gallery/techcadd-meet.webp', tag: 'Story', meta: '10 years of training' },
       { title: 'How We Train', href: '/about#how-it-works', image: '/images/gallery/auditorium-session.webp', tag: 'Method', meta: 'Classroom to placement' },
       { title: 'Why techcadd', href: '/about#why-techcadd', image: '/images/gallery/award-ceremony.webp', tag: 'Purpose', meta: 'What sets us apart' },
     ],

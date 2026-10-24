@@ -35,7 +35,7 @@ export default function PartnerFlow() {
           <span className="eyebrow" data-aos="fade-up">
             Grow with techcadd
           </span>
-          <h2 className="cx-title" data-aos="fade-up" data-aos-delay="80">
+          <h2 className="cx-title" data-fx="words">
             Whoever you are, <span className="cx-hl">there is a place for you</span>
           </h2>
         </div>

@@ -10,11 +10,11 @@ export default function Footer() {
   return (
     <footer className="footer section--navy">
       <div className="shell">
-        <div className="footer__top">
+        <div className="footer__top" data-fx="stagger">
           <div className="footer__brand">
             <Image src="/images/techcadd-logo-navy.png" alt="techcadd" width={170} height={46} />
             <p>
-              Two decades of turning students into engineers. Now training learners across India — in our centres and
+              A decade of turning students into engineers. Now training learners across India — in our centres and
               in live online batches.
             </p>
             <ul className="footer__contact">

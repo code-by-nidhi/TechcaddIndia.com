@@ -14,7 +14,7 @@ export default function WhyTechcadd() {
           <SectionHeading
             eyebrow="Why techcadd?"
             title={['The techcadd', { text: 'Difference', className: 'gold-text' }]}
-            lead="For two decades the format has not changed: small batches, trainers who still work in the industry, projects with a real brief behind them, and a placement desk that keeps calling companies long after the last class."
+            lead="For a decade the format has not changed: small batches, trainers who still work in the industry, projects with a real brief behind them, and a placement desk that keeps calling companies long after the last class."
           />
           <div className="why__actions" data-aos="fade-up" data-aos-delay="200">
             <a href={SITE.phoneHref} className="btn">

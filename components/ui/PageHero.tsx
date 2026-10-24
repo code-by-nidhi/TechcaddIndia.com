@@ -20,7 +20,7 @@ export default function PageHero({
   const trail = [{ label: 'Home', href: '/' }, ...crumbs]
   return (
     <section className="page-hero">
-      <div className="shell">
+      <div className="shell" data-fx="drift" data-fx-y="-70" data-fx-fade>
         <nav aria-label="Breadcrumb" className="crumbs">
           {trail.map((c, i) => (
             <span key={c.label}>

@@ -23,7 +23,7 @@ export const ABOUT_PAGES: AboutPage[] = [
   {
     slug: 'our-story',
     label: 'Our Story',
-    title: 'Two decades of turning students into engineers',
+    title: 'A decade of turning students into engineers',
     lead: 'From one classroom in Punjab to a national training network.',
     section: 'story',
   },
