@@ -351,15 +351,6 @@ export const POSTS = [
 
 export const FOOTER_LINKS: { title: string; links: { label: string; href: string }[] }[] = [
   {
-    title: 'Courses',
-    links: [
-      { label: 'Programming', href: '/course-categories/software-programming' },
-      { label: 'AI & Data', href: '/course-categories/ai-emerging-technologies' },
-      { label: 'Marketing & Design', href: '/course-categories/digital-creative-skills' },
-      { label: 'Cyber & Cloud', href: '/course-categories/cybersecurity-forensics' },
-    ],
-  },
-  {
     title: 'Programs',
     links: [
       { label: 'Internship & Training', href: '/internship-training' },

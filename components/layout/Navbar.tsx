@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { FiChevronDown, FiMenu, FiX, FiPhone, FiArrowRight } from 'react-icons/fi'
 
-import DemoLink from '@/components/ui/DemoLink'
 import { trackIcon } from '@/components/ui/trackIcons'
 import { CoursesDrawer, CoursesPanel, COURSES_PANEL_ID } from '@/components/layout/CoursesMenu'
 import { NAV, SITE, type NavItem, type NavLink } from '@/data/site'
@@ -286,9 +285,9 @@ export default function Navbar() {
           })}
 
           <div className="nav__actions">
-            <DemoLink className="btn btn--gold btn--sm nav__cta" onClick={close}>
-              Book Demo
-            </DemoLink>
+            <Link href="/franchises" className="btn btn--gold btn--sm nav__cta" onClick={close}>
+              Own your franchise
+            </Link>
             <button
               className="nav__burger"
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -358,9 +357,9 @@ export default function Navbar() {
           })}
         </nav>
         <div className="drawer__foot">
-          <DemoLink className="btn btn--gold" tabIndex={open ? 0 : -1} onClick={close}>
-            Book a free demo
-          </DemoLink>
+          <Link href="/franchises" className="btn btn--gold" tabIndex={open ? 0 : -1} onClick={close}>
+            Own your franchise
+          </Link>
           <a href={SITE.phoneHref} className="btn btn--ghost" tabIndex={open ? 0 : -1}>
             <FiPhone /> {SITE.phone}
           </a>

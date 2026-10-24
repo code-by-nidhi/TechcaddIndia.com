@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiInstagram, FiYoutube, FiLinkedin, FiPhone, FiMail, FiClock, FiMapPin } from 'react-icons/fi'
+import { FiInstagram, FiYoutube, FiLinkedin, FiPhone, FiMail, FiClock } from 'react-icons/fi'
 
-import { CENTRES, FOOTER_LINKS, SITE } from '@/data/site'
+import { FOOTER_LINKS, SITE } from '@/data/site'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -53,22 +53,6 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-        </div>
-
-        <div className="footer__branches">
-          <h4>
-            <FiMapPin aria-hidden /> Our centres
-          </h4>
-          <ul>
-            {CENTRES.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/branches/${c.slug}`}>{c.name}</Link>
-              </li>
-            ))}
-            <li>
-              <Link href="/courses">Live Online — Pan India</Link>
-            </li>
-          </ul>
         </div>
 
         <div className="footer__bottom">

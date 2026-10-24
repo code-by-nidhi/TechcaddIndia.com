@@ -1,12 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FiArrowRight, FiArrowUpRight, FiBriefcase, FiCpu, FiStar, FiZap } from 'react-icons/fi'
+import { FiArrowUpRight, FiBriefcase, FiCpu, FiStar } from 'react-icons/fi'
 
-import DemoLink from '@/components/ui/DemoLink'
 import SplitHeading from '@/components/fx/SplitHeading'
 import CountUp from '@/components/fx/CountUp'
 import { CATEGORIES, SITE, STATS } from '@/data/site'
@@ -14,78 +12,18 @@ import { legacyCategoryHref } from '@/data/courses-menu'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /* ==========================================================================
-   Hero — a split corporate banner. Headline and the prompt box on the left;
+   Hero — a split corporate banner. Kicker and headline on the left;
    on the right a layered collage of two photographs with a floating figure
    card. Under both runs a numbered index of the first four tracks, each with
    a rule that fills on hover.
 
    Motion: aurora blobs drift behind everything, a soft spotlight follows the
    pointer, the collage layers shift by depth with the pointer (through the
-   --px/--py custom properties, so they compose with the CSS float loops),
-   and the prompt's placeholder types out example goals.
+   --px/--py custom properties, so they compose with the CSS float loops).
    ========================================================================== */
 
-/** Words in the prompt that point at a course category. First match wins. */
-const KEYWORDS: [slug: string, words: string[]][] = [
-  ['cyber', ['cyber', 'hack', 'security', 'soc']],
-  ['cloud', ['cloud', 'devops', 'aws', 'azure', 'docker', 'kubernetes', 'linux']],
-  ['marketing', ['market', 'seo', 'ads', 'social']],
-  ['data-science', ['data', 'analytics', 'analyst', 'sql', 'power bi', 'tableau', 'statistics']],
-  ['ai', ['ai', 'machine', 'llm', 'prompt', 'agent', 'rag', 'chatgpt', 'ml']],
-  ['full-stack', ['web', 'full', 'stack', 'react', 'node', 'java', 'python', 'mern', 'program', 'develop', 'code', 'app']],
-]
-
-const PLACEHOLDERS = [
-  'I want to become a data analyst',
-  'I want to build AI agents',
-  'I want a job as a full-stack developer',
-  'I want to get into cybersecurity',
-]
-
-/** Types each example out, holds it, deletes it, moves to the next. */
-function useTypedPlaceholder(phrases: string[]) {
-  const [text, setText] = useState(phrases[0])
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return
-    let phrase = 0
-    let chars = phrases[0].length
-    let deleting = true
-    let id: ReturnType<typeof setTimeout>
-
-    const step = () => {
-      const full = phrases[phrase]
-      chars += deleting ? -1 : 1
-      setText(full.slice(0, chars))
-      let wait = deleting ? 28 : 55
-      if (!deleting && chars === full.length) {
-        deleting = true
-        wait = 2200
-      } else if (deleting && chars === 0) {
-        deleting = false
-        phrase = (phrase + 1) % phrases.length
-        wait = 350
-      }
-      id = setTimeout(step, wait)
-    }
-    id = setTimeout(step, 2600)
-    return () => clearTimeout(id)
-  }, [phrases])
-
-  return `e.g. ${text}`
-}
-
-const SUGGESTIONS = [
-  { label: 'AI & Machine Learning', href: '/courses/artificial-intelligence-ai' },
-  { label: 'Full-Stack Development', href: '/courses/full-stack-web-development' },
-  { label: 'All courses', href: '/courses' },
-]
-
 export default function Hero() {
-  const router = useRouter()
-  const [query, setQuery] = useState('')
   const lead = STATS[0]
-  const placeholder = useTypedPlaceholder(PLACEHOLDERS)
   const hero = useRef<HTMLElement>(null)
 
   /* pointer → spotlight position and eased parallax offsets (-1…1) */
@@ -115,14 +53,6 @@ export default function Hero() {
     }
   }, [])
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    /* short words must match whole ("ai" is not in "training") */
-    const q = ` ${query.toLowerCase().replace(/[^a-z0-9 ]/g, ' ')} `
-    const hit = KEYWORDS.find(([, words]) => words.some((w) => q.includes(w.length <= 3 ? ` ${w} ` : w)))
-    router.push(hit ? legacyCategoryHref(hit[0]) : '/courses')
-  }
-
   return (
     <section className="cx-hero" ref={hero}>
       <div className="cx-hero__aurora" aria-hidden>
@@ -150,40 +80,6 @@ export default function Hero() {
             parts={['Learn the tech', { text: 'India runs on', className: 'cx-hero__em' }]}
           />
 
-          <form className="cx-ask" onSubmit={onSubmit} data-aos="fade-up" data-aos-delay="250">
-            <label htmlFor="cx-ask-input">
-              <FiZap aria-hidden /> Tell us what you want to learn
-            </label>
-            <div className="cx-ask__field">
-              <textarea
-                id="cx-ask-input"
-                rows={2}
-                maxLength={200}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault()
-                    e.currentTarget.form?.requestSubmit()
-                  }
-                }}
-                placeholder={placeholder}
-              />
-              <button type="submit" className="btn btn--sm">
-                Find my course <FiArrowRight aria-hidden />
-              </button>
-            </div>
-            <div className="cx-ask__foot">
-              <ul className="cx-ask__chips">
-                {SUGGESTIONS.map((s) => (
-                  <li key={s.label}>
-                    <Link href={s.href}>{s.label}</Link>
-                  </li>
-                ))}
-              </ul>
-              <DemoLink className="cx-ask__demo">Book a free demo</DemoLink>
-            </div>
-          </form>
         </div>
 
         <div className="cx-hero__visual" aria-hidden>
