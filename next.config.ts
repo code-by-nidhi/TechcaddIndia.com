@@ -32,8 +32,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
-    /* 90 for the hero photographs, which are shown large */
-    qualities: [75, 90],
+    /* 90 for the hero photographs, which are shown large; 70 for the full-bleed timeline backgrounds */
+    qualities: [70, 75, 90],
     /* keep optimised variants for a day instead of re-encoding every 60s */
     minimumCacheTTL: 86400,
   },

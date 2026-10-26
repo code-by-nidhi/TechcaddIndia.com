@@ -1,100 +1,143 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import type { IconType } from 'react-icons'
 import { FiCloud, FiCode, FiCpu, FiShield } from 'react-icons/fi'
 
-/* The Mission & Vision hero's visual: a stack of three translucent glass plates
-   (a "technology stack") with a light rising from its top, and four discipline
-   nodes joined to it by thin lines. Pure SVG + CSS.
+/* The Mission & Vision visual: a code editor that writes a small program, runs
+   it in a terminal, and shows the result as a finished page beside it.
 
-   The SVG is a 100 x 90 viewBox and the stage keeps that aspect ratio, so the
-   HTML nodes (positioned in %) and the line endpoints (viewBox units) agree.
-   Nothing orbits or spins: the plates breathe a few pixels up and down, the
-   nodes float a few pixels along a line, and a faint light crosses two of the
-   lines now and then. Decorative, so hidden from assistive tech. */
+   The sequence plays once per cycle (14 seconds). Each cycle is a re-mount of
+   the window (the `cycle` key), so every CSS animation starts together and the
+   window fades out and back in between cycles — no element can drift out of
+   step. With reduced motion, or before the page is interactive, the finished
+   state is shown and no timer runs. The text is a decorative sample, hidden
+   from assistive tech. */
 
-const NODES: { key: string; label: string; Icon: IconType; x: number; y: number; dx: number; dy: number; dur: number; delay: number }[] = [
-  { key: 'ai', label: 'AI', Icon: FiCpu, x: 16, y: 24, dx: 3, dy: 8, dur: 6.5, delay: -2 },
-  { key: 'sw', label: 'Software Development', Icon: FiCode, x: 12, y: 70, dx: 4, dy: -7, dur: 7.5, delay: -4 },
-  { key: 'cloud', label: 'Cloud Computing', Icon: FiCloud, x: 84, y: 22, dx: -3, dy: -8, dur: 7, delay: -1 },
-  { key: 'sec', label: 'Cybersecurity', Icon: FiShield, x: 88, y: 68, dx: -4, dy: 7, dur: 6, delay: -3.5 },
+type Tok = [text: string, kind: 'kw' | 'fn' | 'str' | 'pun' | 'txt' | 'var']
+
+const CODE: Tok[][] = [
+  [['import', 'kw'], [' { learn, build } ', 'txt'], ['from', 'kw'], [" '@techcadd'", 'str']],
+  [],
+  [['export default function', 'kw'], [' Career', 'fn'], ['() {', 'pun']],
+  [['  const', 'kw'], [' skills', 'var'], [' = ', 'pun'], ['learn', 'fn'], ["(['React', 'Python', 'AI'])", 'txt']],
+  [['  const', 'kw'], [' project', 'var'], [' = ', 'pun'], ['build', 'fn'], ['(skills)', 'txt']],
+  [['  return', 'kw'], [' <', 'pun'], ['Launch', 'fn'], [' project', 'var'], ['={project} />', 'pun']],
+  [['}', 'pun']],
 ]
 
-const H = 90
+const len = (l: Tok[]) => l.reduce((n, [t]) => n + t.length, 0)
 
-/* a diamond plate centred on (50, y) */
-const plate = (y: number) => `50,${y - 9} 72,${y} 50,${y + 9} 28,${y}`
+const CHIPS: { label: string; Icon: IconType }[] = [
+  { label: 'AI & Data', Icon: FiCpu },
+  { label: 'Software', Icon: FiCode },
+  { label: 'Cloud', Icon: FiCloud },
+  { label: 'Security', Icon: FiShield },
+]
+
+const CYCLE_MS = 14000
 
 export default function MissionVisual() {
+  const [cycle, setCycle] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = window.setInterval(() => {
+      if (!document.hidden) setCycle((c) => c + 1)
+    }, CYCLE_MS)
+    return () => window.clearInterval(t)
+  }, [])
+
   return (
     <div className="mvv" aria-hidden>
       <span className="mvv__aura" />
 
-      <svg className="mvv__svg" viewBox={`0 0 100 ${H}`} focusable="false">
-        <defs>
-          <linearGradient id="mvv-edge" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#356dff" />
-            <stop offset="1" stopColor="#b6a4ff" />
-          </linearGradient>
-          <linearGradient id="mvv-face" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.16" />
-            <stop offset="1" stopColor="#356dff" stopOpacity="0.1" />
-          </linearGradient>
-          <linearGradient id="mvv-beam" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stopColor="#b6a4ff" stopOpacity="0.55" />
-            <stop offset="1" stopColor="#356dff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
+      <div className="mvv__stage">
+        <div key={cycle} className="mvv__win">
+          <div className="mvv__bar">
+            <i />
+            <i />
+            <i />
+            <span className="mvv__tab">Career.tsx</span>
+            <span className="mvv__tab mvv__tab--dim">learn.ts</span>
+          </div>
 
-        {/* the light rising from the top of the stack */}
-        <polygon className="mvv__beam" points="50,38 40,6 60,6" fill="url(#mvv-beam)" />
+          <div className="mvv__editor">
+            <ol className="mvv__nums">
+              {CODE.map((_, i) => (
+                <li key={i}>{i + 1}</li>
+              ))}
+            </ol>
+            <div className="mvv__code">
+              {CODE.map((line, i) => (
+                <div key={i} className="mvv__row">
+                  {line.length > 0 && (
+                    <span
+                      className="mvv__line"
+                      style={{ ['--n' as string]: len(line), ['--d' as string]: `${0.5 + i * 0.75}s` }}
+                    >
+                      {line.map(([t, k], j) => (
+                        <span key={j} className={`t-${k}`}>
+                          {t}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </div>
+              ))}
+              <span className="mvv__caret" />
+            </div>
+          </div>
 
-        {/* lines from the stack's corners out to each node */}
-        <path className="mvv__line" style={{ ['--i' as string]: 0 }} d="M28 38 Q22 36 16 24" pathLength={1} />
-        <path className="mvv__line" style={{ ['--i' as string]: 1 }} d="M28 62 Q20 64 12 70" pathLength={1} />
-        <path className="mvv__line" style={{ ['--i' as string]: 2 }} d="M72 38 Q78 36 84 22" pathLength={1} />
-        <path className="mvv__line" style={{ ['--i' as string]: 3 }} d="M72 62 Q80 64 88 68" pathLength={1} />
+          <div className="mvv__term">
+            <p className="mvv__tl mvv__tl--cmd" style={{ ['--n' as string]: 13, ['--d' as string]: '6.2s' }}>
+              <span className="t-pun">$</span> npm run dev
+            </p>
+            <p className="mvv__tl mvv__tl--ok" style={{ ['--d' as string]: '7.6s' }}>
+              <span className="t-ok">✓</span> Compiled successfully
+            </p>
+            <p className="mvv__tl mvv__tl--ok" style={{ ['--d' as string]: '8.2s' }}>
+              <span className="t-ok">✓</span> Ready on localhost:3000
+            </p>
+          </div>
 
-        {/* an occasional light along two of them */}
-        <path className="mvv__pulse" style={{ ['--pd' as string]: '3s', ['--pt' as string]: '9s' }} d="M28 38 Q22 36 16 24" pathLength={100} />
-        <path className="mvv__pulse" style={{ ['--pd' as string]: '7s', ['--pt' as string]: '11s' }} d="M72 62 Q80 64 88 68" pathLength={100} />
-
-        {/* spine joining the plates */}
-        <path className="mvv__spine" d="M50 38 L50 62" />
-
-        {/* the stack: bottom to top, each plate breathes on its own */}
-        {[62, 50, 38].map((y, i) => (
-          <g key={y} className={`mvv__plate mvv__plate--${i}`}>
-            <polygon className="mvv__face" points={plate(y)} />
-            <polyline className="mvv__edge" points={`28,${y} 50,${y + 9} 72,${y}`} />
-          </g>
-        ))}
-
-        {/* the core on the top plate */}
-        <circle className="mvv__ring" cx="50" cy="38" r="5" />
-        <circle className="mvv__core" cx="50" cy="38" r="2.1" />
-      </svg>
-
-      {NODES.map((n, i) => (
-        <div
-          key={n.key}
-          className="mvv__node"
-          style={{
-            left: `${n.x}%`,
-            top: `${(n.y / H) * 100}%`,
-            ['--i' as string]: i,
-            ['--dx' as string]: `${n.dx}px`,
-            ['--dy' as string]: `${n.dy}px`,
-            ['--dur' as string]: `${n.dur}s`,
-            ['--delay' as string]: `${n.delay}s`,
-          }}
-        >
-          <div className="mvv__float">
-            <span className="mvv__icon">
-              <n.Icon />
+          <div className="mvv__status">
+            <span>
+              <b />
+              main
             </span>
-            <span className="mvv__label">{n.label}</span>
+            <span>TypeScript React</span>
+            <span>UTF-8</span>
           </div>
         </div>
-      ))}
+
+        {/* the result: a small page that builds itself once the build is ready */}
+        <div key={`p${cycle}`} className="mvv__result">
+          <div className="mvv__rbar">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="mvv__rbody">
+            <span className="mvv__rhead">Launch ready</span>
+            <span className="mvv__rsub">Your first project, live.</span>
+            <span className="mvv__pills">
+              <em>React</em>
+              <em>Python</em>
+              <em>AI</em>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <ul className="mvv__chips">
+        {CHIPS.map(({ label, Icon }) => (
+          <li key={label} className="mvv__chipitem">
+            <Icon />
+            {label}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
