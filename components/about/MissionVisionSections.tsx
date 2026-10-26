@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import Image from 'next/image'
 import type { IconType } from 'react-icons'
 import {
   FiCheck,
   FiCompass,
-  FiCloud,
-  FiCode,
   FiCpu,
   FiHeart,
   FiRefreshCw,
@@ -54,14 +53,32 @@ function useReveal<T extends HTMLElement>(threshold = 0.2) {
 
 const d = (i: number) => ({ ['--i' as string]: i })
 
-/* ------------------------------------------------------------ mission -- */
+/* overlay geometry, in the artwork's own pixels (1536 x 1024) */
+const ORBIT_A = 'M368 500 a400 330 0 1 0 800 0 a400 330 0 1 0 -800 0'
+const ORBIT_B = 'M438 500 a330 255 0 1 0 660 0 a330 255 0 1 0 -660 0'
+const ORBIT_C = 'M468 520 a300 130 0 1 0 600 0 a300 130 0 1 0 -600 0'
 
-const MODULES: { label: string; Icon: IconType; x: number; y: number; depth: number; tilt: number; path: string }[] = [
-  { label: 'AI & Data', Icon: FiCpu, x: 22, y: 16, depth: 0.92, tilt: 7, path: 'M42 32 C34 28 28 22 22 16' },
-  { label: 'Software Development', Icon: FiCode, x: 24, y: 70, depth: 1.04, tilt: 7, path: 'M42 52 C34 56 29 64 24 70' },
-  { label: 'Cloud Computing', Icon: FiCloud, x: 78, y: 16, depth: 0.92, tilt: -7, path: 'M58 32 C66 28 72 22 78 16' },
-  { label: 'Cybersecurity', Icon: FiShield, x: 76, y: 70, depth: 1.04, tilt: -7, path: 'M58 52 C66 56 71 64 76 70' },
+/** short connector stubs between each icon and the sphere */
+const LINKS = ['M520 290 L612 368', 'M1016 290 L924 368', 'M520 722 L612 640', 'M1016 722 L924 640']
+
+/** the four glass panels in the artwork: x, y, width, height */
+const CARDS: [number, number, number, number][] = [
+  [88, 180, 372, 156],
+  [1070, 182, 380, 154],
+  [90, 724, 380, 164],
+  [1070, 726, 380, 162],
 ]
+
+/** moving light on the orbits: speeds differ, the 'extra' ones are dropped on phones */
+const PARTICLES: { path: string; tone: 'blue' | 'cyan' | 'violet'; r: number; t: number; d: number; extra?: boolean }[] = [
+  { path: ORBIT_A, tone: 'blue', r: 9, t: 30, d: 0 },
+  { path: ORBIT_A, tone: 'violet', r: 8, t: 36, d: -14, extra: true },
+  { path: ORBIT_B, tone: 'cyan', r: 7, t: 24, d: -6 },
+  { path: ORBIT_B, tone: 'violet', r: 6, t: 28, d: -19, extra: true },
+  { path: ORBIT_C, tone: 'cyan', r: 6, t: 20, d: -3 },
+]
+
+/* ------------------------------------------------------------ mission -- */
 
 const PRINCIPLES: { Icon: IconType; title: string; text: string }[] = [
   { Icon: FiTool, title: 'Learn by Building', text: 'Concepts are tested on real projects, not just read.' },
@@ -71,6 +88,16 @@ const PRINCIPLES: { Icon: IconType; title: string; text: string }[] = [
 
 function Mission() {
   const { ref, cls } = useReveal<HTMLElement>()
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !('IntersectionObserver' in window)) return
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) el.removeAttribute('data-paused')
+      else el.setAttribute('data-paused', '')
+    })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [ref])
   return (
     <section ref={ref} id="mission" className={`mvs-m mvs-dark about-block${cls}`} aria-labelledby="mvs-m-title">
       <div className="shell mvs__grid">
@@ -100,72 +127,80 @@ function Mission() {
           </ul>
         </div>
 
-        {/* a spatial ecosystem: layered core, two rings, four nodes at different depths */}
-        <div className="mvs-m__viz rv" style={d(2)} aria-hidden>
-          <span className="mvs-m__glow" />
-          <div className="mve">
-            <span className="mve__floor" />
-            <span className="mve__light" />
-            <svg className="mve__svg" viewBox="0 0 100 90" focusable="false">
-              <defs>
-                <linearGradient id="mve-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="90">
-                  <stop offset="0" stopColor="#356dff" />
-                  <stop offset="1" stopColor="#7950b5" />
-                </linearGradient>
-              </defs>
-              <ellipse className="mve__ring" cx="50" cy="46" rx="33" ry="17" />
-              <ellipse className="mve__ring mve__ring--b" cx="50" cy="46" rx="43" ry="23" />
-              {MODULES.map((m, i) => (
-                <g key={m.label}>
-                  <path className="mve__line" style={d(i)} d={m.path} pathLength={1} />
-                  <circle className="mve__dot" cx={m.x} cy={m.y} r="0.9" />
-                </g>
-              ))}
-              <path className="mve__pulse" d={MODULES[0].path} pathLength={100} />
-              <path className="mve__pulse mve__pulse--b" d={MODULES[3].path} pathLength={100} />
-            </svg>
-
-            <div className="mve__hub">
-              <svg className="mve__stack" viewBox="0 0 100 70" focusable="false">
+        <div className="mvs-m__viz rv" style={d(2)}>
+          <span className="mvs-m__glow" aria-hidden />
+          <div className="mve-img">
+            <div className="mve-stage">
+              <Image
+                src="/images/about/digital-learning-ecosystem.png"
+                alt="TechCadd Digital Learning Ecosystem: AI & Data, Cloud Computing, Software Development and Cybersecurity around a central TechCadd sphere"
+                fill
+                sizes="(max-width: 900px) 92vw, 600px"
+              />
+              {/* motion laid over the artwork, in the artwork's own pixel space (cover crop) */}
+              <svg className="mvo" viewBox="0 54.85 1536 914.3" preserveAspectRatio="none" aria-hidden focusable="false">
                 <defs>
-                  <linearGradient id="mve-top" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stopColor="#4a7dff" />
-                    <stop offset="1" stopColor="#7950b5" />
+                  <linearGradient id="mvo-grad" gradientUnits="userSpaceOnUse" x1="400" y1="200" x2="1100" y2="800">
+                    <stop offset="0" stopColor="#7ea6ff" />
+                    <stop offset="1" stopColor="#b48cff" />
                   </linearGradient>
+                  <radialGradient id="mvo-sphere" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0.55" stopColor="#7a8cff" stopOpacity="0" />
+                    <stop offset="1" stopColor="#8f7bff" stopOpacity="0.38" />
+                  </radialGradient>
+                  <linearGradient id="mvo-band" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stopColor="#fff" stopOpacity="0" />
+                    <stop offset="0.5" stopColor="#fff" stopOpacity="0.16" />
+                    <stop offset="1" stopColor="#fff" stopOpacity="0" />
+                  </linearGradient>
+                  <clipPath id="mvo-clip">
+                    <circle cx="768" cy="500" r="212" />
+                  </clipPath>
                 </defs>
-                <ellipse className="mve__plate-shadow" cx="50" cy="62" rx="36" ry="7" />
-                <polygon className="mve__plate mve__plate--1" points="50,34 90,50 50,66 10,50" />
-                <polygon className="mve__plate mve__plate--2" points="50,25 90,41 50,57 10,41" />
-                <polygon className="mve__plate mve__plate--3" points="50,12 90,28 50,44 10,28" />
-                <g className="mve__glyph">
-                  <path d="M50 28 L36 24 M50 28 L64 24 M50 28 L36 33 M50 28 L64 33" />
-                  <circle cx="36" cy="24" r="1.6" />
-                  <circle cx="64" cy="24" r="1.6" />
-                  <circle cx="36" cy="33" r="1.6" />
-                  <circle cx="64" cy="33" r="1.6" />
-                  <circle cx="50" cy="28" r="3" />
+
+                <g className="mvo__rings">
+                  <path className="mvo__ring mvo__ring--a" d="M368 500 a400 330 0 1 0 800 0 a400 330 0 1 0 -800 0" />
+                  <path className="mvo__ring mvo__ring--b" d="M438 500 a330 255 0 1 0 660 0 a330 255 0 1 0 -660 0" />
+                  <path className="mvo__ring mvo__ring--c" d="M468 520 a300 130 0 1 0 600 0 a300 130 0 1 0 -600 0" />
+                </g>
+
+                <g className="mvo__fx">
+                  <circle className="mvo__glow" cx="768" cy="500" r="214" fill="url(#mvo-sphere)" />
+                  <g clipPath="url(#mvo-clip)">
+                    <rect className="mvo__sweep" x="568" y="280" width="240" height="440" fill="url(#mvo-band)" transform="skewX(-12)" />
+                  </g>
+
+                  {LINKS.map((l, i) => (
+                    <path key={l} className="mvo__link" d={l} pathLength={100} style={{ ['--d' as string]: `${i * 1.4}s` }} />
+                  ))}
+
+                  <circle className="mvo__halo mvo__halo--ai" cx="461" cy="235" r="66" />
+                  <circle className="mvo__halo mvo__halo--cloud" cx="1075" cy="235" r="66" />
+                  <circle className="mvo__halo mvo__halo--code" cx="458" cy="778" r="66" />
+                  <circle className="mvo__halo mvo__halo--shield" cx="1078" cy="778" r="66" />
+
+                  {PARTICLES.map((p, i) => (
+                    <g key={i}>
+                      <circle
+                        className={`mvo__trail mvo__trail--${p.tone}${p.extra ? ' mvo__trail--extra' : ''}`}
+                        r={p.r * 0.7}
+                        style={{ offsetPath: `path("${p.path}")`, ['--t' as string]: `${p.t}s`, ['--d' as string]: `${p.d - 0.35}s` } as CSSProperties}
+                        fill="currentColor"
+                      />
+                      <circle
+                        className={`mvo__p mvo__p--${p.tone}${p.extra ? ' mvo__p--extra' : ''}`}
+                        r={p.r}
+                        style={{ offsetPath: `path("${p.path}")`, ['--t' as string]: `${p.t}s`, ['--d' as string]: `${p.d}s`, filter: 'drop-shadow(0 0 6px currentColor)' } as CSSProperties}
+                      />
+                    </g>
+                  ))}
+
+                  {CARDS.map((c, i) => (
+                    <rect key={i} className="mvo__card" x={c[0]} y={c[1]} width={c[2]} height={c[3]} rx="44" />
+                  ))}
                 </g>
               </svg>
-              <div className="mve__tag">
-                <b>TECHCADD</b>
-                <small>Digital Learning Ecosystem</small>
-              </div>
             </div>
-
-            {MODULES.map(({ label, Icon, x, y, depth, tilt }, i) => (
-              <div
-                key={label}
-                className="mve__mod"
-                style={{ left: `${x}%`, top: `${(y / 90) * 100}%`, ['--depth' as string]: depth, ['--tilt' as string]: `${tilt}deg`, ...d(i) }}
-              >
-                <span className="mve__panel">
-                  <span className="mve__icon">
-                    <Icon />
-                  </span>
-                  <span className="mve__label">{label}</span>
-                </span>
-              </div>
-            ))}
           </div>
         </div>
       </div>

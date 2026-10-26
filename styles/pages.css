@@ -4170,13 +4170,11 @@ main > section.osh {
   color: #58678a;
 }
 
-/* the Mission illustration: a spatial ecosystem on a light stage set into the
-   dark band. A perspective floor, two elliptical rings, a layered glass core
-   and four glass nodes at different depths (far ones smaller, near ones larger)
-   joined to the core by curved paths. Nothing rotates. */
+/* the Mission illustration: the supplied ecosystem artwork, sitting directly on
+   the dark band (it has a transparent background) */
 .mvs-m__viz {
   position: relative;
-  max-width: 560px;
+  max-width: 640px;
   width: 100%;
   margin-inline: auto;
 }
@@ -4188,333 +4186,300 @@ main > section.osh {
   background: radial-gradient(closest-side, rgba(155, 112, 245, 0.3), rgba(79, 125, 255, 0.16) 55%, transparent 78%);
   pointer-events: none;
 }
-
-.mve {
+.mve-img {
   position: relative;
-  aspect-ratio: 100 / 90;
-  overflow: hidden;
-  isolation: isolate;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 24px;
-  background:
-    radial-gradient(55% 50% at 50% 52%, rgba(121, 80, 181, 0.16), rgba(53, 109, 255, 0.08) 55%, transparent 80%),
-    linear-gradient(180deg, #f4f7ff 0%, #eaeaff 100%);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 60px rgba(79, 125, 255, 0.18);
+  aspect-ratio: 1.68;
+  /* no frame: the artwork's transparent areas show the section's own background */
 }
+/* ---- the artwork, brought to life ---------------------------------------
+   The image is a raster, so nothing inside it can move. A transparent SVG laid
+   exactly over it (same cover crop, drawn in the image's own pixel space)
+   adds the motion: glowing light moving along the rings, particles on the
+   orbits, a breathing glow and light sweep over the sphere, halos on the four
+   icons, light travelling down the four connector stubs, and a soft glow on a
+   card when it is hovered. Only transform / opacity / stroke-dashoffset
+   change. */
 
-/* the floor: a grid laid flat and fading into the distance */
-.mve__floor {
+.mve-stage {
   position: absolute;
-  left: -20%;
-  right: -20%;
-  bottom: -6%;
-  height: 62%;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(17, 19, 68, 0.1) 1px, transparent 1px) 0 0 / 44px 44px,
-    linear-gradient(90deg, rgba(17, 19, 68, 0.1) 1px, transparent 1px) 0 0 / 44px 44px;
-  transform: perspective(520px) rotateX(62deg);
-  transform-origin: 50% 100%;
-  -webkit-mask-image: linear-gradient(0deg, #000 25%, transparent 92%);
-  mask-image: linear-gradient(0deg, #000 25%, transparent 92%);
+  inset: 0;
+  scale: 1.07;
 }
-/* a soft light that breathes behind the core */
-.mve__light {
-  position: absolute;
-  left: 50%;
-  top: 52%;
-  width: 62%;
-  aspect-ratio: 1;
-  z-index: -1;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(182, 164, 255, 0.35) 55%, transparent 78%);
-  animation: mve-breathe 8s ease-in-out infinite alternate;
+.mve-stage img {
+  object-fit: cover;
 }
-@keyframes mve-breathe {
-  from {
-    opacity: 0.55;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.mve__svg {
+.mvo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-}
-.mve__ring {
-  fill: none;
-  stroke: rgba(92, 120, 190, 0.28);
-  stroke-width: 0.22;
-}
-.mve__ring--b {
-  stroke: rgba(121, 80, 181, 0.3);
-  stroke-dasharray: 0.9 1.7;
-}
-.mve__line,
-.mve__pulse {
-  fill: none;
-  stroke-linecap: round;
-}
-.mve__line {
-  stroke: url(#mve-grad);
-  stroke-width: 0.42;
-  stroke-opacity: 0.9;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-.mve__pulse {
-  stroke: #fff;
-  stroke-width: 1;
-  stroke-dasharray: 3 97;
-  opacity: 0;
-  filter: drop-shadow(0 0 1.5px rgba(53, 109, 255, 0.9));
-  animation: mve-travel 9s ease-in-out 2.6s infinite;
-}
-.mve__pulse--b {
-  animation-delay: 6.6s;
-}
-.mve__dot {
-  fill: #fff;
-  stroke: #7950b5;
-  stroke-width: 0.4;
-}
-@keyframes mve-travel {
-  0% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-  6% {
-    opacity: 0.95;
-  }
-  40% {
-    stroke-dashoffset: -100;
-    opacity: 0.95;
-  }
-  46%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-
-/* ------------------------------------------------------------ core -- */
-
-.mve__hub {
-  position: absolute;
-  left: 50%;
-  top: 41%;
-  width: 36%;
-  translate: -50% -50%;
-  text-align: center;
-}
-.mve__stack {
-  display: block;
-  width: 100%;
   overflow: visible;
-}
-.mve__plate {
-  stroke-linejoin: round;
-}
-.mve__plate--1 {
-  fill: rgba(121, 80, 181, 0.18);
-  stroke: rgba(121, 80, 181, 0.4);
-  stroke-width: 0.8;
-}
-.mve__plate--2 {
-  fill: rgba(255, 255, 255, 0.5);
-  stroke: rgba(92, 120, 190, 0.55);
-  stroke-width: 0.8;
-}
-.mve__plate--3 {
-  fill: url(#mve-top);
-  stroke: rgba(255, 255, 255, 0.95);
-  stroke-width: 1;
-}
-.mve__glyph path {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 1.3;
-  stroke-linecap: round;
-}
-.mve__glyph circle {
-  fill: #fff;
-}
-.mve__plate-shadow {
-  fill: rgba(17, 19, 68, 0.18);
-  filter: blur(4px);
-}
-
-.mve__tag {
-  display: grid;
-  gap: 0.1rem;
-  width: fit-content;
-  margin: -0.2rem auto 0;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 34px rgba(40, 60, 120, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .mve__tag {
-    background: rgba(255, 255, 255, 0.68);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-}
-.mve__tag b {
-  font-family: var(--font-display);
-  font-size: clamp(0.66rem, 1.4vw, 0.86rem);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #111344;
-}
-.mve__tag small {
-  font-size: clamp(0.5rem, 0.95vw, 0.62rem);
-  letter-spacing: 0.04em;
-  color: #58678a;
-  white-space: nowrap;
-}
-
-/* ----------------------------------------------------------- nodes -- */
-
-.mve__mod {
-  position: absolute;
-  translate: -50% -50%;
-  scale: var(--depth, 1);
-}
-.mve__panel {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.9rem 0.5rem 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 20px 50px rgba(40, 60, 120, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-  transform: perspective(500px) rotateY(var(--tilt, 0deg));
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .mve__panel {
-    background: rgba(255, 255, 255, 0.68);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-}
-/* a gradient edge that fades in on hover */
-.mve__panel::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, #356dff, #7950b5);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  opacity: 0;
-  transition: opacity 0.35s var(--ease);
   pointer-events: none;
 }
-.mve__panel:hover {
-  transform: perspective(500px) rotateY(0deg) translateY(-4px);
-  box-shadow: 0 26px 56px rgba(53, 109, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+/* rings: light running along the ellipses (the rings in the image stay put) */
+.mvo__ring {
+  fill: none;
+  stroke-linecap: round;
 }
-.mve__panel:hover::before {
-  opacity: 1;
+.mvo__ring--a {
+  stroke: rgba(120, 170, 255, 0.85);
+  stroke-width: 2.5;
+  stroke-dasharray: 90 1160;
+  animation: mvo-run 44s linear infinite;
+}
+.mvo__ring--b {
+  stroke: rgba(170, 130, 255, 0.85);
+  stroke-width: 2.2;
+  stroke-dasharray: 70 880;
+  animation: mvo-run 34s linear infinite reverse;
+}
+.mvo__ring--c {
+  stroke: rgba(110, 220, 255, 0.8);
+  stroke-width: 2;
+  stroke-dasharray: 50 640;
+  animation: mvo-run 28s linear infinite;
+}
+@keyframes mvo-run {
+  to {
+    stroke-dashoffset: -1250;
+  }
 }
 
-/* the icon sits on two offset layers */
-.mve__icon {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 10px;
-  background: linear-gradient(160deg, #356dff, #7950b5);
-  font-size: 1rem;
-  color: #fff;
-  box-shadow: 3px 3px 0 -1px rgba(121, 80, 181, 0.28), 6px 6px 0 -2px rgba(53, 109, 255, 0.16);
+/* particles on the orbits (offset-path moves them, so they stay on the ring) */
+.mvo__p {
+  offset-rotate: 0deg;
+  animation: mvo-orbit var(--t, 26s) linear var(--d, 0s) infinite;
 }
-.mve__label {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: #111344;
+.mvo__p--blue,
+.mvo__trail--blue {
+  fill: #6ea0ff;
+  color: #6ea0ff;
 }
-
-/* reveal: light and core, then the paths draw, then the nodes rise */
-.mvs-m.is-armed .mve__hub,
-.mvs-m.is-armed .mve__mod,
-.mvs-m.is-armed .mve__light {
-  opacity: 0;
+.mvo__p--cyan,
+.mvo__trail--cyan {
+  fill: #7fe3ff;
+  color: #7fe3ff;
 }
-.mvs-m.is-armed .mve__line {
-  stroke-dashoffset: 1;
+.mvo__p--violet,
+.mvo__trail--violet {
+  fill: #b48cff;
+  color: #b48cff;
 }
-.mvs-m.is-in .mve__light {
-  animation: mvs-fade-in 1.4s ease-out 0.1s both, mve-breathe 8s ease-in-out 1.5s infinite alternate;
+.mvo__trail {
+  opacity: 0.45;
+  offset-rotate: 0deg;
+  animation: mvo-orbit var(--t, 26s) linear var(--d, 0s) infinite;
 }
-.mvs-m.is-in .mve__hub {
-  animation: mvs-scale 0.9s var(--ease) 0.5s both;
-}
-.mvs-m.is-in .mve__line {
-  animation: mvs-draw 1.2s var(--ease) both;
-  animation-delay: calc(var(--i) * 140ms + 1.2s);
-}
-.mvs-m.is-in .mve__mod {
-  animation: mvs-scale 0.9s var(--ease) both;
-  animation-delay: calc(var(--i) * 140ms + 2s);
-}
-@keyframes mvs-fade-in {
+@keyframes mvo-orbit {
   from {
-    opacity: 0;
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+/* sphere: a breathing glow and a slow band of light across it */
+.mvo__glow {
+  transform-origin: 768px 500px;
+  animation: mvo-breathe 6s ease-in-out infinite alternate;
+}
+@keyframes mvo-breathe {
+  from {
+    opacity: 0.5;
+    transform: scale(0.985);
   }
   to {
     opacity: 1;
+    transform: scale(1.015);
+  }
+}
+.mvo__sweep {
+  animation: mvo-sweep 9s ease-in-out infinite;
+}
+@keyframes mvo-sweep {
+  0%,
+  35% {
+    transform: translateX(-340px);
+  }
+  75%,
+  100% {
+    transform: translateX(340px);
   }
 }
 
-@media (max-width: 620px) {
-  .mve__pulse,
-  .mve__light {
-    animation: none;
+/* icons: each has its own halo and its own rhythm, staggered */
+.mvo__halo {
+  fill: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mvo__halo--ai {
+  stroke: rgba(110, 160, 255, 0.9);
+  stroke-width: 3;
+  animation: mvo-pulse 4.4s ease-in-out infinite;
+}
+.mvo__halo--cloud {
+  stroke: rgba(140, 190, 255, 0.9);
+  stroke-width: 3;
+  animation: mvo-bob 5.2s ease-in-out 0.8s infinite;
+}
+.mvo__halo--code {
+  stroke: rgba(130, 150, 255, 0.95);
+  stroke-width: 3;
+  animation: mvo-flash 7s ease-in-out 1.6s infinite;
+}
+.mvo__halo--shield {
+  stroke: rgba(180, 140, 255, 0.95);
+  stroke-width: 3;
+  animation: mvo-pulse 5s ease-in-out 2.4s infinite;
+}
+@keyframes mvo-pulse {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(1);
   }
-  .mve__panel {
-    padding: 0.3rem 0.55rem 0.3rem 0.3rem;
-    border-radius: 12px;
-    gap: 0.35rem;
-    transform: none;
-  }
-  .mve__icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 0.8rem;
-    box-shadow: none;
-  }
-  .mve__label {
-    font-size: 0.64rem;
+  50% {
+    opacity: 0.85;
+    transform: scale(1.1);
   }
 }
-@media (max-width: 440px) {
-  .mve__panel {
-    flex-direction: column;
-    padding: 0.4rem 0.5rem;
-    white-space: normal;
-    text-align: center;
-    max-width: 5.2rem;
+@keyframes mvo-bob {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
   }
-  .mve__tag small {
+  50% {
+    opacity: 0.8;
+    transform: translateY(-7px);
+  }
+}
+@keyframes mvo-flash {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+  92% {
+    opacity: 0.2;
+    transform: scale(1.12);
+  }
+}
+
+/* connectors: a soft light travelling from each card toward the sphere */
+.mvo__link {
+  fill: none;
+  stroke: url(#mvo-grad);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 9 91;
+  opacity: 0;
+  animation: mvo-link 6s ease-in-out var(--d, 0s) infinite;
+}
+@keyframes mvo-link {
+  0% {
+    stroke-dashoffset: 9;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  48% {
+    stroke-dashoffset: -91;
+    opacity: 0.85;
+  }
+  56%,
+  100% {
+    stroke-dashoffset: -91;
+    opacity: 0;
+  }
+}
+
+/* cards: the artwork's panels stay where they are; on hover a soft blue-violet
+   border and glow come up around the panel */
+.mvo__card {
+  fill: rgba(120, 140, 255, 0);
+  stroke: rgba(150, 130, 255, 0);
+  stroke-width: 3;
+  pointer-events: all;
+  transition: fill 0.3s var(--ease), stroke 0.3s var(--ease), filter 0.3s var(--ease);
+}
+.mvo__card:hover {
+  fill: rgba(120, 140, 255, 0.07);
+  stroke: rgba(150, 130, 255, 0.85);
+  filter: drop-shadow(0 8px 26px rgba(110, 120, 255, 0.55));
+}
+
+/* entrance: the overlay waits for the artwork, then rings, then particles */
+.mvs-m.is-armed .mvo__rings,
+.mvs-m.is-armed .mvo__fx {
+  opacity: 0;
+}
+.mvs-m.is-in .mvo__rings {
+  animation: mvo-in 1.2s var(--ease) 0.9s both;
+}
+.mvs-m.is-in .mvo__fx {
+  animation: mvo-in 1s ease-out 1.8s both;
+}
+.mvo__rings {
+  transform-origin: 768px 500px;
+}
+@keyframes mvo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* off screen: everything holds still */
+.mvs-m[data-paused] .mvo * {
+  animation-play-state: paused;
+}
+
+@media (max-width: 620px) {
+  .mvo__p--extra,
+  .mvo__trail--extra,
+  .mvo__ring--c {
     display: none;
   }
+  .mvo__sweep {
+    animation: none;
+    opacity: 0;
+  }
+  .mvo__halo--cloud {
+    animation-name: mvo-pulse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mvo,
+  .mvo * {
+    animation: none !important;
+  }
+  .mvo__p,
+  .mvo__trail,
+  .mvo__ring,
+  .mvo__link {
+    display: none;
+  }
+}
+
+.mvs-m.is-armed .mve-img {
+  opacity: 0;
+}
+.mvs-m.is-in .mve-img {
+  animation: mvs-scale 0.9s var(--ease) 0.3s both;
 }
 
 /* ------------------------------------------------------------- vision -- */
@@ -4881,11 +4846,7 @@ main > section.osh {
 
 @media (prefers-reduced-motion: reduce) {
   .mvs .rv,
-  .mve__hub,
-  .mve__mod,
-  .mve__line,
-  .mve__pulse,
-  .mve__light,
+  .mve-img,
   .mvs-v::before,
   .mvs-v__core,
   .mvs-v__node,
