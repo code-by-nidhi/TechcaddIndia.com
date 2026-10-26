@@ -4034,3 +4034,1068 @@ main > section.osh {
     justify-content: center;
   }
 }
+
+/* ---------------------------------------- mission / vision / values --
+   components/about/MissionVisionSections.tsx, scoped under .mvs. Three bands
+   inside one plain <div>: white, deep navy-black, white. Each reveals once on
+   scroll (.is-armed hides, .is-in plays); the base styles are the finished
+   state, so reduced motion shows everything. */
+
+.mvs section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 8vw, 6.5rem);
+}
+
+/* shared type */
+.mvs__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #7950b5;
+}
+.mvs__title {
+  margin-block: 1rem 1.25rem;
+  font-size: clamp(1.9rem, 4vw, 3.3rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: #111344;
+}
+.mvs__title em {
+  font-style: normal;
+  background: linear-gradient(95deg, #356dff 0%, #5b5be0 50%, #7950b5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mvs__lead {
+  max-width: 560px;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.7;
+  color: #58678a;
+}
+.mvs__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+.mvs__copy {
+  min-width: 0;
+}
+.about-block {
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+}
+
+/* reveal */
+@keyframes mvs-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mvs .is-armed .rv,
+.mvs .rv {
+  --_x: 0;
+}
+.mvs section.is-armed .rv {
+  opacity: 0;
+}
+.mvs section.is-in .rv {
+  animation: mvs-in 0.85s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 100ms + 60ms);
+}
+
+/* ------------------------------------------------------------ mission -- */
+
+.mvs-m {
+  background: #ffffff;
+}
+.mvs-m::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(45% 55% at 85% 40%, rgba(53, 109, 255, 0.08), transparent 70%),
+    linear-gradient(rgba(17, 19, 68, 0.035) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(17, 19, 68, 0.035) 1px, transparent 1px) 0 0 / 64px 64px;
+  -webkit-mask-image: radial-gradient(80% 85% at 70% 45%, #000 0%, transparent 85%);
+  mask-image: radial-gradient(80% 85% at 70% 45%, #000 0%, transparent 85%);
+  pointer-events: none;
+}
+
+.mvs-m__list {
+  display: grid;
+  max-width: 560px;
+  margin-top: 1.75rem;
+  list-style: none;
+  border-top: 1px solid rgba(17, 19, 68, 0.1);
+}
+.mvs-m__list li {
+  display: flex;
+  gap: 0.9rem;
+  padding-block: 0.95rem;
+  border-bottom: 1px solid rgba(17, 19, 68, 0.1);
+}
+.mvs-m__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 10px;
+  background: #eaf0ff;
+  font-size: 1.05rem;
+  color: #356dff;
+}
+.mvs-m__list h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #111344;
+}
+.mvs-m__list p {
+  margin-top: 0.1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #58678a;
+}
+
+/* the Mission illustration: a spatial ecosystem on a light stage set into the
+   dark band. A perspective floor, two elliptical rings, a layered glass core
+   and four glass nodes at different depths (far ones smaller, near ones larger)
+   joined to the core by curved paths. Nothing rotates. */
+.mvs-m__viz {
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+  margin-inline: auto;
+}
+.mvs-m__glow {
+  position: absolute;
+  inset: -8% -6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(155, 112, 245, 0.3), rgba(79, 125, 255, 0.16) 55%, transparent 78%);
+  pointer-events: none;
+}
+
+.mve {
+  position: relative;
+  aspect-ratio: 100 / 90;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 24px;
+  background:
+    radial-gradient(55% 50% at 50% 52%, rgba(121, 80, 181, 0.16), rgba(53, 109, 255, 0.08) 55%, transparent 80%),
+    linear-gradient(180deg, #f4f7ff 0%, #eaeaff 100%);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 60px rgba(79, 125, 255, 0.18);
+}
+
+/* the floor: a grid laid flat and fading into the distance */
+.mve__floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -6%;
+  height: 62%;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(17, 19, 68, 0.1) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgba(17, 19, 68, 0.1) 1px, transparent 1px) 0 0 / 44px 44px;
+  transform: perspective(520px) rotateX(62deg);
+  transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(0deg, #000 25%, transparent 92%);
+  mask-image: linear-gradient(0deg, #000 25%, transparent 92%);
+}
+/* a soft light that breathes behind the core */
+.mve__light {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 62%;
+  aspect-ratio: 1;
+  z-index: -1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(182, 164, 255, 0.35) 55%, transparent 78%);
+  animation: mve-breathe 8s ease-in-out infinite alternate;
+}
+@keyframes mve-breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mve__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mve__ring {
+  fill: none;
+  stroke: rgba(92, 120, 190, 0.28);
+  stroke-width: 0.22;
+}
+.mve__ring--b {
+  stroke: rgba(121, 80, 181, 0.3);
+  stroke-dasharray: 0.9 1.7;
+}
+.mve__line,
+.mve__pulse {
+  fill: none;
+  stroke-linecap: round;
+}
+.mve__line {
+  stroke: url(#mve-grad);
+  stroke-width: 0.42;
+  stroke-opacity: 0.9;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.mve__pulse {
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-dasharray: 3 97;
+  opacity: 0;
+  filter: drop-shadow(0 0 1.5px rgba(53, 109, 255, 0.9));
+  animation: mve-travel 9s ease-in-out 2.6s infinite;
+}
+.mve__pulse--b {
+  animation-delay: 6.6s;
+}
+.mve__dot {
+  fill: #fff;
+  stroke: #7950b5;
+  stroke-width: 0.4;
+}
+@keyframes mve-travel {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.95;
+  }
+  40% {
+    stroke-dashoffset: -100;
+    opacity: 0.95;
+  }
+  46%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------ core -- */
+
+.mve__hub {
+  position: absolute;
+  left: 50%;
+  top: 41%;
+  width: 36%;
+  translate: -50% -50%;
+  text-align: center;
+}
+.mve__stack {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.mve__plate {
+  stroke-linejoin: round;
+}
+.mve__plate--1 {
+  fill: rgba(121, 80, 181, 0.18);
+  stroke: rgba(121, 80, 181, 0.4);
+  stroke-width: 0.8;
+}
+.mve__plate--2 {
+  fill: rgba(255, 255, 255, 0.5);
+  stroke: rgba(92, 120, 190, 0.55);
+  stroke-width: 0.8;
+}
+.mve__plate--3 {
+  fill: url(#mve-top);
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 1;
+}
+.mve__glyph path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+.mve__glyph circle {
+  fill: #fff;
+}
+.mve__plate-shadow {
+  fill: rgba(17, 19, 68, 0.18);
+  filter: blur(4px);
+}
+
+.mve__tag {
+  display: grid;
+  gap: 0.1rem;
+  width: fit-content;
+  margin: -0.2rem auto 0;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 34px rgba(40, 60, 120, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mve__tag {
+    background: rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+.mve__tag b {
+  font-family: var(--font-display);
+  font-size: clamp(0.66rem, 1.4vw, 0.86rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #111344;
+}
+.mve__tag small {
+  font-size: clamp(0.5rem, 0.95vw, 0.62rem);
+  letter-spacing: 0.04em;
+  color: #58678a;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------- nodes -- */
+
+.mve__mod {
+  position: absolute;
+  translate: -50% -50%;
+  scale: var(--depth, 1);
+}
+.mve__panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 20px 50px rgba(40, 60, 120, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  transform: perspective(500px) rotateY(var(--tilt, 0deg));
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mve__panel {
+    background: rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+/* a gradient edge that fades in on hover */
+.mve__panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #356dff, #7950b5);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+.mve__panel:hover {
+  transform: perspective(500px) rotateY(0deg) translateY(-4px);
+  box-shadow: 0 26px 56px rgba(53, 109, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.mve__panel:hover::before {
+  opacity: 1;
+}
+
+/* the icon sits on two offset layers */
+.mve__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #356dff, #7950b5);
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 3px 3px 0 -1px rgba(121, 80, 181, 0.28), 6px 6px 0 -2px rgba(53, 109, 255, 0.16);
+}
+.mve__label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #111344;
+}
+
+/* reveal: light and core, then the paths draw, then the nodes rise */
+.mvs-m.is-armed .mve__hub,
+.mvs-m.is-armed .mve__mod,
+.mvs-m.is-armed .mve__light {
+  opacity: 0;
+}
+.mvs-m.is-armed .mve__line {
+  stroke-dashoffset: 1;
+}
+.mvs-m.is-in .mve__light {
+  animation: mvs-fade-in 1.4s ease-out 0.1s both, mve-breathe 8s ease-in-out 1.5s infinite alternate;
+}
+.mvs-m.is-in .mve__hub {
+  animation: mvs-scale 0.9s var(--ease) 0.5s both;
+}
+.mvs-m.is-in .mve__line {
+  animation: mvs-draw 1.2s var(--ease) both;
+  animation-delay: calc(var(--i) * 140ms + 1.2s);
+}
+.mvs-m.is-in .mve__mod {
+  animation: mvs-scale 0.9s var(--ease) both;
+  animation-delay: calc(var(--i) * 140ms + 2s);
+}
+@keyframes mvs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 620px) {
+  .mve__pulse,
+  .mve__light {
+    animation: none;
+  }
+  .mve__panel {
+    padding: 0.3rem 0.55rem 0.3rem 0.3rem;
+    border-radius: 12px;
+    gap: 0.35rem;
+    transform: none;
+  }
+  .mve__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.8rem;
+    box-shadow: none;
+  }
+  .mve__label {
+    font-size: 0.64rem;
+  }
+}
+@media (max-width: 440px) {
+  .mve__panel {
+    flex-direction: column;
+    padding: 0.4rem 0.5rem;
+    white-space: normal;
+    text-align: center;
+    max-width: 5.2rem;
+  }
+  .mve__tag small {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------- vision -- */
+
+.mvs-v {
+  background: #080b14;
+  color: #fff;
+}
+.mvs-v::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(40% 45% at 22% 55%, rgba(79, 125, 255, 0.22), transparent 70%),
+    radial-gradient(40% 45% at 85% 20%, rgba(155, 112, 245, 0.18), transparent 70%);
+  pointer-events: none;
+  animation: mvs-drift 18s ease-in-out infinite alternate;
+}
+@keyframes mvs-drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(2%, -2%);
+  }
+}
+.mvs-v .mvs__eyebrow {
+  color: #9b70f5;
+}
+.mvs-v .mvs__title {
+  color: #fff;
+}
+.mvs-v .mvs__title em {
+  background: linear-gradient(95deg, #4f7dff 0%, #8a8bff 50%, #9b70f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mvs-v .mvs__lead {
+  color: #a8b3cc;
+}
+.mvs__grid--flip .mvs__copy {
+  order: 2;
+}
+
+.mvs-v__list {
+  display: grid;
+  max-width: 560px;
+  margin-top: 1.75rem;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.mvs-v__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #e6ecfb;
+}
+.mvs-v__list svg {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: #4f7dff;
+}
+
+/* the ecosystem illustration: a core, three branches, three nodes */
+.mvs-v__viz {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin-inline: auto;
+  aspect-ratio: 100 / 86;
+}
+.mvs-v__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.mvs-v__grid {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 0.2;
+}
+.mvs-v__line,
+.mvs-v__pulse {
+  fill: none;
+  stroke-linecap: round;
+}
+.mvs-v__line {
+  stroke: url(#mvs-v-line);
+  stroke-width: 0.45;
+  stroke-opacity: 0.9;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.mvs-v__pulse {
+  stroke: #fff;
+  stroke-width: 0.9;
+  stroke-dasharray: 3 97;
+  opacity: 0;
+  filter: drop-shadow(0 0 1.5px rgba(155, 112, 245, 0.95));
+  animation: mvs-travel 9s ease-in-out 2.4s infinite;
+}
+.mvs-v__pulse--b {
+  animation-delay: 6.4s;
+}
+@keyframes mvs-travel {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.95;
+  }
+  40% {
+    stroke-dashoffset: -100;
+    opacity: 0.95;
+  }
+  46%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+.mvs-v__node {
+  position: absolute;
+  top: 27.9%;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  width: 8.2rem;
+  translate: -50% -50%;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #e6ecfb;
+}
+.mvs-v__node--0 {
+  left: 18%;
+}
+.mvs-v__node--1 {
+  left: 50%;
+}
+.mvs-v__node--2 {
+  left: 82%;
+}
+.mvs-v__nicon,
+.mvs-v__cicon {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  font-size: 1.2rem;
+  color: #8fa9ff;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mvs-v__nicon,
+  .mvs-v__cicon {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+}
+.mvs-v__node:hover .mvs-v__nicon {
+  transform: translateY(-3px);
+  border-color: rgba(155, 112, 245, 0.6);
+}
+.mvs-v__core {
+  position: absolute;
+  left: 50%;
+  top: 67.5%;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  width: 62%;
+  padding: 1.2rem 1rem 1.1rem;
+  translate: -50% 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 50px rgba(79, 125, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .mvs-v__core {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+}
+.mvs-v__cicon {
+  margin-bottom: 0.25rem;
+  background: linear-gradient(160deg, #4f7dff, #9b70f5);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+.mvs-v__core b {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+.mvs-v__core small {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #a8b3cc;
+}
+
+/* reveal: the core first, then the lines draw, then the nodes appear */
+.mvs-v.is-armed .mvs-v__core,
+.mvs-v.is-armed .mvs-v__node {
+  opacity: 0;
+}
+.mvs-v.is-armed .mvs-v__line {
+  stroke-dashoffset: 1;
+}
+.mvs-v.is-in .mvs-v__core {
+  animation: mvs-scale 0.9s var(--ease) 0.2s both;
+}
+.mvs-v.is-in .mvs-v__line {
+  animation: mvs-draw 1.2s var(--ease) both;
+  animation-delay: calc(var(--i) * 140ms + 0.9s);
+}
+.mvs-v.is-in .mvs-v__node {
+  animation: mvs-scale 0.9s var(--ease) both;
+  animation-delay: calc(var(--i) * 140ms + 1.7s);
+}
+@keyframes mvs-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes mvs-scale {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* ------------------------------------------------------------- values -- */
+
+.mvs-val {
+  background: #ffffff;
+}
+.mvs-val::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(40% 50% at 0% 0%, rgba(121, 80, 181, 0.07), transparent 70%);
+  pointer-events: none;
+}
+.mvs-val__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+.mvs-val__head {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+}
+.mvs-val__mark {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-top: 1.75rem;
+  border-radius: 50%;
+  background: #eaf0ff;
+  font-size: 1.1rem;
+  color: #7950b5;
+}
+
+/* two columns, the second dropped a little: staggered, not a grid of cards */
+.mvs-val__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 clamp(1.5rem, 3vw, 2.5rem);
+  list-style: none;
+}
+.mvs-val__item {
+  position: relative;
+  padding: 1.4rem 0 2rem;
+  border-top: 1px solid rgba(17, 19, 68, 0.12);
+  transition: transform 0.4s var(--ease);
+}
+.mvs-val__item:nth-child(even) {
+  margin-top: 3rem;
+}
+/* the border becomes a blue-purple rule on hover */
+.mvs-val__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #356dff, #7950b5);
+  transition: width 0.5s var(--ease);
+}
+.mvs-val__item:hover {
+  transform: translateY(-4px);
+}
+.mvs-val__item:hover::before {
+  width: 100%;
+}
+.mvs-val__no {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #8a97b8;
+}
+.mvs-val__icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-top: 0.9rem;
+  border-radius: 12px;
+  background: #eaf0ff;
+  font-size: 1.2rem;
+  color: #356dff;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.mvs-val__item:hover .mvs-val__icon {
+  background: linear-gradient(160deg, #356dff, #7950b5);
+  color: #fff;
+}
+.mvs-val__item h3 {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #111344;
+}
+.mvs-val__item p {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #58678a;
+}
+
+/* ------------------------------------------------------- motion + size -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mvs .rv,
+  .mve__hub,
+  .mve__mod,
+  .mve__line,
+  .mve__pulse,
+  .mve__light,
+  .mvs-v::before,
+  .mvs-v__core,
+  .mvs-v__node,
+  .mvs-v__line,
+  .mvs-v__pulse,
+  .mvs-val__item,
+  .mvs-val__item::before {
+    animation: none;
+    transition: none;
+  }
+  .mvs-v__pulse {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .mvs__grid,
+  .mvs-val__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* on a phone the text comes first and the illustration after it */
+  .mvs__grid--flip .mvs__copy {
+    order: -1;
+  }
+  .mvs-val__head {
+    position: static;
+  }
+  .mvs-v__viz,
+  .mvs-m__viz {
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 620px) {
+  .mvs-val__items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mvs-val__item:nth-child(even) {
+    margin-top: 0;
+  }
+  .mvs-v::before {
+    animation: none;
+  }
+  .mvs-v__pulse {
+    display: none;
+  }
+  .mvs-v__node {
+    width: 5.6rem;
+    font-size: 0.68rem;
+  }
+  .mvs-v__nicon,
+  .mvs-v__cicon {
+    width: 2.3rem;
+    height: 2.3rem;
+    font-size: 1rem;
+  }
+  .mvs-v__core b {
+    font-size: 0.85rem;
+  }
+  .mvs-v__core small {
+    font-size: 0.62rem;
+  }
+}
+
+/* ---------------------------------------- alternating section themes --
+   The hero is white, so the bands that follow alternate: dark, white, dark,
+   then the white call to action. `mvs-dark` / `mvs-light` are set per block in
+   MissionVisionSections.tsx and override the colours above. */
+
+/* dark */
+.mvs section.mvs-dark {
+  background: #080b14;
+  color: #fff;
+}
+.mvs .mvs-m.mvs-dark::before {
+  background:
+    radial-gradient(45% 55% at 85% 40%, rgba(79, 125, 255, 0.2), transparent 70%),
+    radial-gradient(40% 45% at 0% 100%, rgba(155, 112, 245, 0.14), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 64px 64px;
+}
+.mvs .mvs-val.mvs-dark::before {
+  background:
+    radial-gradient(40% 50% at 0% 0%, rgba(155, 112, 245, 0.18), transparent 70%),
+    radial-gradient(40% 50% at 100% 100%, rgba(79, 125, 255, 0.16), transparent 70%);
+}
+.mvs .mvs-dark .mvs__eyebrow {
+  color: #9b70f5;
+}
+.mvs .mvs-dark .mvs__title {
+  color: #fff;
+}
+.mvs .mvs-dark .mvs__title em {
+  background: linear-gradient(95deg, #4f7dff 0%, #8a8bff 50%, #9b70f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mvs .mvs-dark .mvs__lead {
+  color: #a8b3cc;
+}
+/* mission, dark */
+.mvs .mvs-dark .mvs-m__list,
+.mvs .mvs-dark .mvs-m__list li {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.mvs .mvs-dark .mvs-m__icon {
+  background: rgba(255, 255, 255, 0.06);
+  color: #8fa9ff;
+}
+.mvs .mvs-dark .mvs-m__list h3 {
+  color: #fff;
+}
+.mvs .mvs-dark .mvs-m__list p {
+  color: #a8b3cc;
+}
+/* values, dark */
+.mvs .mvs-dark .mvs-val__mark {
+  background: rgba(255, 255, 255, 0.07);
+  color: #9b70f5;
+}
+.mvs .mvs-dark .mvs-val__item {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+.mvs .mvs-dark .mvs-val__no {
+  color: #7d89aa;
+}
+.mvs .mvs-dark .mvs-val__icon {
+  background: rgba(255, 255, 255, 0.07);
+  color: #8fa9ff;
+}
+.mvs .mvs-dark .mvs-val__item:hover .mvs-val__icon {
+  background: linear-gradient(160deg, #4f7dff, #9b70f5);
+  color: #fff;
+}
+.mvs .mvs-dark .mvs-val__item h3 {
+  color: #fff;
+}
+.mvs .mvs-dark .mvs-val__item p {
+  color: #a8b3cc;
+}
+
+/* light vision */
+.mvs section.mvs-light {
+  background: #ffffff;
+  color: #111344;
+}
+.mvs .mvs-v.mvs-light::before {
+  background:
+    radial-gradient(40% 45% at 18% 55%, rgba(53, 109, 255, 0.1), transparent 70%),
+    radial-gradient(40% 45% at 88% 15%, rgba(121, 80, 181, 0.09), transparent 70%);
+}
+.mvs .mvs-light .mvs__eyebrow {
+  color: #7950b5;
+}
+.mvs .mvs-light .mvs__title {
+  color: #111344;
+}
+.mvs .mvs-light .mvs__title em {
+  background: linear-gradient(95deg, #356dff 0%, #5b5be0 50%, #7950b5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mvs .mvs-light .mvs__lead {
+  color: #58678a;
+}
+.mvs .mvs-light .mvs-v__list,
+.mvs .mvs-light .mvs-v__list li {
+  border-color: rgba(17, 19, 68, 0.1);
+}
+.mvs .mvs-light .mvs-v__list li {
+  color: #111344;
+}
+.mvs .mvs-light .mvs-v__list svg {
+  color: #356dff;
+}
+.mvs .mvs-light .mvs-v__grid {
+  stroke: rgba(17, 19, 68, 0.07);
+}
+.mvs .mvs-light .mvs-v__pulse {
+  stroke: #7950b5;
+  filter: drop-shadow(0 0 1.5px rgba(53, 109, 255, 0.8));
+}
+.mvs .mvs-light .mvs-v__node {
+  color: #111344;
+}
+.mvs .mvs-light .mvs-v__nicon {
+  border-color: rgba(92, 120, 190, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 30px rgba(44, 69, 130, 0.12);
+  color: #356dff;
+}
+.mvs .mvs-light .mvs-v__core {
+  border-color: rgba(92, 120, 190, 0.2);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 60px rgba(44, 69, 130, 0.14), 0 0 50px rgba(53, 109, 255, 0.08);
+}
+.mvs .mvs-light .mvs-v__cicon {
+  background: linear-gradient(160deg, #356dff, #7950b5);
+  color: #fff;
+}
+.mvs .mvs-light .mvs-v__core b {
+  color: #111344;
+}
+.mvs .mvs-light .mvs-v__core small {
+  color: #58678a;
+}
+
+/* the call to action that closes the page goes back to white */
+.mvs-cta {
+  background: #ffffff;
+}

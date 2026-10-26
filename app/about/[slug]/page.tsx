@@ -8,6 +8,7 @@ import WhyZoom from '@/components/about/WhyZoom'
 import CampusGallery from '@/components/about/CampusGallery'
 import CTA from '@/components/home/CTA'
 import MissionVisionHero from '@/components/about/MissionVisionHero'
+import MissionVisionSections from '@/components/about/MissionVisionSections'
 import OurStoryHero from '@/components/about/OurStoryHero'
 import JourneyTimeline from '@/components/about/JourneyTimeline'
 import OurStoryCTA from '@/components/about/OurStoryCTA'
@@ -58,7 +59,8 @@ export default async function AboutSubPage({ params }: Props) {
       {page.section === 'approach' && <HowItWorks />}
       {page.section === 'why' && <WhyZoom />}
       {page.section === 'labs' && <CampusGallery />}
-      {page.blocks && (
+      {slug === 'mission-vision' && <MissionVisionSections />}
+      {page.blocks && slug !== 'mission-vision' && (
         <section className="section">
           <div className="shell page-stack">
             {page.blocks.map((b) => (
@@ -69,7 +71,14 @@ export default async function AboutSubPage({ params }: Props) {
           </div>
         </section>
       )}
-      {page.section !== 'story' && <CTA />}
+      {page.section !== 'story' &&
+        (slug === 'mission-vision' ? (
+          <div className="mvs-cta">
+            <CTA />
+          </div>
+        ) : (
+          <CTA />
+        ))}
     </>
   )
 }
